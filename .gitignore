@@ -37,7 +37,7 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
-# lock files
+# lock files and logs
 package-lock.json
 
 #vscode
