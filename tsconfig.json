@@ -26,13 +26,15 @@
       ]
     },
     "module": "esnext",
-    "moduleResolution": "node"
+    "moduleResolution": "node",
+    "types": ["jest", "@testing-library/jest-dom"]
+
   },
   "include": [
     "next-env.d.ts",
     "**/*.ts",
     "**/*.tsx",
-    ".next/types/**/*.ts"
+    // ".next/types/**/*.ts"
   ],
   "exclude": [
     "node_modules"

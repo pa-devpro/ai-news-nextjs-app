@@ -16,7 +16,7 @@ jest.mock('@/context/NewsContext', () => ({
     usePosts: jest.fn(),
 }));
 
-const mockPosts = [
+export const mockPosts = [
     {
         _id: '1',
         author: 'Author 1',
