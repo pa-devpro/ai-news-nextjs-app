@@ -79,23 +79,39 @@ This project displays news and allows the user to:
     cd repository-name
     ```
 
-2. Install dependencies:
-    ```bash
-    npm install
-    # or
-    yarn install
-    ```
+### After this choose Method 1 or Method 2
+### Method 1 `plain install in our local machine`
+    2. Install dependencies:
+        ```bash
+        npm install
+        # or
+        yarn install
+        ```
 
-3. Add environmental variables:
-    ```
-    .env.sample file provides an example of the env variables used
-    ```
+    3. Add environmental variables:
+        ```
+        .env.sample file provides an example of the env variables used
+        ```
 
-4. Run the development server:
+    4. Run the development server:
+        ```bash
+        npm run dev
+        # or
+        yarn dev
+        ```
+### Method 2 `Use docker`
+Alternatively once you ahve the project set you can run it using docker
+
+    Build the Docker image:
+    - Open a terminal and introduce the following command:
+
     ```bash
-    npm run dev
-    # or
-    yarn dev
+        docker build -t ai-news-nextjs-app .
+    ```
+    Run the docker container:
+
+    ```bash
+    docker run -p 3000:3000 ai-news-nextjs-app
     ```
 
 5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
