@@ -5,11 +5,11 @@ import Link from "next/link";
 import { format, parseISO } from "date-fns";
 import { Suspense} from "react";
 import dynamic from "next/dynamic";
-import NewsAiContent from "./NewsAiContent";
 import { usePosts } from "@/context/NewsContext";
 import { useParams } from "next/navigation";
+import MarkdownWrapper from "@/components/markdown-wrapper/MarkdownWrapper";
 
-const MarkdownWrapper = dynamic(() => import('@/components/markdown-wrapper/MarkdownWrapper'));
+const NewsAiContent = dynamic(() => import('./NewsAiContent'));
 
 function PostPage() {
   console.log("--- PostPage ---")
@@ -45,13 +45,10 @@ function PostPage() {
   return (
     <div className={styles.Article}>
       <div className={styles.ArticleTopics}>
-        <Suspense fallback={<div>Loading...</div>}>
           {topicLinks}
-        </Suspense>
       </div>
       <h1 className={styles.ArticleTitle}>{post.title}</h1>
       <div className={styles.ArticleSubtitle}>{post.subtitle}</div>
-      <Suspense fallback={<div>Loading...</div>}>
         <Image
           src={post.featured_image || "/images/placeholder.jpg"}
           alt={post.title}
@@ -69,7 +66,6 @@ function PostPage() {
       <div className={styles.ArticleBody}>
         <MarkdownWrapper>{post.body.raw}</MarkdownWrapper>
       </div>
-      </Suspense>
 
       <br />
         <Suspense fallback={<div>Loading...</div>}>
