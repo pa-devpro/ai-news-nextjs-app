@@ -48,3 +48,5 @@ next-env.d.ts
 
 # Notes
 ToDos.md
+
+package-lock.json
