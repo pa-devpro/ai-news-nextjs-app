@@ -37,6 +37,9 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+# lock files
+package-lock.json
+
 #vscode
 .vscode
 
@@ -49,4 +52,3 @@ next-env.d.ts
 # Notes
 ToDos.md
 
-package-lock.json
