@@ -1,11 +1,6 @@
-import { GetStaticProps } from 'next';
 import { getMarkdownContent } from '@/lib/markdown';
 import MarkdownWrapper from '@/components/markdown-wrapper/MarkdownWrapper';
 import styles from './about.module.css';
-
-interface AboutProps {
-  content: string;
-}
 
 const About = () => {
     const content = getMarkdownContent('README.md');
@@ -17,14 +12,5 @@ const About = () => {
     </div>
   );
 };
-
-// export const getStaticProps: GetStaticProps = async () => {
-//   const content = getMarkdownContent('README.md');
-//   return {
-//     props: {
-//       content,
-//     },
-//   };
-// };
 
 export default About;
