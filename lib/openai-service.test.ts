@@ -2,6 +2,10 @@ import { askQuestionToArticle, generateArticle, suggestQuestions } from './opena
 import { ChatOpenAI } from '@langchain/openai';
 import { ChatPromptTemplate } from '@langchain/core/prompts';
 
+jest.mock('@/lib/logger', () => ({
+    info: jest.fn(),
+}));
+
 jest.mock('@langchain/openai', () => ({
     ChatOpenAI: jest.fn().mockImplementation(() => ({
         invoke: jest.fn().mockResolvedValue({
