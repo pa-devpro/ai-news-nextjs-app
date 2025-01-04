@@ -10,7 +10,14 @@ const nextConfig = {
     serverActions: {},
   },
   images: {
-    unoptimized: true,
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '*',
+        pathname: '/**',
+      },
+    ],
+    unoptimized: false,
   },
   webpack(config, { isServer }) {
       if (!isServer) {

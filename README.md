@@ -96,6 +96,72 @@ yarn test
 | Markdown         | Lightweight markup language                      |
 | Winston          | Logger                                           |
 
+
+### Caching Methods 
+
+The app uses a Custom In-Memory cache set as a singleton pattern to store data in memory. It was preferred this way after testing the different methods provided in [Next.js 15 Cache documentation](https://nextjs.org/docs/app/building-your-application/data-fetching/fetching).
+
+## Summary
+
+| Method                        | Description                                                                 | Usage            | Issues Encountered                                                                 |
+|-------------------------------|-----------------------------------------------------------------------------|------------------|------------------------------------------------------------------------------------|
+| **Custom In-Memory Cache**    | A custom cache class using a singleton pattern to store data in memory.     | Server-Side      | - Cache was not shared correctly between server and client.                        |
+|                               |                                                                             |                  | - Cache was not being set correctly before accessing the API endpoint.             |
+| **`unstable_cache` from `next/cache`** | Built-in caching utility provided by Next.js for server-side caching with revalidation support. | Server-Side      | - Not used in the provided examples, but generally marked as "unstable".           |
+| **`cache` from React**        | Caching utility from React, typically used for client-side caching in React components. | Client-Side      | - Not suitable for server-side caching.                                            |
+|                               |                                                                             |                  | - Cache was not being set correctly in the client-side component.                  |
+
+### Issues and Resolutions
+
+1. **Custom In-Memory Cache**:
+   - **Issue**: Cache was not shared correctly between server and client.
+     - **Resolution**: Ensure the cache is a singleton instance and managed on the server side.
+   - **Issue**: Cache was not being set correctly before accessing the API endpoint.
+     - **Resolution**: Add detailed logging and verify that the cache is being set correctly in the server-side code.
+
+2. **`unstable_cache` from `next/cache`**:
+   - **Issue**: Marked as "unstable" and may change in future releases, documentation states that is going to be deprecated.
+     - **Resolution**: Simple to use but as it is a potential issue in the near future, another method was prefered.
+
+3. **`cache` from React**:
+   - **Issue**: Not suitable for server-side caching.
+     - **Resolution**: Use for client-side caching within React components only.
+
+4. **`use cache` from Next15@Canary**:
+    - Works and in the future could be an implementation but right now is in experimental phase so opted to use another method more reliable.
+
+### Example Implementations
+
+#### Custom In-Memory Cache
+
+```typescript
+
+
+class Cache {
+  private store: Map<string, any> = new Map();
+
+  set(key: string, value: any) {
+    this.store.set(key, value);
+  }
+
+  get(key: string) {
+    return this.store.get(key);
+  }
+
+  has(key: string) {
+    return this.store.has(key);
+  }
+
+  getAll() {
+    return Array.from(this.store.entries());
+  }
+}
+
+const cache = new Cache();
+export default cache;
+```
+
+
 ## Project Structure
 
 ```plaintext
