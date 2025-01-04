@@ -84,7 +84,6 @@ export const suggestQuestions =  async (content: string) => {
 
 export const getAIContent = async(post: Post) => {
     logger.info('🔴 Generating AI content');
-    logger.info(`Cache all inside getAiContent', ${cache.getAll()}`);
 
     const aiContent = post ? await generateArticle({ title: post.title.toString(), subtitle: post.subtitle, body: post.body.raw }) : null;
     const questions = aiContent ? await suggestQuestions(aiContent) : [];
