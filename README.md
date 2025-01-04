@@ -1,14 +1,16 @@
-# News AI
+# AI News Next.js App
+
+## Introduction
+This project is an AI-powered news application built with Next.js. It fetches and displays the latest news articles using AI algorithms to curate content.
+
 
 ## What it does
-
 This project displays news and allows the user to:
  - Read the news
  - Have a real time conversation about the news
  - Have suggested question to dig deep in the knowledge provided by the new and expand it
 
 ## Getting Started
-
 ### Prerequisites
 
 - Node.js
@@ -22,8 +24,8 @@ This project displays news and allows the user to:
     cd repository-name
     ```
 
-### After this choose Method 1 or Method 2
-### Method 1 `plain install in our local machine`
+- After this choose Method 1 or Method 2
+#### Method 1 `plain install in our local machine`
     2. Install dependencies:
         ```bash
         npm install
@@ -42,7 +44,7 @@ This project displays news and allows the user to:
         # or
         yarn dev
         ```
-### Method 2 `Use docker`
+#### Method 2 `Use docker`
 Alternatively once you ahve the project set you can run it using docker
 
     Build the Docker image:
@@ -58,6 +60,10 @@ Alternatively once you ahve the project set you can run it using docker
     ```
 
 5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+
+## Usage
+To use the application, open your browser and navigate to `http://localhost:3000`. You can browse the latest news articles and search for specific topics.
+
 
 ## Running Tests
 
@@ -98,7 +104,6 @@ yarn test
 
 
 ### Caching Methods 
-
 The app uses a Custom In-Memory cache set as a singleton pattern to store data in memory. It was preferred this way after testing the different methods provided in [Next.js 15 Cache documentation](https://nextjs.org/docs/app/building-your-application/data-fetching/fetching).
 
 ## Summary
@@ -160,7 +165,6 @@ class Cache {
 const cache = new Cache();
 export default cache;
 ```
-
 
 ## Project Structure
 
@@ -273,3 +277,6 @@ For detailed analysis of bundle size:
 - [TypeScript](https://www.typescriptlang.org/)
 - [OpenAI](https://www.openai.com/)
 - [LangChain](https://www.langchain.com/)
+
+## Contact Information
+For questions or support, please contact.
