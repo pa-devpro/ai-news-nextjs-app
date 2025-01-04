@@ -31,3 +31,6 @@ jobs:
 
     - name: Build project
       run: npm run build
+
+    - name: Show build logs
+      run: cat .next/build-log.txt || true
