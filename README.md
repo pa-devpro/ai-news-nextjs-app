@@ -45,7 +45,7 @@ This project displays news and allows the user to:
         yarn dev
         ```
 #### Method 2 `Use docker`
-Alternatively once you ahve the project set you can run it using docker
+Alternatively once you have the project set you can run it using ``docker``
 
     Build the Docker image:
     - Open a terminal and introduce the following command:
