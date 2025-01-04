@@ -16,6 +16,10 @@ class Cache {
     getAll() {
       return Array.from(this.store.entries());
     }
+
+    clear() {
+      this.store.clear();
+    }
   }
   
   const cache = new Cache();

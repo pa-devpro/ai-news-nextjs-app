@@ -1,6 +1,6 @@
 const { createLogger, format, transports } = require("winston");
 
-const logger = createLogger({
+const initializeLogger = () => createLogger({
   level: "info",
   format: format.combine(
     format.colorize(),
@@ -24,11 +24,12 @@ const logger = createLogger({
 
 if (typeof window === "undefined") {
   // Add file transport only on the server side
-  logger.add(
+  initializeLogger().add(
     new transports.File({
       filename: "app.log",
     })
   );
 }
 
+const logger = initializeLogger();
 export default logger;
