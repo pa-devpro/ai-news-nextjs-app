@@ -8,11 +8,12 @@ import dynamic from "next/dynamic";
 import { usePosts } from "@/context/NewsContext";
 import { useParams } from "next/navigation";
 import MarkdownWrapper from "@/components/markdown-wrapper/MarkdownWrapper";
+import logger from "@/lib/logger";
 
 const NewsAiContent = dynamic(() => import('./NewsAiContent'));
 
 function PostPage() {
-  console.log("--- PostPage ---")
+  logger.info("--- PostPage ---")
 
   const { posts } = usePosts();
   const {urlsegment} = useParams();

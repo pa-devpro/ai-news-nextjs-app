@@ -1,5 +1,6 @@
 import { Post } from '../entities/Post';
 import { toKebabCase } from '@/lib/utils';
+import logger from "@/lib/logger";
 
 const newsApiKey = process.env.NEWS_API_KEY;
 
@@ -19,46 +20,22 @@ type NewsFromApi = {
     content: string
   }
 
-const mapNewsToPost = (news: NewsFromApi): Post => {
-    return {
-      _id: news.source.name,
-      author: news.author,
-      title: news.title,
-      subtitle: news.description,
-      url: `/${toKebabCase(news.title)}`,
-      featured_image: news.urlToImage || "/images/placeholder.jpg",
-      date: news.publishedAt,
-      body: {
-        raw: news.content,
-        html: news.content
-      },
-      type: 'Post',
-      topics: ['News'],
-      urlsegment: toKebabCase(news.title),
-      original_url: news.url,
-      _raw: {} as any
-    };
-  };
-
 export class PostsRepository {
-
   constructor() {
     if(!newsApiKey) throw new Error('News API Key is required');
   }
   
   async getAllPosts(): Promise<Post[]> {
-    console.log('--- Fetching News (NewsRepository) ---');
+    logger.info('--- Fetching News (NewsRepository) ---');
 
     const category = 'technology';
     const pageSize = 10;
-
     const dataByFetch = await fetch(`https://newsapi.org/v2/top-headlines?category=${category}&pageSize=${pageSize}&apiKey=${newsApiKey}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-        
       }
-    })
+    });
 
     const readableData: NewsApiResponse = await dataByFetch.json()
 
@@ -70,3 +47,24 @@ export class PostsRepository {
     return allNews.find(post => post.urlsegment === urlsegment) || null;
   }
 }
+
+const mapNewsToPost = (news: NewsFromApi): Post => {
+  return {
+    _id: news.source.name,
+    author: news.author,
+    title: news.title,
+    subtitle: news.description,
+    url: `/${toKebabCase(news.title)}`,
+    featured_image: news.urlToImage || "/images/placeholder.jpg",
+    date: news.publishedAt,
+    body: {
+      raw: news.content,
+      html: news.content
+    },
+    type: 'Post',
+    topics: ['News'],
+    urlsegment: toKebabCase(news.title),
+    original_url: news.url,
+    _raw: {} as any
+  };
+};

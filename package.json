@@ -24,7 +24,8 @@
     "react-markdown": "^9.0.1",
     "react-show-hide-sticky-navbar": "^1.0.0",
     "react-syntax-highlighter": "^15.6.1",
-    "remark-gfm": "^4.0.0"
+    "remark-gfm": "^4.0.0",
+    "winston": "^3.17.0"
   },
   "devDependencies": {
     "@next/bundle-analyzer": "^15.1.3",
