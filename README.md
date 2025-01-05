@@ -211,6 +211,10 @@ You can monitor the status of the CI/CD pipeline in the "Actions" tab of the Git
 
 To check an example please check the file `ci.yml` in the .github/workflows folder in this repository.
 
+## Linting and Formatting
+This project uses ESLint and Prettier to maintain code quality and consistency. 
+It uses Husky to ensure running commands for linting and formatting before each commit.
+
 ## Project Structure
 
 ```plaintext
