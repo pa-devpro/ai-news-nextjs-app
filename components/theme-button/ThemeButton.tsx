@@ -1,36 +1,36 @@
-"use client";
+'use client';
 
-import { IconMoonFilled, IconSunFilled } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
+import { IconMoonFilled, IconSunFilled } from '@tabler/icons-react';
+import { useEffect, useState } from 'react';
 
 function ThemeButton() {
-  const [theme, settheme] = useState("dark");
+  const [theme, settheme] = useState('dark');
 
   const handleToggle = () => {
-    const newTheme = theme === "light" ? "dark" : "light";
+    const newTheme = theme === 'light' ? 'dark' : 'light';
     settheme(newTheme);
     storeUserSetPreference(newTheme);
-    document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.setAttribute('data-theme', theme);
   };
 
   //   store theme preference in local storage
   const storeUserSetPreference = (pref: string) => {
-    localStorage.setItem("theme", pref);
+    localStorage.setItem('theme', pref);
   };
 
   //   retrieve theme preference from storage
   const getUserSetPreference = () => {
-    return localStorage.getItem("theme");
+    return localStorage.getItem('theme');
   };
 
   //   get system theme settings
   const getMediaQueryPreference = () => {
-    const mediaQuery = "(prefers-color-scheme: dark)";
+    const mediaQuery = '(prefers-color-scheme: dark)';
     const mql = window.matchMedia(mediaQuery);
-    const hasPreference = typeof mql.matches === "boolean";
+    const hasPreference = typeof mql.matches === 'boolean';
 
     if (hasPreference) {
-      return mql.matches ? "dark" : "light";
+      return mql.matches ? 'dark' : 'light';
     }
   };
 
@@ -44,12 +44,12 @@ function ThemeButton() {
       settheme(mediaQueryPreference!);
     }
 
-    document.documentElement.setAttribute("data-theme", theme);
+    document.documentElement.setAttribute('data-theme', theme);
   }, [theme]);
 
   return (
     <div className="IconWrapper" onClick={handleToggle}>
-      {theme === "light" ? (
+      {theme === 'light' ? (
         <IconSunFilled size={20} />
       ) : (
         <IconMoonFilled size={20} />

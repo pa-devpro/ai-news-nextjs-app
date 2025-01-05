@@ -1,20 +1,18 @@
-'use client'
-import styles from "./Topic.module.css";
-import PostPreview from "@/components/post-preview/PostPreview";
-import { Suspense, Usable, use } from "react";
-import { usePosts } from "@/context/NewsContext";
-import { useParams } from "next/navigation";
+'use client';
+import styles from './Topic.module.css';
+import PostPreview from '@/components/post-preview/PostPreview';
+import { Suspense } from 'react';
+import { usePosts } from '@/context/NewsContext';
+import { useParams } from 'next/navigation';
 
 export default function Topic() {
-  
-  const topicName = useParams().urlsegment as String;
-  const {posts} = usePosts();
-  
-  const filteredPosts = posts
-    .filter((post) => {
-      const topicsInLowerCase = post.topics.toString().toLowerCase();
-      return topicsInLowerCase.includes(topicName.toLowerCase());
-    });
+  const topicName = useParams().urlsegment as string;
+  const { posts } = usePosts();
+
+  const filteredPosts = posts.filter((post) => {
+    const topicsInLowerCase = post.topics.toString().toLowerCase();
+    return topicsInLowerCase.includes(topicName.toLowerCase());
+  });
 
   return (
     <div className={styles.Topic}>
@@ -26,7 +24,6 @@ export default function Topic() {
           ))}
         </div>
       </Suspense>
-
     </div>
   );
 }

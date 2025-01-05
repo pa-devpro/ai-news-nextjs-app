@@ -1,5 +1,5 @@
-@import url("https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;700&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=Encode+Sans+Semi+Condensed:wght@600&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Encode+Sans+Semi+Condensed:wght@600&display=swap');
 
 :root {
   /* Theme Color Variables */
@@ -30,7 +30,7 @@
   --primary: var(--black);
 }
 
-[data-theme="dark"] {
+[data-theme='dark'] {
   --secondary: var(--black);
   --primary-100: var(--gray-900);
   --primary-200: var(--gray-800);
@@ -48,7 +48,7 @@
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: "Jost", sans-serif;
+  font-family: 'Jost', sans-serif;
 }
 
 *:focus {
@@ -83,7 +83,7 @@ body {
 h1 {
   font-weight: 600;
   font-size: 1.5rem;
-  font-family: "Encode Sans Semi Condensed", sans-serif !important;
+  font-family: 'Encode Sans Semi Condensed', sans-serif !important;
 }
 
 hr {

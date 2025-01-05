@@ -1,14 +1,14 @@
-import { askQuestionToArticle } from "./openai-service";
+import { askQuestionToArticle } from './openai-service';
 
 export const handleSend = async (
   msg: string,
   aiContent: string,
   setMessages: React.Dispatch<React.SetStateAction<string[]>>,
   setResponses: React.Dispatch<React.SetStateAction<string[]>>,
-  setAlertMessage: React.Dispatch<React.SetStateAction<string | null>>
+  setAlertMessage: React.Dispatch<React.SetStateAction<string | null>>,
 ) => {
   if (!isValidMessage(msg)) {
-    setAlertMessage("Please enter a valid message");
+    setAlertMessage('Please enter a valid message');
     return;
   }
   if (msg.trim()) {
@@ -16,7 +16,10 @@ export const handleSend = async (
     setMessages((prevMessages) => [...prevMessages, msg]);
     const responseFromAi = await askQuestionToArticle(aiContent, msg);
 
-    setResponses((prevResponses) => [...prevResponses, responseFromAi.toString()]);
+    setResponses((prevResponses) => [
+      ...prevResponses,
+      responseFromAi.toString(),
+    ]);
   }
 };
 
