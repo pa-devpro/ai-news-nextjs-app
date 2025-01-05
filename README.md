@@ -1,16 +1,19 @@
 # AI News Next.js App
 
 ## Introduction
+
 This project is an AI-powered news application built with Next.js. It fetches and displays the latest news articles using AI algorithms to curate content.
 
-
 ## What it does
+
 This project displays news and allows the user to:
- - Read the news
- - Have a real time conversation about the news
- - Have suggested question to dig deep in the knowledge provided by the new and expand it
+
+- Read the news
+- Have a real time conversation about the news
+- Have suggested question to dig deep in the knowledge provided by the new and expand it
 
 ## Getting Started
+
 ### Prerequisites
 
 - Node.js
@@ -19,13 +22,15 @@ This project displays news and allows the user to:
 ### Installation
 
 1. Clone the repository:
-    ```bash
-    git clone repository-name
-    cd repository-name
-    ```
+   ```bash
+   git clone repository-name
+   cd repository-name
+   ```
 
 - After this choose Method 1 or Method 2
+
 #### Method 1 `plain install in our local machine`
+
     2. Install dependencies:
         ```bash
         npm install
@@ -44,8 +49,10 @@ This project displays news and allows the user to:
         # or
         yarn dev
         ```
+
 #### Method 2 `Use docker`
-Alternatively once you have the project set you can run it using ``docker``
+
+Alternatively once you have the project set you can run it using `docker`
 
     Build the Docker image:
     - Open a terminal and introduce the following command:
@@ -62,8 +69,8 @@ Alternatively once you have the project set you can run it using ``docker``
 5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ## Usage
-To use the application, open your browser and navigate to `http://localhost:3000`. You can browse the latest news articles and search for specific topics.
 
+To use the application, open your browser and navigate to `http://localhost:3000`. You can browse the latest news articles and search for specific topics.
 
 ## Running Tests
 
@@ -91,57 +98,58 @@ yarn test
 
 ## Technologies Used
 
-| Technology       | Description                                      |
-|------------------|--------------------------------------------------|
-| Next.js          | React framework for server-side rendering        |
-| React            | JavaScript library for building user interfaces  |
-| TypeScript       | Typed superset of JavaScript                     |
-| Jest             | JavaScript testing framework                     |
-| SWC              | Super-fast JavaScript and TypeScript compiler    |
-| Tailwind CSS     | Utility-first CSS framework                      |
-| Markdown         | Lightweight markup language                      |
-| Winston          | Logger                                           |
+| Technology   | Description                                     |
+| ------------ | ----------------------------------------------- |
+| Next.js      | React framework for server-side rendering       |
+| React        | JavaScript library for building user interfaces |
+| TypeScript   | Typed superset of JavaScript                    |
+| Jest         | JavaScript testing framework                    |
+| SWC          | Super-fast JavaScript and TypeScript compiler   |
+| Tailwind CSS | Utility-first CSS framework                     |
+| Markdown     | Lightweight markup language                     |
+| Winston      | Logger                                          |
 
+### Caching Methods
 
-### Caching Methods 
 The app uses a Custom In-Memory cache set as a singleton pattern to store data in memory. It was preferred this way after testing the different methods provided in [Next.js 15 Cache documentation](https://nextjs.org/docs/app/building-your-application/data-fetching/fetching).
 
 ## Summary
 
-| Method                        | Description                                                                 | Usage            | Issues Encountered                                                                 |
-|-------------------------------|-----------------------------------------------------------------------------|------------------|------------------------------------------------------------------------------------|
-| **Custom In-Memory Cache**    | A custom cache class using a singleton pattern to store data in memory.     | Server-Side      | - Cache was not shared correctly between server and client.                        |
-|                               |                                                                             |                  | - Cache was not being set correctly before accessing the API endpoint.             |
-| **`unstable_cache` from `next/cache`** | Built-in caching utility provided by Next.js for server-side caching with revalidation support. | Server-Side      | - Not used in the provided examples, but generally marked as "unstable".           |
-| **`cache` from React**        | Caching utility from React, typically used for client-side caching in React components. | Client-Side      | - Not suitable for server-side caching.                                            |
-|                               |                                                                             |                  | - Cache was not being set correctly in the client-side component.                  |
+| Method                                 | Description                                                                                     | Usage       | Issues Encountered                                                       |
+| -------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------- | ------------------------------------------------------------------------ |
+| **Custom In-Memory Cache**             | A custom cache class using a singleton pattern to store data in memory.                         | Server-Side | - Cache was not shared correctly between server and client.              |
+|                                        |                                                                                                 |             | - Cache was not being set correctly before accessing the API endpoint.   |
+| **`unstable_cache` from `next/cache`** | Built-in caching utility provided by Next.js for server-side caching with revalidation support. | Server-Side | - Not used in the provided examples, but generally marked as "unstable". |
+| **`cache` from React**                 | Caching utility from React, typically used for client-side caching in React components.         | Client-Side | - Not suitable for server-side caching.                                  |
+|                                        |                                                                                                 |             | - Cache was not being set correctly in the client-side component.        |
 
 ### Issues and Resolutions
 
 1. **Custom In-Memory Cache**:
+
    - **Issue**: Cache was not shared correctly between server and client.
      - **Resolution**: Ensure the cache is a singleton instance and managed on the server side.
    - **Issue**: Cache was not being set correctly before accessing the API endpoint.
      - **Resolution**: Add detailed logging and verify that the cache is being set correctly in the server-side code.
 
 2. **`unstable_cache` from `next/cache`**:
+
    - **Issue**: Marked as "unstable" and may change in future releases, documentation states that is going to be deprecated.
      - **Resolution**: Simple to use but as it is a potential issue in the near future, another method was prefered.
 
 3. **`cache` from React**:
+
    - **Issue**: Not suitable for server-side caching.
      - **Resolution**: Use for client-side caching within React components only.
 
 4. **`use cache` from Next15@Canary**:
-    - Works and in the future could be an implementation but right now is in experimental phase so opted to use another method more reliable.
+   - Works and in the future could be an implementation but right now is in experimental phase so opted to use another method more reliable.
 
 ### Example Implementations
 
 #### Custom In-Memory Cache
 
 ```typescript
-
-
 class Cache {
   private store: Map<string, any> = new Map();
 
@@ -165,6 +173,7 @@ class Cache {
 const cache = new Cache();
 export default cache;
 ```
+
 ## CI/CD Pipeline
 
 This project uses GitHub Actions for Continuous Integration and Continuous Deployment (CI/CD). The CI/CD pipeline is configured to run tests and build the project on every push and pull request to the `main` branch.
@@ -200,7 +209,7 @@ You can monitor the status of the CI/CD pipeline in the "Actions" tab of the Git
 
 ### Example Workflow File
 
-To check an example please check the file ```ci.yml``` in the .github/workflows folder in this repository.
+To check an example please check the file `ci.yml` in the .github/workflows folder in this repository.
 
 ## Project Structure
 
@@ -266,45 +275,49 @@ To check an example please check the file ```ci.yml``` in the .github/workflows 
 `depcheck` helps identify unused dependencies in your project.
 
 1. **Install `depcheck`**:
-    ```bash
-    npm install -g depcheck
-    ```
+
+   ```bash
+   npm install -g depcheck
+   ```
 
 2. **Run `depcheck`**:
-    ```bash
-    depcheck
-    ```
+
+   ```bash
+   depcheck
+   ```
 
 3. **Review the Output** and remove unused dependencies:
-    ```bash
-    npm uninstall <unused-dependency>
-    ```
+   ```bash
+   npm uninstall <unused-dependency>
+   ```
 
 ### Using `webpack-bundle-analyzer`
 
 For detailed analysis of bundle size:
 
 1. **Install `webpack-bundle-analyzer`**:
-    ```bash
-    npm install --save-dev webpack-bundle-analyzer
-    ```
+
+   ```bash
+   npm install --save-dev webpack-bundle-analyzer
+   ```
 
 2. **Update Your Webpack Configuration**:
-    ```javascript
-    // next.config.js
-    const withBundleAnalyzer = require('@next/bundle-analyzer')({
-      enabled: process.env.ANALYZE === 'true',
-    });
 
-    module.exports = withBundleAnalyzer({
-      // Other Next.js config options...
-    });
-    ```
+   ```javascript
+   // next.config.js
+   const withBundleAnalyzer = require('@next/bundle-analyzer')({
+     enabled: process.env.ANALYZE === 'true',
+   });
+
+   module.exports = withBundleAnalyzer({
+     // Other Next.js config options...
+   });
+   ```
 
 3. **Run the Analyzer**:
-    ```bash
-    ANALYZE=true npm run build
-    ```
+   ```bash
+   ANALYZE=true npm run build
+   ```
 
 ## Acknowledgements
 
@@ -315,4 +328,5 @@ For detailed analysis of bundle size:
 - [LangChain](https://www.langchain.com/)
 
 ## Contact Information
+
 For questions or support, please contact.
