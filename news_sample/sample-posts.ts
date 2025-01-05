@@ -19,7 +19,7 @@ export const samplePosts: Post[] = [
     _id: '',
     type: '',
     original_url: '',
-    _raw: undefined,
+    _raw: {},
   },
   {
     title: 'The Secret Garden',
@@ -38,7 +38,7 @@ export const samplePosts: Post[] = [
     _id: '',
     type: '',
     original_url: '',
-    _raw: undefined,
+    _raw: {},
   },
   {
     title: 'The Painted Portal',
@@ -57,7 +57,7 @@ export const samplePosts: Post[] = [
     _id: '',
     type: '',
     original_url: '',
-    _raw: undefined,
+    _raw: {},
   },
   {
     title:
@@ -79,7 +79,7 @@ export const samplePosts: Post[] = [
     _id: '',
     type: '',
     original_url: '',
-    _raw: undefined,
+    _raw: {},
   },
   {
     title: 'The Hidden Melody',
@@ -98,7 +98,7 @@ export const samplePosts: Post[] = [
     _id: '',
     type: '',
     original_url: '',
-    _raw: undefined,
+    _raw: {},
   },
   {
     title: 'Felix and Lumina Tree',
@@ -117,7 +117,7 @@ export const samplePosts: Post[] = [
     _id: '',
     type: '',
     original_url: '',
-    _raw: undefined,
+    _raw: {},
   },
   {
     title: 'The Adventures of Luna and the Crystal Cavern',
@@ -136,6 +136,6 @@ export const samplePosts: Post[] = [
     _id: '',
     type: '',
     original_url: '',
-    _raw: undefined,
+    _raw: {},
   },
 ];
