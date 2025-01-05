@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import { Post } from '@/domain/posts/entities/Post';
 import React, { createContext, useContext, ReactNode } from 'react';
 
@@ -8,8 +8,16 @@ interface NewsContextType {
 
 const PostsContext = createContext<NewsContextType | undefined>(undefined);
 
-export const PostsProvider = ({ children, posts }: { children: ReactNode; posts: Post[] }) => {
-  return <PostsContext.Provider value={{ posts }}>{children}</PostsContext.Provider>;
+export const PostsProvider = ({
+  children,
+  posts,
+}: {
+  children: ReactNode;
+  posts: Post[];
+}) => {
+  return (
+    <PostsContext.Provider value={{ posts }}>{children}</PostsContext.Provider>
+  );
 };
 
 export const usePosts = () => {

@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
-import { menuItems } from "@/lib/data";
-import styles from "./Menu.module.css";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { menuItems } from '@/lib/data';
+import styles from './Menu.module.css';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 
 function Menu() {
   const pathname = usePathname();
@@ -11,7 +11,7 @@ function Menu() {
     <div className={styles.Menu}>
       {menuItems.map((item) => (
         <Link
-          style={{ color: "inherit", textDecoration: "inherit" }}
+          style={{ color: 'inherit', textDecoration: 'inherit' }}
           href={item.href}
           className={`${
             item.href === pathname

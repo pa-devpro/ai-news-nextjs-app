@@ -9,7 +9,8 @@
   margin-bottom: 20px;
 }
 
-.Loading, .NoData {
+.Loading,
+.NoData {
   text-align: center;
   color: #ffffff;
 }

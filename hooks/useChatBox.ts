@@ -11,14 +11,26 @@ const useChatBox = ({ aiContent, initialQuestions }: UseChatBoxProps) => {
   const [messages, setMessages] = useState<string[]>([]);
   const [responses, setResponses] = useState<string[]>([]);
   const [isOpen, setIsOpen] = useState(true);
-  const [suggestedQuestions, setSuggestedQuestions] = useState<string[]>(initialQuestions);
+  const [suggestedQuestions, setSuggestedQuestions] =
+    useState<string[]>(initialQuestions);
   const [alertMessage, setAlertMessage] = useState<string | null>(null);
 
-  const handleQuestionClick = useCallback((question: string) => {
-    setMessage(question);
-    setSuggestedQuestions((suggestedQuestions) => suggestedQuestions.filter((q) => q !== question));
-    handleSend(question, aiContent, setMessages, setResponses, setAlertMessage);
-  }, [aiContent]);
+  const handleQuestionClick = useCallback(
+    (question: string) => {
+      setMessage(question);
+      setSuggestedQuestions((suggestedQuestions) =>
+        suggestedQuestions.filter((q) => q !== question),
+      );
+      handleSend(
+        question,
+        aiContent,
+        setMessages,
+        setResponses,
+        setAlertMessage,
+      );
+    },
+    [aiContent],
+  );
 
   const toggleChatBox = () => {
     setIsOpen(!isOpen);

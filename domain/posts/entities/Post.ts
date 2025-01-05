@@ -1,5 +1,3 @@
-import { PostTitle } from "../value-objects/PostTitle";
-
 export class Post {
   constructor(
     public _id: string,
@@ -14,6 +12,6 @@ export class Post {
     public topics: string[],
     public urlsegment: string,
     public original_url: string,
-    public _raw: any
+    public _raw: Record<string, unknown>,
   ) {}
 }

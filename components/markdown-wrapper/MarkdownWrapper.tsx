@@ -1,5 +1,5 @@
-import styles from "./MarkdownWrapper.module.css";
-import ReactMarkdown from "react-markdown";
+import styles from './MarkdownWrapper.module.css';
+import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { materialDark } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -10,11 +10,20 @@ interface Props {
 
 const MarkdownWrapper = ({ children }: Props) => {
   return (
-    <ReactMarkdown 
-      remarkPlugins={[remarkGfm]} 
+    <ReactMarkdown
+      remarkPlugins={[remarkGfm]}
       className={styles.MarkdownWrapper}
       components={{
-        code({ node, inline, className, children, ...props }: any) {
+        code({
+          inline,
+          className,
+          children,
+          ...props
+        }: {
+          inline?: boolean;
+          className?: string;
+          children?: React.ReactNode;
+        }) {
           const match = /language-(\w+)/.exec(className || '');
           return !inline && match ? (
             <SyntaxHighlighter
@@ -30,7 +39,7 @@ const MarkdownWrapper = ({ children }: Props) => {
               {children}
             </code>
           );
-        }
+        },
       }}
     >
       {children}

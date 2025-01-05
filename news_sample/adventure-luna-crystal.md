@@ -1,10 +1,10 @@
 ---
-title: "The Adventures of Luna and the Crystal Cavern"
-subtitle: "A hidden cavern filled with sparkling crystals that hold ancient secrets."
-date: "2023-10-01"
-featured_image: "/images/tall-tree-potter.jpeg"
-topics: ["Adventure", "News"]
-author: "NSt Writer"
+title: 'The Adventures of Luna and the Crystal Cavern'
+subtitle: 'A hidden cavern filled with sparkling crystals that hold ancient secrets.'
+date: '2023-10-01'
+featured_image: '/images/tall-tree-potter.jpeg'
+topics: ['Adventure', 'News']
+author: 'NSt Writer'
 ---
 
 In a land far beyond the mountains, where the skies were painted with hues of pink and gold, there existed a hidden cavern known only to a few. This cavern, filled with sparkling crystals, was said to hold ancient secrets and untold treasures.

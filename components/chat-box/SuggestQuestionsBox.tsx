@@ -6,16 +6,23 @@ type SuggestQuestionsBoxProps = {
   onQuestionClick: (question: string) => void;
 };
 
-const SuggestQuestionsBox: React.FC<SuggestQuestionsBoxProps> = ({ questions, onQuestionClick }) => {
-    return (
+const SuggestQuestionsBox: React.FC<SuggestQuestionsBoxProps> = ({
+  questions,
+  onQuestionClick,
+}) => {
+  return (
     <div className={styles.questionsContainer}>
       {questions.map((question, index) => (
         <div
           key={index}
           className={styles.question}
           onClick={() => onQuestionClick(question)}
-          onMouseEnter={(e) => e.currentTarget.style.backgroundColor = '#f0f0f0'}
-          onMouseLeave={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
+          onMouseEnter={(e) =>
+            (e.currentTarget.style.backgroundColor = '#f0f0f0')
+          }
+          onMouseLeave={(e) =>
+            (e.currentTarget.style.backgroundColor = 'transparent')
+          }
         >
           {question}
         </div>

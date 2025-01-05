@@ -1,18 +1,18 @@
-"use client";
-import styles from "./Search.module.css";
-import { usePathname } from "next/navigation";
-import { compareDesc } from "date-fns";
-import PostPreview from "@/components/post-preview/PostPreview";
-import { usePosts } from "@/context/NewsContext";
-import { Post } from "@/domain/posts/entities/Post";
+'use client';
+import styles from './Search.module.css';
+import { usePathname } from 'next/navigation';
+import { compareDesc } from 'date-fns';
+import PostPreview from '@/components/post-preview/PostPreview';
+import { usePosts } from '@/context/NewsContext';
+import { Post } from '@/domain/posts/entities/Post';
 
 function Search() {
   const pathname = usePathname();
-  const keyword = pathname.replace("/search/", "");
+  const keyword = pathname.replace('/search/', '');
   const decodedKeyword = decodeURIComponent(keyword);
-  
-  const {posts} = usePosts()
-  
+
+  const { posts } = usePosts();
+
   const searchedPosts = posts
     .filter((post) => {
       const titleInLowerCase = post.title.toString().toLowerCase();

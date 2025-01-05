@@ -7,8 +7,13 @@ type MessageListProps = {
   responses: string[];
 };
 
-export const MessageList: React.FC<MessageListProps> = ({ messages, responses }) => {
-  const [visibleResponses, setVisibleResponses] = useState<boolean[]>(Array(messages.length).fill(true));
+export const MessageList: React.FC<MessageListProps> = ({
+  messages,
+  responses,
+}) => {
+  const [visibleResponses, setVisibleResponses] = useState<boolean[]>(
+    Array(messages.length).fill(true),
+  );
 
   useEffect(() => {
     // Update the visibleResponses state when messages change
@@ -27,7 +32,10 @@ export const MessageList: React.FC<MessageListProps> = ({ messages, responses })
     <>
       {messages.map((msg, index) => (
         <React.Fragment key={index}>
-          <div className={styles.message} onClick={() => toggleResponseVisibility(index)}>
+          <div
+            className={styles.message}
+            onClick={() => toggleResponseVisibility(index)}
+          >
             <MarkdownWrapper>{msg}</MarkdownWrapper>
           </div>
           {visibleResponses[index] && (
