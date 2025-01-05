@@ -105,12 +105,12 @@ export const getAIContent = async (post: Post) => {
   logger.info('🔴 Generating AI content');
 
   const aiContent = await generateArticle({
-        title: post.title.toString(),
-        subtitle: post.subtitle,
-        body: post.body.raw,
-      })
+    title: post.title.toString(),
+    subtitle: post.subtitle,
+    body: post.body.raw,
+  });
 
-  const questions = await suggestQuestions(aiContent.toString())
+  const questions = await suggestQuestions(aiContent.toString());
 
   return { aiContent, questions };
 };
