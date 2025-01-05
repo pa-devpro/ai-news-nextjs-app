@@ -44,7 +44,6 @@ function PostPage() {
       <div className={styles.ArticleTopics}>{topicLinks}</div>
       <h1 className={styles.ArticleTitle}>{post.title}</h1>
       <div className={styles.ArticleSubtitle}>{post.subtitle}</div>
-      <div>THIS IS A PREVIEW!!!</div>
       <Image
         src={post.featured_image || '/images/placeholder.jpg'}
         alt={post.title}
