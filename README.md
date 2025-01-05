@@ -96,6 +96,43 @@ yarn test
 | Markdown         | Lightweight markup language                      |
 | Winston          | Logger                                           |
 
+## CI/CD Pipeline
+
+This project uses GitHub Actions for Continuous Integration and Continuous Deployment (CI/CD). The CI/CD pipeline is configured to run tests and build the project on every push and pull request to the `main` branch.
+
+### Workflow Configuration
+
+The CI/CD workflow is defined in the `.github/workflows/ci.yml` file. It includes the following steps:
+
+1. **Checkout Code**: Checks out the repository code.
+2. **Set Up Node.js**: Sets up the Node.js environment.
+3. **Install Dependencies**: Installs the project dependencies using `npm install`.
+4. **Set Environment Variables**: Sets necessary environment variables for the build process.
+5. **Run Tests**: Runs the test suite using `npm test`.
+6. **Build Project**: Builds the project using `npm run build`.
+
+### Environment Variables
+
+The following environment variables are set during the CI/CD pipeline:
+
+- `NEXT_PUBLIC_API_URL`: The base URL for the API.
+- `ANOTHER_ENV_VAR`: Description of another environment variable.
+
+The variable that are need it on runtime are copied on .env file from github secret storage instead of using them with NEXT_PUBLIC prefix.
+
+### Running the Pipeline
+
+The CI/CD pipeline is triggered automatically on the following events:
+
+- **Push**: When code is pushed to the `main` branch.
+- **Pull Request**: When a pull request is opened or updated targeting the `main` branch.
+
+You can monitor the status of the CI/CD pipeline in the "Actions" tab of the GitHub repository.
+
+### Example Workflow File
+
+To check an example please check the file ```ci.yml``` in the .github/workflows folder in this repository.
+
 ## Project Structure
 
 ```plaintext
