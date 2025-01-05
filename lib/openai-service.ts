@@ -21,13 +21,13 @@ export const generateArticle = async ({
   title,
   subtitle,
   body,
-}: ArticleContent) => {
+}: ArticleContent): Promise<string> => {
   logger.info('--- Generating New Article (openai-service) --- ');
   const cacheKey = `article-${title}-${subtitle}-${body}`;
 
   if (cache.has(cacheKey)) {
     logger.info('Cache hit - generateArticle');
-    return cache.get(cacheKey);
+    return cache.get(cacheKey) as string;
   }
 
   const content = `${title} ${subtitle} ${body}`;
@@ -52,6 +52,7 @@ export const generateArticle = async ({
   return article;
 };
 
+// Asks questions to the Ai using the content of the article
 export const askQuestionToArticle = async (
   content: string,
   question: string,
@@ -75,12 +76,13 @@ export const askQuestionToArticle = async (
   return response.content;
 };
 
-export const suggestQuestions = async (content: string) => {
+// Generate questions based on the content of the article
+export const suggestQuestions = async (content: string): Promise<string[]> => {
   logger.info('--- Suggesting Questions (openai-service) ---');
   const cacheKey = `questions-${content}`;
   if (cache.has(cacheKey)) {
     logger.info('Cache hit - suggestQuestions');
-    return cache.get(cacheKey);
+    return cache.get(cacheKey) as string[];
   }
   const template = ChatPromptTemplate.fromMessages([
     [
@@ -102,14 +104,13 @@ export const suggestQuestions = async (content: string) => {
 export const getAIContent = async (post: Post) => {
   logger.info('🔴 Generating AI content');
 
-  const aiContent = post
-    ? await generateArticle({
+  const aiContent = await generateArticle({
         title: post.title.toString(),
         subtitle: post.subtitle,
         body: post.body.raw,
       })
-    : null;
-  const questions = aiContent ? await suggestQuestions(aiContent) : [];
+
+  const questions = await suggestQuestions(aiContent.toString())
 
   return { aiContent, questions };
 };
