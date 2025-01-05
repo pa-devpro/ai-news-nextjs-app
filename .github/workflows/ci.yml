@@ -26,6 +26,11 @@ jobs:
     - name: Install dependencies
       run: npm install
 
+    - name: Set Secrets and Change Dir
+      run: | 
+        echo "NEWS_API_KEY=${{ secrets.NEWS_API_KEY }}" >> .env
+        echo "OPENAI_API_KEY=${{ secrets.OPENAI_API_KEY }}" >> .env
+
     - name: Run tests
       run: npm test
 
@@ -34,3 +39,4 @@ jobs:
 
     - name: Show build logs
       run: cat .next/build-log.txt || true
+
