@@ -15,23 +15,20 @@ const config: Config.InitialOptions = {
     'context/**/*.{ts,tsx}',
     'domain/**/repositories/*.{ts,tsx}',
     'hooks/**/*.{ts,tsx}',
-    'lib/**/*.{ts,tsx}'
+    'lib/**/*.{ts,tsx}',
   ],
   testEnvironment: 'jest-environment-jsdom',
   // setupFiles: ['<rootDir>/jest.setup.ts'],
   transform: {
-    '^.+\\.tsx?$': 'ts-jest'
+    '^.+\\.tsx?$': 'ts-jest',
   },
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  transformIgnorePatterns: [
-    '/node_modules/(?!(react-markdown|remark-gfm)/)',
-  ],
+  transformIgnorePatterns: ['/node_modules/(?!(react-markdown|remark-gfm)/)'],
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
-    '^@/(.*)$': '<rootDir>/$1'
+    '^@/(.*)$': '<rootDir>/$1',
   },
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
-
 };
 
 export default createJestConfig(config);

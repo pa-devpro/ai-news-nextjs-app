@@ -4,8 +4,8 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 });
 
-const nextConfig = { 
-  reactStrictMode: true, 
+const nextConfig = {
+  reactStrictMode: true,
   experimental: {
     serverActions: {},
   },
@@ -20,14 +20,14 @@ const nextConfig = {
     unoptimized: false,
   },
   webpack(config, { isServer }) {
-      if (!isServer) {
-          config.resolve.fallback = {
-              ...config.resolve.fallback,
-              fs: false,
-              module: false,
-          };
-      }
-      return config;
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        fs: false,
+        module: false,
+      };
+    }
+    return config;
   },
 };
 
