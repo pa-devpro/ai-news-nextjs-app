@@ -8,13 +8,10 @@ import dynamic from "next/dynamic";
 import { usePosts } from "@/context/NewsContext";
 import { useParams } from "next/navigation";
 import MarkdownWrapper from "@/components/markdown-wrapper/MarkdownWrapper";
-import logger from "@/lib/logger";
 
 const NewsAiContent = dynamic(() => import('./NewsAiContent'));
 
 function PostPage() {
-  logger.info("--- PostPage ---")
-
   const { posts } = usePosts();
   const {urlsegment} = useParams();
 
@@ -31,7 +28,6 @@ function PostPage() {
     );
   }
 
-  
   const topicLinks = post.topics.map((category: string) => (
     <Link
       href={`topic/${category}`}
@@ -55,7 +51,7 @@ function PostPage() {
           alt={post.title}
           width={400}
           height={280}
-          priority
+          
         />
       <div className={styles.Byline}>
         {post.author} /{" "}

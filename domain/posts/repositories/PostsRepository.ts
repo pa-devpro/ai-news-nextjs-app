@@ -34,7 +34,11 @@ export class PostsRepository {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
-      }
+      },
+      cache: 'force-cache',
+      next: {
+        revalidate: 3600, // Revalidate the cache every hour
+      },
     });
 
     const readableData: NewsApiResponse = await dataByFetch.json()

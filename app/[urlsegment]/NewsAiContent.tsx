@@ -5,7 +5,6 @@ import { useEffect, useState } from 'react';
 import styles from './Article.module.css';
 import { Post } from "@/domain/posts/entities/Post";
 import { getAIContent } from "@/lib/openai-service";
-import logger from "@/lib/logger";
 
 interface NewsAiContentProps {
   post: Post;
@@ -17,10 +16,9 @@ const NewsAiContent = ({post}: NewsAiContentProps) => {
   const [loading, setLoading] = useState(true);
 
   const theme = 'light' //localStorage.getItem("theme") as 'dark' | 'light';
-  logger.info('🔴 Theme:', theme);
   useEffect(() => {
     const fetchAIContent = async () => {
-      logger.info('🔴 Fetching AI content');
+      console.log('🔴 Fetching AI content');
       const { aiContent, questions } = await getAIContent(post);
       setAiContent(aiContent);
       setQuestions(questions);
