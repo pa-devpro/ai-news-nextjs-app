@@ -5,7 +5,13 @@ import { samplePosts } from '@/news_sample/sample-posts';
 
 const postsModule = PostsModule.create();
 
-export default async function PostsProviderWrapper({ children }: { children: React.ReactNode }) {
+export default async function PostsProviderWrapper({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
   const posts = await postsModule.getAllPosts();
-  return <PostsProvider posts={[...posts, ...samplePosts]}>{children}</PostsProvider>;
+  return (
+    <PostsProvider posts={[...posts, ...samplePosts]}>{children}</PostsProvider>
+  );
 }
