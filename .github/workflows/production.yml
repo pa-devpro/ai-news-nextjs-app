@@ -4,15 +4,13 @@ env:
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
   NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-  
+
 on:
   push:
     branches:
       - master
 jobs:
-
   Deploy-Production:
-
     runs-on: ubuntu-latest
 
     steps:
