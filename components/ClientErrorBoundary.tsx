@@ -9,9 +9,7 @@ const ErrorFallback = () => {
 
 const ClientErrorBoundary = ({ children }: { children: React.ReactNode }) => {
   return (
-    <ErrorBoundary FallbackComponent={ErrorFallback}>
-      {children}
-    </ErrorBoundary>
+    <ErrorBoundary FallbackComponent={ErrorFallback}>{children}</ErrorBoundary>
   );
 };
 

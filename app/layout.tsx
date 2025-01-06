@@ -8,7 +8,7 @@ import Menu from '@/components/menu/Menu';
 import { PostsProvider } from '@/context/NewsContext';
 import { PostsModule } from '@/domain/posts/PostsModule';
 import { samplePosts } from '@/news_sample/sample-posts';
-import ErrorBoundary from '@/components/ClientErrorBoundary';
+import ClientErrorBoundary from '@/components/ClientErrorBoundary';
 
 export const metadata: Metadata = {
   title: siteInfo.title,
@@ -27,7 +27,7 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body className="Body">
-        <ErrorBoundary>
+        <ClientErrorBoundary>
           <PostsProvider posts={[...posts, ...samplePosts]}>
             <NextTopLoader color="#d1d5db" />
             <Navbar />
@@ -35,7 +35,7 @@ export default async function RootLayout({
             <div className="content">{children}</div>
             <Footer />
           </PostsProvider>
-        </ErrorBoundary>
+        </ClientErrorBoundary>
       </body>
     </html>
   );
