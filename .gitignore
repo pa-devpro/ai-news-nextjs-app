@@ -50,4 +50,6 @@ next-env.d.ts
 # Notes
 ToDos.md
 
+# Logs
 app.log
+app-errors.log

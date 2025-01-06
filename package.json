@@ -23,6 +23,7 @@
     "nextjs-toploader": "^3.7.15",
     "react": "^18",
     "react-dom": "^18",
+    "react-error-boundary": "^5.0.0",
     "react-icons": "^5.4.0",
     "react-markdown": "^9.0.1",
     "react-show-hide-sticky-navbar": "^1.0.0",

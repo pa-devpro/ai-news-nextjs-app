@@ -2,8 +2,6 @@ import { Post } from '../entities/Post';
 import { toKebabCase } from '@/lib/utils';
 import logger from '@/lib/logger';
 
-const newsApiKey = process.env.NEWS_API_KEY;
-
 type NewsApiResponse = {
   status: string;
   totalResults: number;
@@ -21,37 +19,57 @@ type NewsFromApi = {
 };
 
 export class PostsRepository {
+  private newsApiKey: string;
+
   constructor() {
-    if (!newsApiKey) throw new Error('News API Key is required');
+    this.newsApiKey = process.env.NEWS_API_KEY || '';
+    if (!this.newsApiKey) {
+      logger.error('News API Key is required');
+      throw new Error('News API Key is required');
+    }
   }
 
   async getAllPosts(): Promise<Post[]> {
-    logger.info('--- Fetching News (NewsRepository) ---');
+    try {
+      logger.info('--- Fetching News (NewsRepository) ---');
 
-    const category = 'technology';
-    const pageSize = 10;
-    const dataByFetch = await fetch(
-      `https://newsapi.org/v2/top-headlines?category=${category}&pageSize=${pageSize}&apiKey=${newsApiKey}`,
-      {
-        method: 'GET',
-        headers: {
-          'Content-Type': 'application/json',
+      const category = 'technology';
+      const pageSize = 10;
+      const dataByFetch = await fetch(
+        `https://newsapi.org/v2/top-headlines?category=${category}&pageSize=${pageSize}&apiKey=${this.newsApiKey}`,
+        {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          cache: 'force-cache',
+          next: {
+            revalidate: 3600, // Revalidate the cache every hour
+          },
         },
-        cache: 'force-cache',
-        next: {
-          revalidate: 3600, // Revalidate the cache every hour
-        },
-      },
-    );
+      );
 
-    const readableData: NewsApiResponse = await dataByFetch.json();
+      if (!dataByFetch.ok) {
+        throw new Error(`Failed to fetch news: ${dataByFetch.statusText}`);
+      }
 
-    return readableData.articles.map(mapNewsToPost);
+      const readableData: NewsApiResponse = await dataByFetch.json();
+
+      return readableData.articles.map(mapNewsToPost);
+    } catch (error) {
+      logger.error('Error fetching news:', error);
+      throw new Error('Failed to fetch news');
+    }
   }
 
   async getNewBySlug(urlsegment: string): Promise<Post | null> {
-    const allNews = await this.getAllPosts();
-    return allNews.find((post) => post.urlsegment === urlsegment) || null;
+    try {
+      const allNews = await this.getAllPosts();
+      return allNews.find((post) => post.urlsegment === urlsegment) || null;
+    } catch (error) {
+      logger.error('Error fetching news by slug:', error);
+      throw new Error('Failed to fetch news by slug');
+    }
   }
 }
 
