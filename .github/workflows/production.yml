@@ -4,7 +4,6 @@ env:
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
   NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-  NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
 
 on:
   push:
