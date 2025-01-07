@@ -13,7 +13,6 @@ type ChatBoxProps = {
 };
 
 const ChatBox: React.FC<ChatBoxProps> = ({ post }) => {
-  const theme = 'light'; //localStorage.getItem("theme") as 'dark' | 'light';
   const { aiContent, questions, loading } = useAiContent(post);
 
   const {
@@ -59,7 +58,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({ post }) => {
       </button>
       {isOpen && (
         <div
-          className={`${styles.chatboxContainer} ${theme === 'dark' ? styles.dark : styles.light}`}
+          className={`${styles.chatboxContainer} ${styles.light}`}
         >
           <h1 className={styles.title}>Chat with the AI</h1>
           <div className={styles.questionsContainer}>
