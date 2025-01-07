@@ -57,9 +57,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({ post }) => {
         {isOpen ? 'Hide Chat' : 'Open Chat'}
       </button>
       {isOpen && (
-        <div
-          className={`${styles.chatboxContainer} ${styles.light}`}
-        >
+        <div className={`${styles.chatboxContainer} ${styles.light}`}>
           <h1 className={styles.title}>Chat with the AI</h1>
           <div className={styles.questionsContainer}>
             <SuggestQuestionsBox
