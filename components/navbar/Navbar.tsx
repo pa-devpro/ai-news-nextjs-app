@@ -9,6 +9,7 @@ import { NavbarWrapper } from 'react-show-hide-sticky-navbar';
 import { useState } from 'react';
 
 import React from 'react';
+import AuthButton from '../auth/AuthButton';
 
 function Navbar() {
   const router = useRouter();
@@ -54,6 +55,7 @@ function Navbar() {
           <div className={styles.NavbarHeader}>
             <div className={styles.NavHeaderIconsLeft}>
               <ThemeButton />
+              <AuthButton />
             </div>
 
             <Link

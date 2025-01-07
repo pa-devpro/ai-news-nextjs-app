@@ -1,22 +1,20 @@
 'use client';
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './Chatbox.module.css';
 import SuggestQuestionsBox from './SuggestQuestionsBox';
 import { handleSend } from '@/lib/chatUtils';
 import { MessageList } from './MessageList';
 import useChatBox from '../../hooks/useChatBox';
+import { useAiContent } from '@/hooks/useAiContent';
+import { Post } from '@/domain/posts/entities/Post';
 
 type ChatBoxProps = {
-  aiContent: string;
-  initialQuestions: string[];
-  theme: 'dark' | 'light';
+  post: Post;
 };
 
-const ChatBox: React.FC<ChatBoxProps> = ({
-  aiContent,
-  initialQuestions,
-  theme,
-}) => {
+const ChatBox: React.FC<ChatBoxProps> = ({ post }) => {
+  const { aiContent, questions, loading } = useAiContent(post);
+
   const {
     message,
     setMessage,
@@ -27,10 +25,15 @@ const ChatBox: React.FC<ChatBoxProps> = ({
     isOpen,
     setIsOpen,
     suggestedQuestions,
+    setSuggestedQuestions,
     handleQuestionClick,
     alertMessage,
     setAlertMessage,
-  } = useChatBox({ aiContent, initialQuestions });
+  } = useChatBox({ aiContent, initialQuestions: questions });
+
+  useEffect(() => {
+    setSuggestedQuestions(questions);
+  }, [questions, setSuggestedQuestions]);
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -44,15 +47,17 @@ const ChatBox: React.FC<ChatBoxProps> = ({
     }
   };
 
+  if (loading) {
+    return <div>Loading ChatBox...</div>;
+  }
+
   return (
     <>
       <button onClick={() => setIsOpen(!isOpen)} className={styles.openButton}>
         {isOpen ? 'Hide Chat' : 'Open Chat'}
       </button>
       {isOpen && (
-        <div
-          className={`${styles.chatboxContainer} ${theme === 'dark' ? styles.dark : styles.light}`}
-        >
+        <div className={`${styles.chatboxContainer} ${styles.light}`}>
           <h1 className={styles.title}>Chat with the AI</h1>
           <div className={styles.questionsContainer}>
             <SuggestQuestionsBox
