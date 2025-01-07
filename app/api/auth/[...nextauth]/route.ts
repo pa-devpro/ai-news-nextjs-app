@@ -13,7 +13,6 @@ const handler = NextAuth({
         // This needs logic to validate the credentials
         // [ToDo]: Implement this logic
         const user = { id: '1', name: 'User', email: credentials?.email };
-        console.log({ credentials})
         if (user) {
           return user;
         } else {
@@ -31,12 +30,10 @@ const handler = NextAuth({
       if (user) {
         token.id = user.id;
       }
-      console.log("Inside callback", { token, user });
       return token;
     },
     async session({ session, token }) {
       if (token) {
-        console.log("token inside of session", {token, session});
         // session.id = token.id;
       }
       return session;

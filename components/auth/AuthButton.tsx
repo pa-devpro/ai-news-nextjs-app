@@ -29,11 +29,15 @@ const AuthButton = () => {
 
   return (
     <>
-      <button className={styles.authButton} onClick={handleSignInClick}>Sign in</button>
+      <button className={styles.authButton} onClick={handleSignInClick}>
+        Sign in
+      </button>
       {isModalOpen && (
         <div className={styles.modalOverlay}>
           <div className={styles.modalContent}>
-            <span className={styles.closeButton} onClick={handleCloseModal}>&times;</span>
+            <span className={styles.closeButton} onClick={handleCloseModal}>
+              &times;
+            </span>
             <form
               className={styles.authForm}
               onSubmit={(e) => {
@@ -43,9 +47,23 @@ const AuthButton = () => {
                 signIn('credentials', { email, password });
               }}
             >
-              <input className={styles.authInput} name="email" type="email" placeholder="Email" required />
-              <input className={styles.authInput} name="password" type="password" placeholder="Password" required />
-              <button className={styles.authButton} type="submit">Sign in</button>
+              <input
+                className={styles.authInput}
+                name="email"
+                type="email"
+                placeholder="Email"
+                required
+              />
+              <input
+                className={styles.authInput}
+                name="password"
+                type="password"
+                placeholder="Password"
+                required
+              />
+              <button className={styles.authButton} type="submit">
+                Sign in
+              </button>
             </form>
           </div>
         </div>

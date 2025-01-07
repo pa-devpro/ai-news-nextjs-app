@@ -16,6 +16,14 @@
   /* gap: 0.5rem; */
 }
 
+.NavbarContent {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+}
+
 /* xl min width 1280px */
 @media (width <=1280px) {
   .NavbarHeader {

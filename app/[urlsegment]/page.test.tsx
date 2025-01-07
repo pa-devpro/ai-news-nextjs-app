@@ -15,16 +15,22 @@ jest.mock('../../context/NewsContext', () => ({
 jest.mock('next-auth/react', () => ({
   useSession: jest.fn(),
 }));
-jest.mock('@/components/markdown-wrapper/MarkdownWrapper', () => () => <div>Mocked MarkdownWrapper</div>);
+jest.mock('@/components/markdown-wrapper/MarkdownWrapper', () => () => (
+  <div>Mocked MarkdownWrapper</div>
+));
 jest.mock('./NewsAiContent', () => () => <div>Mocked NewsAiContent</div>);
-jest.mock('@/components/chat-box/ChatBox', () => () => <div>Mocked ChatBox</div>);
+jest.mock('@/components/chat-box/ChatBox', () => () => (
+  <div>Mocked ChatBox</div>
+));
 
 describe('PostPage', () => {
   it('renders the post page with Full content', async () => {
     (useParams as jest.Mock).mockReturnValue({ urlsegment: 'title-1' });
     (usePosts as jest.Mock).mockReturnValue({ posts: mockPosts });
-    (useSession as jest.Mock).mockReturnValue({data: {}, status: 'authenticated'});
-    
+    (useSession as jest.Mock).mockReturnValue({
+      data: {},
+      status: 'authenticated',
+    });
 
     await act(async () => {
       render(<PostPage />);
