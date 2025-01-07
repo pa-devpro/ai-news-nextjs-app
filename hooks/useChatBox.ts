@@ -48,6 +48,7 @@ const useChatBox = ({ aiContent, initialQuestions }: UseChatBoxProps) => {
     isOpen,
     setIsOpen,
     suggestedQuestions,
+    setSuggestedQuestions,
     handleQuestionClick,
     toggleChatBox,
   };
