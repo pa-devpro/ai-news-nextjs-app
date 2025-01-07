@@ -7,7 +7,6 @@ import { siteInfo } from '@/lib/data';
 import Menu from '@/components/menu/Menu';
 import ClientErrorBoundary from '@/components/ClientErrorBoundary';
 import PostsProviderWrapper from '@/components/PostsProviderWrapper';
-import SessionProviderWrapper from '@/components/SessionProviderWrapper';
 
 export const metadata: Metadata = {
   title: siteInfo.title,
@@ -23,15 +22,13 @@ export default async function RootLayout({
     <html lang="en">
       <body className="Body">
         <ClientErrorBoundary>
-          <SessionProviderWrapper>
-            <PostsProviderWrapper>
-              <NextTopLoader color="#d1d5db" />
-              <Navbar />
-              <Menu />
-              <div className="content">{children}</div>
-              <Footer />
-            </PostsProviderWrapper>
-          </SessionProviderWrapper>
+          <PostsProviderWrapper>
+            <NextTopLoader color="#d1d5db" />
+            <Navbar />
+            <Menu />
+            <div className="content">{children}</div>
+            <Footer />
+          </PostsProviderWrapper>
         </ClientErrorBoundary>
       </body>
     </html>

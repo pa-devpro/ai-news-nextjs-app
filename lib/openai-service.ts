@@ -127,7 +127,8 @@ export const getAIContent = async (post: Post) => {
       body: post.body.raw,
     });
 
-    const questions = await suggestQuestions(aiContent);
+    const questions = await suggestQuestions(aiContent.toString());
+
     return { aiContent, questions };
   } catch (error) {
     logger.error('Error getting AI content:', error);

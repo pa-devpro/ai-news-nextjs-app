@@ -1,20 +1,22 @@
 'use client';
-import React, { useEffect } from 'react';
+import React from 'react';
 import styles from './Chatbox.module.css';
 import SuggestQuestionsBox from './SuggestQuestionsBox';
 import { handleSend } from '@/lib/chatUtils';
 import { MessageList } from './MessageList';
 import useChatBox from '../../hooks/useChatBox';
-import { useAiContent } from '@/hooks/useAiContent';
-import { Post } from '@/domain/posts/entities/Post';
 
 type ChatBoxProps = {
-  post: Post;
+  aiContent: string;
+  initialQuestions: string[];
+  theme: 'dark' | 'light';
 };
 
-const ChatBox: React.FC<ChatBoxProps> = ({ post }) => {
-  const { aiContent, questions, loading } = useAiContent(post);
-
+const ChatBox: React.FC<ChatBoxProps> = ({
+  aiContent,
+  initialQuestions,
+  theme,
+}) => {
   const {
     message,
     setMessage,
@@ -25,15 +27,10 @@ const ChatBox: React.FC<ChatBoxProps> = ({ post }) => {
     isOpen,
     setIsOpen,
     suggestedQuestions,
-    setSuggestedQuestions,
     handleQuestionClick,
     alertMessage,
     setAlertMessage,
-  } = useChatBox({ aiContent, initialQuestions: questions });
-
-  useEffect(() => {
-    setSuggestedQuestions(questions);
-  }, [questions, setSuggestedQuestions]);
+  } = useChatBox({ aiContent, initialQuestions });
 
   const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
@@ -47,17 +44,15 @@ const ChatBox: React.FC<ChatBoxProps> = ({ post }) => {
     }
   };
 
-  if (loading) {
-    return <div>Loading ChatBox...</div>;
-  }
-
   return (
     <>
       <button onClick={() => setIsOpen(!isOpen)} className={styles.openButton}>
         {isOpen ? 'Hide Chat' : 'Open Chat'}
       </button>
       {isOpen && (
-        <div className={`${styles.chatboxContainer} ${styles.light}`}>
+        <div
+          className={`${styles.chatboxContainer} ${theme === 'dark' ? styles.dark : styles.light}`}
+        >
           <h1 className={styles.title}>Chat with the AI</h1>
           <div className={styles.questionsContainer}>
             <SuggestQuestionsBox
