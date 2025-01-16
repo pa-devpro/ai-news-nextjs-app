@@ -35,8 +35,11 @@ export class PostsRepository {
 
       const category = 'technology';
       const pageSize = 10;
+      const newsUrl = new URL(`https://newsapi.org/v2/top-headlines?category=${category}&pageSize=${pageSize}&apiKey=${this.newsApiKey}`);
+      logger.info(`News URL: ${newsUrl.toString()}`); // Log the constructed URL
+
       const dataByFetch = await fetch(
-        `https://newsapi.org/v2/top-headlines?category=${category}&pageSize=${pageSize}&apiKey=${this.newsApiKey}`,
+        newsUrl.toString(),
         {
           method: 'GET',
           headers: {

@@ -10,8 +10,14 @@ export default async function PostsProviderWrapper({
 }: {
   children: React.ReactNode;
 }) {
-  const posts = await postsModule.getAllPosts();
-  return (
-    <PostsProvider posts={[...posts, ...samplePosts]}>{children}</PostsProvider>
-  );
+  try{
+    const posts = await postsModule.getAllPosts();
+    return (
+      <PostsProvider posts={[...posts, ...samplePosts]}>{children}</PostsProvider>
+    );
+  } catch (error) {
+    console.error('Error while fetching posts', error);
+    return <PostsProvider posts={samplePosts}>{children}</PostsProvider>;
+  }
+
 }
