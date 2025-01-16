@@ -17,7 +17,9 @@ export const authConfig: NextAuthOptions = {
         email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' },
       },
-      async authorize(credentials: Record<string, string> | undefined): Promise<User | null> {
+      async authorize(
+        credentials: Record<string, string> | undefined,
+      ): Promise<User | null> {
         // This needs logic to validate the credentials
         // [ToDo]: Implement this logic
         const parsedCredentials = z
@@ -30,7 +32,12 @@ export const authConfig: NextAuthOptions = {
           // If user exist, return the user object
           // const user = await getUserByEmail(email);
 
-          const user: User = { id: '1', name: 'User', email, emailVerified: new Date() }; // Example user object
+          const user: User = {
+            id: '1',
+            name: 'User',
+            email,
+            emailVerified: new Date(),
+          }; // Example user object
 
           if (user) return user;
           return null;
