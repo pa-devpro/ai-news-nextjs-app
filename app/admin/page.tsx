@@ -1,9 +1,6 @@
 'use client';
-import dynamic from 'next/dynamic';
+import LoginForm from '@/components/login/LoginForm';
 
-const LoginForm = dynamic(() => import('@/components/login/LoginForm'), {
-  ssr: false,
-});
 
 const LoginPage = () => {
   return (
