@@ -1,4 +1,4 @@
-'use client'
+'use client';
 import dynamic from 'next/dynamic';
 
 const LoginForm = dynamic(() => import('@/components/login/LoginForm'), {
