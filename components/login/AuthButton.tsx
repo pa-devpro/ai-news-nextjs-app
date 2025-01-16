@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react';
 import styles from './AuthButton.module.css';
-import  LoginForm  from './LoginForm';
+import LoginForm from './LoginForm';
 import { useRef } from 'react';
 
 const AuthButton = () => {
