@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import styles from './Footer.module.css';
 import { siteInfo } from '@/lib/data';
-import { FaGithub, FaTwitter, FaLinkedin } from 'react-icons/fa';
+import { FaGithub, FaLinkedin } from 'react-icons/fa';
 
 function Footer() {
   function getYear() {
@@ -24,24 +24,20 @@ function Footer() {
         </div>
         <div className={styles.FooterSocial}>
           <Link
-            href="https://github.com/pa-devpro/news-ai.git"
+            href="https://github.com/pa-devpro"
             target="_blank"
             style={{ color: 'inherit' }}
           >
             <FaGithub />
           </Link>
-          <Link
-            href="https://twitter.com/yourprofile"
+          {/* <Link
+            href="#"
             target="_blank"
             style={{ color: 'inherit' }}
           >
             <FaTwitter />
-          </Link>
-          <Link
-            href="https://linkedin.com/in/yourprofile"
-            target="_blank"
-            style={{ color: 'inherit' }}
-          >
+          </Link> */}
+          <Link href="#" target="_blank" style={{ color: 'inherit' }}>
             <FaLinkedin />
           </Link>
         </div>
