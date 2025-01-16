@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { signIn } from 'next-auth/react';
 import Image from 'next/image';
 
-export const LoginForm = () => {
+const LoginForm = () => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [forgotPassword, setForgotPassword] = useState(false);
 
@@ -134,3 +134,5 @@ export const LoginForm = () => {
     </div>
   );
 };
+
+export default LoginForm;
