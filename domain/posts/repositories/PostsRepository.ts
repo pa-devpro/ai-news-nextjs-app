@@ -35,22 +35,21 @@ export class PostsRepository {
 
       const category = 'technology';
       const pageSize = 10;
-      const newsUrl = new URL(`https://newsapi.org/v2/top-headlines?category=${category}&pageSize=${pageSize}&apiKey=${this.newsApiKey}`);
+      const newsUrl = new URL(
+        `https://newsapi.org/v2/top-headlines?category=${category}&pageSize=${pageSize}&apiKey=${this.newsApiKey}`,
+      );
       logger.info(`News URL: ${newsUrl.toString()}`); // Log the constructed URL
 
-      const dataByFetch = await fetch(
-        newsUrl.toString(),
-        {
-          method: 'GET',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          cache: 'force-cache',
-          next: {
-            revalidate: 3600, // Revalidate the cache every hour
-          },
+      const dataByFetch = await fetch(newsUrl.toString(), {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
         },
-      );
+        cache: 'force-cache',
+        next: {
+          revalidate: 3600, // Revalidate the cache every hour
+        },
+      });
 
       if (!dataByFetch.ok) {
         throw new Error(`Failed to fetch news: ${dataByFetch.statusText}`);
