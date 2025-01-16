@@ -1,19 +1,21 @@
 'use client';
-import styles from './Navbar.module.css';
-import { IconSearch, IconX } from '@tabler/icons-react';
-import Link from 'next/link';
-import { useRouter } from 'next/navigation';
-import { siteInfo } from '@/lib/data';
-import ThemeButton from '../theme-button/ThemeButton';
-import { NavbarWrapper } from 'react-show-hide-sticky-navbar';
-import { useState } from 'react';
-
 import React from 'react';
-import AuthButton from '../auth/AuthButton';
+import styles from './Navbar.module.css';
+import ThemeButton from '../theme-button/ThemeButton';
+import Link from 'next/link';
+import { NavbarWrapper } from 'react-show-hide-sticky-navbar';
+
+import { IconSearch, IconX } from '@tabler/icons-react';
+import { siteInfo } from '@/lib/data';
+import { useState } from 'react';
+import { useSession, signOut } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+import { FaSignOutAlt } from 'react-icons/fa';
 
 function Navbar() {
   const router = useRouter();
   const [searchOpen, setSearchOpen] = useState(false);
+  const { data: session } = useSession();
 
   const handleSearchClick = () => {
     setSearchOpen(!searchOpen);
@@ -55,7 +57,6 @@ function Navbar() {
           <div className={styles.NavbarHeader}>
             <div className={styles.NavHeaderIconsLeft}>
               <ThemeButton />
-              <AuthButton />
             </div>
 
             <Link
@@ -65,8 +66,14 @@ function Navbar() {
               <h1>{siteInfo.title}</h1>
             </Link>
 
-            <div onClick={handleSearchClick} className={styles.IconWrapper}>
+            <div onClick={handleSearchClick} className={styles.iconContainer}>
               <IconSearch size={20} />
+              {session && (
+                <FaSignOutAlt
+                  className={styles.signOutIcon}
+                  onClick={() => signOut()}
+                />
+              )}
             </div>
           </div>
         )}
