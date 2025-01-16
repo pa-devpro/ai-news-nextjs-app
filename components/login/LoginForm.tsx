@@ -17,7 +17,7 @@ export const LoginForm = () => {
       console.log('Forgot Password needs implementation');
       console.log('Forgot Password:', { email });
     } else if (isRegistering) {
-      const name = e.currentTarget.name?.value;
+      const name = e.currentTarget.name;
       // Handle registration logic here
       console.log(
         'Registration logic needs implementation. Please add API call or other necessary steps.',
