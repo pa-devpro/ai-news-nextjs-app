@@ -6,7 +6,7 @@ import { FaSignOutAlt } from 'react-icons/fa';
 import styles from './AuthButton.module.css';
 
 const AuthButton = () => {
-  const { data: session } = useSession();
+  const session = useSession();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const handleSignInClick = () => {
@@ -17,11 +17,11 @@ const AuthButton = () => {
     setIsModalOpen(false);
   };
 
-  if (session) {
+  if (session.data) {
     return (
       <div className={styles.authContainer}>
         <p className={styles.authText}>Signed in as</p>
-        <p className={styles.authText}>{session.user?.email}</p>
+        <p className={styles.authText}>{session.data.user?.email}</p>
         <FaSignOutAlt className={styles.authIcon} onClick={() => signOut()} />
       </div>
     );

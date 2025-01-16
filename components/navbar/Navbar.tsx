@@ -15,7 +15,7 @@ import { FaSignOutAlt } from 'react-icons/fa';
 function Navbar() {
   const router = useRouter();
   const [searchOpen, setSearchOpen] = useState(false);
-  const { data: session } = useSession();
+  const session = useSession();
 
   const handleSearchClick = () => {
     setSearchOpen(!searchOpen);
@@ -68,7 +68,7 @@ function Navbar() {
 
             <div onClick={handleSearchClick} className={styles.iconContainer}>
               <IconSearch size={20} />
-              {session && (
+              {session.data && (
                 <FaSignOutAlt
                   className={styles.signOutIcon}
                   onClick={() => signOut()}
