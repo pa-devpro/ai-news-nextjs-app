@@ -1,7 +1,6 @@
 'use client';
 import LoginForm from '@/components/login/LoginForm';
 
-
 const LoginPage = () => {
   return (
     <div className="flex items-center justify-center py-20 px-2">
