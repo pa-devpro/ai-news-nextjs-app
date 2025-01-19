@@ -16,6 +16,7 @@
     "@jest/types": "^29.6.3",
     "@langchain/core": "^0.3.27",
     "@langchain/openai": "^0.3.16",
+    "@supabase/supabase-js": "^2.47.16",
     "@tabler/icons-react": "^3.26.0",
     "date-fns": "^4.1.0",
     "express-rate-limit": "^7.5.0",

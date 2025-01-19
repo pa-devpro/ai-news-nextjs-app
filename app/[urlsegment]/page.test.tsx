@@ -24,6 +24,10 @@ jest.mock('@/components/chat-box/ChatBox', () => () => (
 ));
 
 describe('PostPage', () => {
+  beforeAll(() => {
+    process.env.SUPABASE_URL = 'your-supabase-url';
+    process.env.SUPABASE_ANON_KEY = 'your-supabase-anon-key';
+  });
   it('renders the post page with Full content', async () => {
     (useParams as jest.Mock).mockReturnValue({ urlsegment: 'title-1' });
     (usePosts as jest.Mock).mockReturnValue({ posts: mockPosts });

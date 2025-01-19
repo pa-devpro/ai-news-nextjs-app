@@ -2,11 +2,12 @@
 
 import { useSession } from 'next-auth/react';
 import React from 'react';
-import AuthButton from './login/AuthButton';
+import AuthButton from './authentication/AuthButton';
+import logger from '@/lib/logger';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { data: session, status } = useSession();
-  console.log('🔴 ProtectedRoute', { session, status });
+  logger.info('🔴 ProtectedRoute', { session, status });
 
   if (status === 'loading') {
     return <div>Loading...</div>;
@@ -14,8 +15,18 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
   if (status === 'unauthenticated') {
     return (
-      <div>
-        Please sign in to visualize content <AuthButton />
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '15vh',
+          textAlign: 'center',
+        }}
+      >
+        <p>Please sign in to visualize content</p>
+        <AuthButton />
       </div>
     ); // Show the AuthButton if unauthenticated
   }
