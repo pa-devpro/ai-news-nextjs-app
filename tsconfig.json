@@ -23,7 +23,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "typeRoots": ["./types", "./node_modules/@types"],
-    "types": ["jest", "@testing-library/jest-dom"]
+    "types": ["jest"]
   },
   "include": [
     "**/*.ts",
