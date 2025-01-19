@@ -130,7 +130,11 @@ const LoginForm = () => {
       {!forgotPassword && (
         <a
           className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-          onClick={() => setForgotPassword(true)}
+          onClick={() => {
+            setForgotPassword(true);
+            setSuccessMessage(null);
+            setErrorMessage(null);
+          }}
         >
           Forgot Password?
         </a>
@@ -156,6 +160,7 @@ const LoginForm = () => {
             setIsRegistering(false);
             setForgotPassword(false);
             setSuccessMessage(null);
+            setErrorMessage(null);
           }}
         >
           Sign In
@@ -167,6 +172,7 @@ const LoginForm = () => {
             setIsRegistering(true);
             setForgotPassword(false);
             setSuccessMessage(null);
+            setErrorMessage(null);
           }}
         >
           Register

@@ -1,11 +1,10 @@
 import { signup, signin, forgotPassword } from '@/actions/auth';
 import { FormState } from '@/lib/definitions';
+import logger from '@/lib/logger';
 import { RegisteringSuccess, RegisteringError } from '@/reducers/formReducer';
 import { SignInResponse } from 'next-auth/react';
 
 export const handleForgotPassword = async (email: string) => {
-  console.log('Forgot Password needs implementation');
-  console.log('Forgot Password:', { email });
   const result = await forgotPassword(email);
   if (result.error) {
     console.error('Forgot Password error:', result.error);
@@ -20,7 +19,7 @@ export const handleRegistration = async (
   dispatch: React.Dispatch<RegisteringSuccess | RegisteringError>,
   setSuccessMessage: React.Dispatch<React.SetStateAction<string | null>>,
 ) => {
-  console.log('Registering:', formData.get('email'));
+  logger.info('Registering:', formData.get('email'));
   try {
     const result = await signup(state, formData);
     if (result.user) {
@@ -51,12 +50,10 @@ export const handleSignIn = async (
   ) => Promise<SignInResponse | undefined>,
 ) => {
   const result = await signin(email, password);
-  console.log('Sign In:', { result });
   if (result.error) {
     console.error('Sign in error:', result.error);
     return { error: result.error };
   }
-  console.log('Sign In:', { email, password });
   await nextAuthSignIn('credentials', { email, password });
   return { success: 'Signed in successfully' };
 };

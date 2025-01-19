@@ -1,4 +1,5 @@
 import { Post } from '@/domain/posts/entities/Post';
+import logger from '@/lib/logger';
 import { getAIContent } from '@/lib/openai-service';
 import { useState, useEffect } from 'react';
 
@@ -9,7 +10,7 @@ export const useAiContent = (post: Post) => {
 
   useEffect(() => {
     const fetchAIContent = async () => {
-      console.log('🔴 Fetching AI content');
+      logger.info('🔴 Fetching AI content');
       const { aiContent, questions } = await getAIContent(post);
       setAiContent(aiContent);
       setQuestions(questions);

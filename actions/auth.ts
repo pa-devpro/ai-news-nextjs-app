@@ -57,7 +57,6 @@ export async function signup(
       }),
     );
 
-    console.log('SUPABASE Data:', { data });
     if (error) {
       return { errors: { message: error.message } };
     }

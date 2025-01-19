@@ -3,10 +3,11 @@
 import { useSession } from 'next-auth/react';
 import React from 'react';
 import AuthButton from './authentication/AuthButton';
+import logger from '@/lib/logger';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { data: session, status } = useSession();
-  console.log('🔴 ProtectedRoute', { session, status });
+  logger.info('🔴 ProtectedRoute', { session, status });
 
   if (status === 'loading') {
     return <div>Loading...</div>;
