@@ -14,8 +14,18 @@ const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
 
   if (status === 'unauthenticated') {
     return (
-      <div>
-        Please sign in to visualize content <AuthButton />
+      <div
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+          alignItems: 'center',
+          height: '15vh',
+          textAlign: 'center',
+        }}
+      >
+        <p>Please sign in to visualize content</p>
+        <AuthButton />
       </div>
     ); // Show the AuthButton if unauthenticated
   }

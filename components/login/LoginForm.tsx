@@ -1,32 +1,117 @@
 'use client';
 
-import { useState } from 'react';
-import { signIn } from 'next-auth/react';
+import { useReducer, useState } from 'react';
+import { signIn as nextAuthSignIn } from 'next-auth/react';
 import Image from 'next/image';
+import { formReducer, initialFormState } from '@/reducers/formReducer';
+import {
+  handleForgotPassword,
+  handleRegistration,
+  handleSignIn,
+} from '@/handlers/authHandlers';
 
 const LoginForm = () => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [forgotPassword, setForgotPassword] = useState(false);
+  const [state, dispatch] = useReducer(formReducer, initialFormState);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
-  const handleOnSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const email = e.currentTarget.email.value;
-    const password = e.currentTarget.password?.value;
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get('email') as string;
+    const password = formData.get('password') as string;
+
     if (forgotPassword) {
-      // Handle forgot password logic here
-      console.log('Forgot Password needs implementation');
-      console.log('Forgot Password:', { email });
+      handleForgotPassword(email);
     } else if (isRegistering) {
-      const name = e.currentTarget.name;
-      // Handle registration logic here
-      console.log(
-        'Registration logic needs implementation. Please add API call or other necessary steps.',
-      );
-      console.log('Registering:', { name, email, password });
+      handleRegistration(formData, state, dispatch, setSuccessMessage);
     } else {
-      signIn('credentials', { email, password });
+      handleSignIn(email, password, nextAuthSignIn);
     }
   };
+
+  const renderFormFields = () => (
+    <>
+      {isRegistering && !forgotPassword && (
+        <div className="mb-4">
+          {successMessage && (
+            <div className="mb-4 text-green-500 text-center">
+              {successMessage}
+            </div>
+          )}
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="name"
+          >
+            Name
+          </label>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Enter your name"
+          />
+        </div>
+      )}
+      <div className="mb-4">
+        <label
+          className="block text-gray-700 text-sm font-bold mb-2"
+          htmlFor="email"
+        >
+          Email
+        </label>
+        <input
+          type="email"
+          id="email"
+          name="email"
+          className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+          placeholder="Enter your email"
+        />
+      </div>
+      {!forgotPassword && (
+        <div className="mb-6">
+          <label
+            className="block text-gray-700 text-sm font-bold mb-2"
+            htmlFor="password"
+          >
+            Password
+          </label>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+            placeholder="Enter your password"
+          />
+        </div>
+      )}
+    </>
+  );
+
+  const renderButtons = () => (
+    <div className="flex items-center justify-between mb-4">
+      <button
+        type="submit"
+        className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+      >
+        {forgotPassword
+          ? 'Reset Password'
+          : isRegistering
+            ? 'Register'
+            : 'Sign In'}
+      </button>
+      {!forgotPassword && (
+        <a
+          className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
+          onClick={() => setForgotPassword(true)}
+        >
+          Forgot Password?
+        </a>
+      )}
+    </div>
+  );
 
   return (
     <div className="bg-white p-8 rounded-lg shadow-lg w-full max-w-md">
@@ -45,6 +130,7 @@ const LoginForm = () => {
           onClick={() => {
             setIsRegistering(false);
             setForgotPassword(false);
+            setSuccessMessage(null);
           }}
         >
           Sign In
@@ -55,81 +141,15 @@ const LoginForm = () => {
           onClick={() => {
             setIsRegistering(true);
             setForgotPassword(false);
+            setSuccessMessage(null);
           }}
         >
           Register
         </a>
       </div>
       <form onSubmit={handleOnSubmit}>
-        {isRegistering && (
-          <div className="mb-4">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="name"
-            >
-              Name
-            </label>
-            <input
-              type="text"
-              id="name"
-              name="name"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="Enter your name"
-            />
-          </div>
-        )}
-        <div className="mb-4">
-          <label
-            className="block text-gray-700 text-sm font-bold mb-2"
-            htmlFor="email"
-          >
-            Email
-          </label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-            placeholder="Enter your email"
-          />
-        </div>
-        {!forgotPassword && (
-          <div className="mb-6">
-            <label
-              className="block text-gray-700 text-sm font-bold mb-2"
-              htmlFor="password"
-            >
-              Password
-            </label>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-              placeholder="Enter your password"
-            />
-          </div>
-        )}
-        <div className="flex items-center justify-between mb-4">
-          <button
-            type="submit"
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-          >
-            {forgotPassword
-              ? 'Reset Password'
-              : isRegistering
-                ? 'Register'
-                : 'Sign In'}
-          </button>
-          {!forgotPassword && (
-            <a
-              className="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800"
-              onClick={() => setForgotPassword(true)}
-            >
-              Forgot Password?
-            </a>
-          )}
-        </div>
+        {renderFormFields()}
+        {renderButtons()}
       </form>
     </div>
   );
