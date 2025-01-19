@@ -9,12 +9,15 @@ import {
   handleRegistration,
   handleSignIn,
 } from '@/handlers/authHandlers';
+import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 
 const LoginForm = () => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [forgotPassword, setForgotPassword] = useState(false);
   const [state, dispatch] = useReducer(formReducer, initialFormState);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [passwordVisible, setPasswordVisible] = useState(false);
 
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -23,23 +26,34 @@ const LoginForm = () => {
     const password = formData.get('password') as string;
 
     if (forgotPassword) {
-      handleForgotPassword(email);
+      const result = await handleForgotPassword(email);
+      if (result.error) {
+        setErrorMessage(result.error);
+      } else {
+        setSuccessMessage(result.success as string);
+      }
     } else if (isRegistering) {
       handleRegistration(formData, state, dispatch, setSuccessMessage);
     } else {
-      handleSignIn(email, password, nextAuthSignIn);
+      const result = await handleSignIn(email, password, nextAuthSignIn);
+      if (result.error) {
+        setErrorMessage(result.error);
+      } else {
+        setSuccessMessage(result.success as string);
+      }
     }
   };
 
   const renderFormFields = () => (
     <>
+      {successMessage && (
+        <div className="mb-4 text-green-500 text-center">{successMessage}</div>
+      )}
+      {errorMessage && (
+        <div className="mb-4 text-red-500 text-center">{errorMessage}</div>
+      )}
       {isRegistering && !forgotPassword && (
         <div className="mb-4">
-          {successMessage && (
-            <div className="mb-4 text-green-500 text-center">
-              {successMessage}
-            </div>
-          )}
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="name"
@@ -71,7 +85,7 @@ const LoginForm = () => {
         />
       </div>
       {!forgotPassword && (
-        <div className="mb-6">
+        <div className="mb-6 relative">
           <label
             className="block text-gray-700 text-sm font-bold mb-2"
             htmlFor="password"
@@ -79,12 +93,23 @@ const LoginForm = () => {
             Password
           </label>
           <input
-            type="password"
+            type={passwordVisible ? 'text' : 'password'}
             id="password"
             name="password"
-            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+            className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline pr-10"
             placeholder="Enter your password"
           />
+          <div
+            className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
+            style={{ top: '70%', transform: 'translateY(-50%)' }}
+            onClick={() => setPasswordVisible(!passwordVisible)}
+          >
+            {passwordVisible ? (
+              <AiFillEyeInvisible className="h-5 w-5 text-gray-700" />
+            ) : (
+              <AiFillEye className="h-5 w-5 text-gray-700" />
+            )}
+          </div>
         </div>
       )}
     </>

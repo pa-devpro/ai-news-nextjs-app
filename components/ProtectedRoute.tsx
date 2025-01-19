@@ -2,7 +2,7 @@
 
 import { useSession } from 'next-auth/react';
 import React from 'react';
-import AuthButton from './login/AuthButton';
+import AuthButton from './authentication/AuthButton';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
   const { data: session, status } = useSession();

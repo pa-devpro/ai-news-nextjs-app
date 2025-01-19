@@ -1,4 +1,6 @@
-import type { NextAuthOptions } from 'next-auth';
+import { supabase } from '@/lib/supabaseClient';
+import type { NextAuthOptions, Session } from 'next-auth';
+import type { JWT } from 'next-auth/jwt';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import { z } from 'zod';
 
@@ -20,30 +22,36 @@ export const authConfig: NextAuthOptions = {
       async authorize(
         credentials: Record<string, string> | undefined,
       ): Promise<User | null> {
-        // This needs logic to validate the credentials
-        // [ToDo]: Implement this logic
         const parsedCredentials = z
-          .object({ email: z.string(), password: z.string().min(4) })
+          .object({ email: z.string().email(), password: z.string().min(4) })
           .safeParse(credentials);
-        if (parsedCredentials.success) {
-          console.log('Credentials:', parsedCredentials.data);
-          const { email } = parsedCredentials.data;
-          // Check on database if the user exist
-          // If user exist, return the user object
-          // const user = await getUserByEmail(email);
 
-          const user: User = {
-            id: '1',
-            name: 'User',
-            email,
-            emailVerified: new Date(),
-          }; // Example user object
-
-          if (user) return user;
-          return null;
-        } else {
+        if (!parsedCredentials.success) {
           return null;
         }
+
+        const { email, password } = parsedCredentials.data;
+
+        // Validate the user's credentials with Supabase
+        const { data, error } = await supabase.auth.signInWithPassword({
+          email,
+          password,
+        });
+
+        if (error || !data.user) {
+          return null;
+        }
+
+        const user: User = {
+          id: data.user.id,
+          name: data.user.user_metadata.full_name || 'User',
+          email: data.user.email!,
+          emailVerified: data.user.email_confirmed_at
+            ? new Date(data.user.email_confirmed_at)
+            : null,
+        };
+
+        return user;
       },
     }),
   ],
@@ -53,17 +61,25 @@ export const authConfig: NextAuthOptions = {
   },
   callbacks: {
     async jwt({ token, user }) {
+      console.log('jwt async funct:', { token, user });
       if (user) {
         token.id = user.id;
-        // token.role = user.role; // Add role to the token
+        token.email = user.email;
+        token.name = user.name;
       }
+      console.log({ token });
       return token;
     },
-    async session({ session, token }) {
+    async session({ session, token }: { session: Session; token: JWT }) {
+      console.log('session async funct:', { session, token });
       if (token) {
-        // session.id = token.id;
-        // session.user.role = token.role; // Add role to the session
+        session.user = {
+          email: token.email as string,
+          name: token.name as string,
+          image: session.user?.image || null,
+        };
       }
+      console.log({ session });
       return session;
     },
   },
