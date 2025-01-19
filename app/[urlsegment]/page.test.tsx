@@ -23,27 +23,6 @@ jest.mock('@/components/chat-box/ChatBox', () => () => (
   <div>Mocked ChatBox</div>
 ));
 
-jest.mock('@supabase/supabase-js', () => ({
-  createClient: () => ({
-    auth: {
-      signUp: jest.fn(),
-      signInWithPassword: jest.fn(),
-      resetPasswordForEmail: jest.fn(),
-      updateUser: jest.fn(),
-    },
-    from: () => ({
-      select: () => ({
-        data: [],
-        error: null,
-      }),
-      insert: () => ({
-        data: [],
-        error: null,
-      }),
-    }),
-  }),
-}));
-
 describe('PostPage', () => {
   beforeAll(() => {
     process.env.SUPABASE_URL = 'your-supabase-url';
