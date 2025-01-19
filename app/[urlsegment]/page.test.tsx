@@ -25,6 +25,12 @@ jest.mock('@/components/chat-box/ChatBox', () => () => (
 
 jest.mock('@supabase/supabase-js', () => ({
   createClient: () => ({
+    auth: {
+      signUp: jest.fn(),
+      signInWithPassword: jest.fn(),
+      resetPasswordForEmail: jest.fn(),
+      updateUser: jest.fn(),
+    },
     from: () => ({
       select: () => ({
         data: [],
