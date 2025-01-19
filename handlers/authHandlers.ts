@@ -1,11 +1,17 @@
-import { signup, signin } from '@/actions/auth';
+import { signup, signin, forgotPassword } from '@/actions/auth';
 import { FormState } from '@/lib/definitions';
 import { RegisteringSuccess, RegisteringError } from '@/reducers/formReducer';
 import { SignInResponse } from 'next-auth/react';
 
-export const handleForgotPassword = (email: string) => {
+export const handleForgotPassword = async (email: string) => {
   console.log('Forgot Password needs implementation');
   console.log('Forgot Password:', { email });
+  const result = await forgotPassword(email);
+  if (result.error) {
+    console.error('Forgot Password error:', result.error);
+    return { error: result.error };
+  }
+  return { success: result.success };
 };
 
 export const handleRegistration = async (
@@ -22,20 +28,17 @@ export const handleRegistration = async (
         type: 'REGISTER_SUCCESS',
         payload: result.user as RegisteringSuccess['payload'],
       });
-      console.log('User registered successfully:', result.user);
       setSuccessMessage(
         'User registered successfully! Please check your email to confirm your account.',
       );
     } else if (result.errors) {
       dispatch({ type: 'REGISTER_ERROR', payload: result.errors });
-      console.error('Registration error:', result.errors);
     }
   } catch (error) {
     dispatch({
       type: 'REGISTER_ERROR',
       payload: error as RegisteringError['payload'],
     });
-    console.error('Registration error:', error);
   }
 };
 
@@ -48,9 +51,12 @@ export const handleSignIn = async (
   ) => Promise<SignInResponse | undefined>,
 ) => {
   const result = await signin(email, password);
+  console.log('Sign In:', { result });
   if (result.error) {
     console.error('Sign in error:', result.error);
+    return { error: result.error };
   }
   console.log('Sign In:', { email, password });
   await nextAuthSignIn('credentials', { email, password });
+  return { success: 'Signed in successfully' };
 };

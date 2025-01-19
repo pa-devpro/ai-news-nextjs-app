@@ -1,6 +1,31 @@
 import { SignupFormSchema, FormState } from '../lib/definitions';
 import { supabase } from '@/lib/supabaseClient';
 
+const EMAIL_REDIRECT_TO = 'http://localhost:3000/auth/email-confirmed';
+const RESET_PASSWORD_REDIRECT_TO = 'http://localhost:3000/auth/reset-password';
+
+async function retryWithBackoff<T>(
+  fn: () => Promise<T>,
+  retries = 5,
+  delay = 1000,
+): Promise<T> {
+  let attempt = 0;
+
+  while (attempt < retries) {
+    try {
+      return await fn();
+    } catch (error) {
+      attempt++;
+      if (attempt >= retries) {
+        throw error;
+      }
+      await new Promise((resolve) => setTimeout(resolve, delay * attempt));
+    }
+  }
+
+  throw new Error('Max retries reached');
+}
+
 export async function signup(
   state: FormState,
   formData: FormData,
@@ -27,7 +52,7 @@ export async function signup(
           data: {
             full_name: name,
           },
-          emailRedirectTo: 'http://localhost:3000/email-confirmed', // Set the redirect URL here
+          emailRedirectTo: EMAIL_REDIRECT_TO, // Set the redirect URL here
         },
       }),
     );
@@ -60,5 +85,23 @@ export async function signin(
     return { user: { id: data.user!.id, email: data.user!.email! } };
   } catch (error) {
     return { user: null, error: (error as Error).message };
+  }
+}
+
+export async function forgotPassword(
+  email: string,
+): Promise<{ success?: string; error?: string }> {
+  try {
+    const { error } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: RESET_PASSWORD_REDIRECT_TO, // Set the redirect URL here
+    });
+
+    if (error) {
+      return { error: error.message };
+    }
+
+    return { success: 'Password reset email sent! Please check your email.' };
+  } catch (error) {
+    return { error: (error as Error).message };
   }
 }
