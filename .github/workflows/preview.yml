@@ -1,13 +1,14 @@
 name: Vercel Preview CI/CD
 env:
-  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
-  NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
-  OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-  NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+  # VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  # VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+  # NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
+  # OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+  # NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
   NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
   NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
-  NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
+  # NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
+  NODE_ENV: development
 
 on:
   push:
@@ -23,11 +24,6 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 20
-
-      - name: Display BASE_URL
-        run: |
-          echo "::add-mask::$NEXT_PUBLIC_BASE_URL"
-          echo "BASE_URL is $NEXT_PUBLIC_BASE_URL"
 
       - run: npm ci
 
@@ -45,16 +41,8 @@ jobs:
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Display BASE_URL
-        run: |
-          echo "::add-mask::$NEXT_PUBLIC_BASE_URL"
-          echo "BASE_URL is $NEXT_PUBLIC_BASE_URL"
-
       - name: Build Project Artifacts
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Display BASE_URL (Before Deployment)
-        run: echo "BASE_URL is ${{secrets.NEXT_PUBLIC_BASE_URL}}"
 
       - name: Deploy Project Artifacts to Vercel
         run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
