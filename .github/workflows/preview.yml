@@ -24,8 +24,10 @@ jobs:
         with:
           node-version: 20
 
-      - name: Display BASE_URL (Before tests)
-        run: echo "BASE_URL is ${{secrets.NEXT_PUBLIC_BASE_URL}}"
+      - name: Display BASE_URL
+        run: |
+          echo "::add-mask::$NEXT_PUBLIC_BASE_URL"
+          echo "BASE_URL is $NEXT_PUBLIC_BASE_URL"
 
       - run: npm ci
 
@@ -43,8 +45,10 @@ jobs:
       - name: Pull Vercel Environment Information
         run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
 
-      - name: Display BASE_URL (Before Build)
-        run: echo "BASE_URL is ${{secrets.NEXT_PUBLIC_BASE_URL}}"
+      - name: Display BASE_URL
+        run: |
+          echo "::add-mask::$NEXT_PUBLIC_BASE_URL"
+          echo "BASE_URL is $NEXT_PUBLIC_BASE_URL"
 
       - name: Build Project Artifacts
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
@@ -52,5 +56,7 @@ jobs:
       - name: Display BASE_URL (Before Deployment)
         run: echo "BASE_URL is ${{secrets.NEXT_PUBLIC_BASE_URL}}"
 
-      - name: Deploy Project Artifacts to Vercel
-        run: vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Display BASE_URL
+        run: |
+          echo "::add-mask::$NEXT_PUBLIC_BASE_URL"
+          echo "BASE_URL is $NEXT_PUBLIC_BASE_URL"
