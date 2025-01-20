@@ -5,8 +5,9 @@ env:
   NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
   NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
+  NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+  NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
   NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
-
 on:
   push:
     branches-ignore:
@@ -24,7 +25,12 @@ jobs:
 
       - run: npm ci
 
-      - run: npm run test:ci
+      - name: Run Test on CI with envs on runtime
+        env:
+          NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
+          NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
+        run: npm run test:ci
+
   Deploy-Preview:
     needs: [Test]
     runs-on: ubuntu-latest

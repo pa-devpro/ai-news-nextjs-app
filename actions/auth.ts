@@ -2,7 +2,6 @@ import { SignupFormSchema, FormState } from '../lib/definitions';
 import { supabase } from '@/lib/supabaseClient';
 
 const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
-
 const EMAIL_REDIRECT_TO = `${BASE_URL}/auth/email-confirmed`;
 const RESET_PASSWORD_REDIRECT_TO = `${BASE_URL}/auth/reset-password`;
 
