@@ -103,6 +103,7 @@ const LoginForm = () => {
             className="absolute inset-y-0 right-0 pr-3 flex items-center cursor-pointer"
             style={{ top: '70%', transform: 'translateY(-50%)' }}
             onClick={() => setPasswordVisible(!passwordVisible)}
+            data-testid="toggle-password-visibility"
           >
             {passwordVisible ? (
               <AiFillEyeInvisible className="h-5 w-5 text-gray-700" />
