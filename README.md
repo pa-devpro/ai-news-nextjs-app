@@ -4,32 +4,43 @@
 
 This project is an AI-powered news application built with Next.js. It fetches and displays the latest news articles using AI algorithms to curate content.
 
+[To Table of Contents](#table-of-contents)
+
 ## Table of Contents
 
 - [Introduction](#introduction)
-- [What it does](#what-it-does)
+- [What AI NEWS APP does](#what-ai-news-app-does)
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation](#installation)
-  - [Running the Application](#running-the-application)
-- [Linting and Formatting](#linting-and-formatting)
-  - [ESLint](#eslint)
-  - [Prettier](#prettier)
-  - [Husky](#husky)
+    - [Method 1: Local Installation](#method-1-plain-install-in-our-local-machine)
+    - [Method 2: Docker](#method-2-use-docker)
+- [Usage](#usage)
 - [Running Tests](#running-tests)
+- [Project Features](#project-features)
+- [Technologies Used](#technologies-used)
+- [Authorization/Authentication](#authorizationauthentification)
+  - [Overview](#overview)
+  - [When and Why We Use next-auth or Supabase](#when-and-why-we-use-next-auth-or-supabase)
+  - [Different Actions](#different-actions)
+- [Caching Methods](#caching-methods)
+  - [Summary](#summary)
+  - [Issues and Resolutions](#issues-and-resolutions)
+  - [Example Implementations](#example-implementations)
+- [CI/CD Pipeline](#cicd-pipeline)
+  - [Workflow Configuration](#workflow-configuration)
+  - [Environment Variables](#environment-variables)
+  - [Running the Pipeline](#running-the-pipeline)
+- [Linting and Formatting](#linting-and-formatting)
+- [Project Structure](#project-structure)
 - [Continuous Deployment with Vercel](#continuous-deployment-with-vercel)
   - [Environments](#environments)
-    - [Preview Environment](#preview-environment)
-    - [Production Environment](#production-environment)
   - [Prerequisites](#prerequisites-1)
-  - [Environment Variables](#environment-variables)
+  - [Environment Variables](#environment-variables-1)
   - [GitHub Actions Workflow](#github-actions-workflow)
-    - [Workflow Configuration](#workflow-configuration)
-    - [Steps Explained](#steps-explained)
-  - [Setting Up Secrets](#setting-up-secrets)
-  - [Deployment Process](#deployment-process)
-- [Contributing](#contributing)
-- [License](#license)
+- [Checking Bundle Size and Optimizing](#checking-bundle-size-and-optimizing)
+- [Acknowledgements](#acknowledgements)
+- [Contact Information](#contact-information)
 
 ## What AI NEWS APP does
 
@@ -38,6 +49,8 @@ This project displays news and allows the user to:
 - Read the news
 - Have a real time conversation about the news
 - Have suggested question to dig deep in the knowledge provided by the new and expand it
+
+[Back to Table of Contents](#table-of-contents)
 
 ## Getting Started
 
@@ -77,6 +90,8 @@ This project displays news and allows the user to:
         yarn dev
         ```
 
+[Back to Table of Contents](#table-of-contents)
+
 #### Method 2 `Use docker`
 
 Alternatively once you have the project set you can run it using `docker`
@@ -95,6 +110,8 @@ Alternatively once you have the project set you can run it using `docker`
 
 5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+[Back to Table of Contents](#table-of-contents)
+
 ## Usage
 
 To use the application, open your browser and navigate to `http://localhost:3000`. You can browse the latest news articles and search for specific topics.
@@ -109,8 +126,11 @@ npm run test
 yarn test
 ```
 
+[Back to Table of Contents](#table-of-contents)
+
 ## Project Features
 
+- **Authentication/Authorization**: Sign in, Register, forgot password, managed sessions and Protected routes.
 - **AI-Generated Content**: Automatically generate content using AI.
 - **Real-Time Chat**: Engage with AI agent through a real-time chat interface.
 - **Markdown Rendering**: Render articles and content using Markdown.
@@ -122,6 +142,8 @@ yarn test
 - **Server-Side Rendering (SSR)**: Fetch data and render pages on the server for each request.
 - **API Routes**: Handle server-side logic and data fetching with API routes.
 - **Unit and Integration Testing**: Comprehensive unit and integration tests using Jest and React Testing Library.
+
+[Back to Table of Contents](#table-of-contents)
 
 ## Technologies Used
 
@@ -135,6 +157,48 @@ yarn test
 | Tailwind CSS | Utility-first CSS framework                     |
 | Markdown     | Lightweight markup language                     |
 | Winston      | Logger                                          |
+| Next-Auth    | Authentication and Session Management           |
+| Supabase     | Postgress Database Managemenet with real-time   |
+| Vercel       | Deployment, Hosting, Continues Integration      |
+
+[Back to Table of Contents](#table-of-contents)
+
+### Authorization/Authentification
+
+#### Overview
+
+The `AuthenticationForm` component handles user authentication, including sign-in, registration, and password reset functionalities. It uses `next-auth` for authentication and Supabase for real-time notifications and other backend interactions.
+
+#### When and Why We Use `next-auth` or Supabase
+
+- **`next-auth`**:
+
+  - Used for handling authentication processes such as sign-in and session management.
+  - Provides secure and easy-to-use authentication mechanisms.
+  - Integrates with various authentication providers (e.g., Google, GitHub).
+
+- **Supabase**:
+  - Used for real-time notifications and other backend interactions.
+  - Provides a PostgreSQL database with real-time capabilities.
+  - Offers authentication, storage, and other backend services.
+
+#### Different Actions
+
+1. **Sign-In**
+
+   - Uses `next-auth` to handle user sign-in.
+   - Function: `handleSignIn` in `authHandlers.ts`.
+
+2. **Registration**
+
+   - Uses Supabase to handle user registration.
+   - Function: `handleRegistration` in `authHandlers.ts`.
+
+3. **Password Reset**
+   - Uses Supabase to handle password reset.
+   - Function: `handleForgotPassword` in `authHandlers.ts`.
+
+[Back to Table of Contents](#table-of-contents)
 
 ### Caching Methods
 
@@ -149,6 +213,8 @@ The app uses a Custom In-Memory cache set as a singleton pattern to store data i
 | **`unstable_cache` from `next/cache`** | Built-in caching utility provided by Next.js for server-side caching with revalidation support. | Server-Side | - Not used in the provided examples, but generally marked as "unstable". |
 | **`cache` from React**                 | Caching utility from React, typically used for client-side caching in React components.         | Client-Side | - Not suitable for server-side caching.                                  |
 |                                        |                                                                                                 |             | - Cache was not being set correctly in the client-side component.        |
+
+[Back to Table of Contents](#table-of-contents)
 
 ### Issues and Resolutions
 
@@ -171,6 +237,8 @@ The app uses a Custom In-Memory cache set as a singleton pattern to store data i
 
 4. **`use cache` from Next15@Canary**:
    - Works and in the future could be an implementation but right now is in experimental phase so opted to use another method more reliable.
+
+[Back to Table of Contents](#table-of-contents)
 
 ### Example Implementations
 
@@ -200,6 +268,8 @@ class Cache {
 const cache = new Cache();
 export default cache;
 ```
+
+[Back to Table of Contents](#table-of-contents)
 
 ## CI/CD Pipeline
 
@@ -242,6 +312,8 @@ To check an example please check the file `ci.yml` in the .github/workflows fold
 
 This project uses ESLint and Prettier to maintain code quality and consistency.
 It uses Husky to ensure running commands for linting and formatting before each commit.
+
+[Back to Table of Contents](#table-of-contents)
 
 ## Project Structure
 
@@ -300,6 +372,8 @@ It uses Husky to ensure running commands for linting and formatting before each 
 └── README.md
 ```
 
+[Back to Table of Contents](#table-of-contents)
+
 # Continuous Deployment with Vercel
 
 This project uses Vercel for continuous deployment, ensuring that the latest changes are automatically deployed to the appropriate environment whenever changes are pushed to the respective branches.
@@ -324,6 +398,8 @@ This project uses Vercel for continuous deployment, ensuring that the latest cha
 - A GitHub repository connected to Vercel
 - Necessary environment variables set up in Vercel and GitHub
 
+[Back to Table of Contents](#table-of-contents)
+
 ## Environment Variables
 
 The following environment variables are required for deployment:
@@ -334,6 +410,8 @@ The following environment variables are required for deployment:
 - `OPENAI_API_KEY`: Your OpenAI API key
 
 These variables should be added to both your Vercel project settings and GitHub repository secrets.
+
+[Back to Table of Contents](#table-of-contents)
 
 ## GitHub Actions Workflow
 
@@ -382,6 +460,8 @@ jobs:
           VERCEL_ENV: ${{ github.ref == 'refs/heads/main' && 'production' || 'preview' }}
 ```
 
+[Back to Table of Contents](#table-of-contents)
+
 ## Checking Bundle Size and Optimizing
 
 ### Using `depcheck` to Remove Unused Dependencies
@@ -405,6 +485,8 @@ jobs:
    npm uninstall <unused-dependency>
    ```
 
+[Back to Table of Contents](#table-of-contents)
+
 ### Using `webpack-bundle-analyzer`
 
 For detailed analysis of bundle size:
@@ -419,19 +501,11 @@ For detailed analysis of bundle size:
 
    ```javascript
    // next.config.js
-   const withBundleAnalyzer = require('@next/bundle-analyzer')({
-     enabled: process.env.ANALYZE === 'true',
-   });
-
-   module.exports = withBundleAnalyzer({
-     // Other Next.js config options...
-   });
+   const withBundleAnalyzer
    ```
 
-3. **Run the Analyzer**:
-   ```bash
-   ANALYZE=true npm run build
-   ```
+```
+[Back to Table of Contents](#table-of-contents)
 
 ## Acknowledgements
 
@@ -444,3 +518,5 @@ For detailed analysis of bundle size:
 ## Contact Information
 
 For questions or support, please contact.
+[Back to Table of Contents](#table-of-contents)
+```

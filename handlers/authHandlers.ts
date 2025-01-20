@@ -1,6 +1,5 @@
 import { signup, signin, forgotPassword } from '@/actions/auth';
 import { FormState } from '@/lib/definitions';
-import logger from '@/lib/logger';
 import { RegisteringSuccess, RegisteringError } from '@/reducers/formReducer';
 import { SignInResponse } from 'next-auth/react';
 
@@ -19,7 +18,6 @@ export const handleRegistration = async (
   dispatch: React.Dispatch<RegisteringSuccess | RegisteringError>,
   setSuccessMessage: React.Dispatch<React.SetStateAction<string | null>>,
 ) => {
-  logger.info('Registering:', formData.get('email'));
   try {
     const result = await signup(state, formData);
     if (result.user) {
