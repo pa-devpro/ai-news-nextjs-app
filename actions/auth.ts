@@ -1,8 +1,10 @@
 import { SignupFormSchema, FormState } from '../lib/definitions';
 import { supabase } from '@/lib/supabaseClient';
 
-const EMAIL_REDIRECT_TO = 'http://localhost:3000/auth/email-confirmed';
-const RESET_PASSWORD_REDIRECT_TO = 'http://localhost:3000/auth/reset-password';
+const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+
+const EMAIL_REDIRECT_TO = `${BASE_URL}/auth/email-confirmed`;
+const RESET_PASSWORD_REDIRECT_TO = `${BASE_URL}/auth/reset-password`;
 
 async function retryWithBackoff<T>(
   fn: () => Promise<T>,
