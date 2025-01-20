@@ -11,6 +11,8 @@ type User = {
   emailVerified: Date | null;
 };
 
+const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET;
+
 export const authConfig: NextAuthOptions = {
   providers: [
     CredentialsProvider({
@@ -55,7 +57,7 @@ export const authConfig: NextAuthOptions = {
       },
     }),
   ],
-  secret: process.env.NEXTAUTH_SECRET,
+  secret: NEXTAUTH_SECRET,
   session: {
     strategy: 'jwt',
   },
