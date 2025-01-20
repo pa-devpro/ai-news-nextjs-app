@@ -25,7 +25,7 @@ jobs:
           node-version: 20
 
       - name: Display BASE_URL (Before tests)
-        run: echo "BASE_URL is ${{NEXT_PUBLIC_BASE_URL}}"
+        run: echo "BASE_URL is ${{secrets.NEXT_PUBLIC_BASE_URL}}"
 
       - run: npm ci
 

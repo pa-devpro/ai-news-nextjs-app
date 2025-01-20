@@ -24,6 +24,9 @@ jobs:
 
       - run: npm ci
 
+      - name: Display BASE_URL (Before Build)
+        run: echo "BASE_URL is ${{secrets.NEXT_PUBLIC_BASE_URL}}"
+
       - run: npm run test:ci
 
   Deploy-Production:
