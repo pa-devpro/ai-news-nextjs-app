@@ -1,16 +1,16 @@
-name: Vercel Preview Environment Deployment
+name: Vercel Preview Deployment
 env:
   VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
   VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
   NEWS_API_KEY: ${{ secrets.NEWS_API_KEY }}
   OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
   NEXTAUTH_SECRET: ${{ secrets.NEXTAUTH_SECRET }}
-  NEXTAUTH_URL: ${{ secrets.NEXTAUTH_URL }}
+  NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
 
 on:
   push:
-    branches:
-      - preview
+    branches-ignore:
+      - main
 
 jobs:
   Test:
@@ -35,7 +35,7 @@ jobs:
         run: npm install --global vercel@latest
 
       - name: Pull Vercel Environment Information
-        run: vercel pull --yes --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel pull --yes --environmnet=preview --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Build Project Artifacts
         run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
