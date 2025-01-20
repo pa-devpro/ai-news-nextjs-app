@@ -25,7 +25,9 @@ jobs:
       - run: npm ci
 
       - run: npm run test:ci
+
   Deploy-Production:
+    needs: [Test]
     runs-on: ubuntu-latest
 
     steps:
