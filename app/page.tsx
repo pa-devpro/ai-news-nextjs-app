@@ -25,7 +25,7 @@ export default function Home() {
 
   return (
     <div>
-      <h1>Base URL: {BASE_URL}</h1>
+      <h1>Base URL: {BASE_URL} --- check url</h1>
       <main className="ListPosts">{newsPreviews}</main>;
     </div>
   );
