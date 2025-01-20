@@ -19,6 +19,7 @@ const nextConfig = {
     ],
     unoptimized: false,
   },
+  
   webpack(config, { isServer }) {
     if (!isServer) {
       config.resolve.fallback = {
@@ -27,8 +28,18 @@ const nextConfig = {
         module: false,
       };
     }
+  
+    const originalEntry = config.entry;
+    config.entry = async () => {
+      const entries = await originalEntry();
+      if (entries['main.js'] && !entries['main.js'].includes('./polyfills.js')) {
+        entries['main.js'].unshift('./polyfills.js');
+      }
+      return entries;
+    };
+  
     return config;
-  },
+  }
 };
 
 module.exports = withBundleAnalyzer(nextConfig);

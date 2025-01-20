@@ -45,9 +45,7 @@ jobs:
         run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Display BASE_URL
-        run: |
-          echo "::add-mask::$NEXT_PUBLIC_BASE_URL"
-          echo "BASE_URL is $NEXT_PUBLIC_BASE_URL"
+        run: echo "BASE_URL is $NEXT_PUBLIC_BASE_URL"
 
       - name: Build Project Artifacts
         run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
