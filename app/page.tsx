@@ -4,7 +4,6 @@ import { Suspense } from 'react';
 import { compareDesc } from 'date-fns';
 import { usePosts } from '@/context/NewsContext';
 import { Post } from '@/domain/posts/entities/Post';
-import { BASE_URL } from '@/actions/auth';
 
 const PostPreview = React.lazy(
   () => import('@/components/post-preview/PostPreview'),
@@ -25,7 +24,6 @@ export default function Home() {
 
   return (
     <div>
-      <h1>Base URL: {BASE_URL} --- check url</h1>
       <main className="ListPosts">{newsPreviews}</main>;
     </div>
   );
