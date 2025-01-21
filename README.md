@@ -15,6 +15,7 @@ This project is an AI-powered news application built with Next.js. It fetches an
   - [Installation](#installation)
     - [Method 1: Local Installation](#method-1-plain-install-in-our-local-machine)
     - [Method 2: Docker](#method-2-use-docker)
+- [Supabase](#supabase)
 - [Usage](#usage)
 - [Running Tests](#running-tests)
 - [Project Features](#project-features)
@@ -111,6 +112,28 @@ Alternatively once you have the project set you can run it using `docker`
 5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 [Back to Table of Contents](#table-of-contents)
+
+## Supabase
+
+This project uses supabase to manage the database in postgress, authentification and real time capabilities.
+
+Supabase is installed as dev dependency, so you can make use of it after intalling the dependencies: 1. Initialize supabase service
+`bash
+        npx supabase init
+        `
+
+    2. Add environmental variables:
+        ```
+        .env.sample file provides an example of the env variables used
+        ```
+
+    3. Start the supabase service:
+        ```bash
+        npx supabase start
+        ```
+
+You can access the Supabase studio dashboard by going to:
+Studio URL: http://127.0.0.1:54323
 
 ## Usage
 

@@ -54,3 +54,6 @@ ToDos.md
 app.log
 app-errors.log
 preview_envs.txt
+.env.development
+.env.production
+package-lock.json
