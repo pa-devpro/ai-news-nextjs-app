@@ -2,6 +2,7 @@ import React from 'react';
 import { PostsProvider } from '@/context/NewsContext';
 import { PostsModule } from '@/domain/posts/PostsModule';
 import { samplePosts } from '@/news_sample/sample-posts';
+import logger from '@/lib/logger';
 
 const postsModule = PostsModule.create();
 
@@ -18,7 +19,7 @@ export default async function PostsProviderWrapper({
       </PostsProvider>
     );
   } catch (error) {
-    console.error('Error while fetching posts', error);
+    logger.error('Error while fetching posts', error);
     return <PostsProvider posts={samplePosts}>{children}</PostsProvider>;
   }
 }

@@ -4,13 +4,13 @@ import styles from './Navbar.module.css';
 import ThemeButton from '../theme-button/ThemeButton';
 import Link from 'next/link';
 import { NavbarWrapper } from 'react-show-hide-sticky-navbar';
-
 import { IconSearch, IconX } from '@tabler/icons-react';
 import { siteInfo } from '@/lib/data';
 import { useState } from 'react';
-import { useSession, signOut } from 'next-auth/react';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { FaSignOutAlt } from 'react-icons/fa';
+import { logout } from '@/lib/auth';
 
 function Navbar() {
   const router = useRouter();
@@ -65,13 +65,12 @@ function Navbar() {
             >
               <h1>{siteInfo.title}</h1>
             </Link>
-
             <div onClick={handleSearchClick} className={styles.iconContainer}>
               <IconSearch size={20} />
               {session.data && (
                 <FaSignOutAlt
                   className={styles.signOutIcon}
-                  onClick={() => signOut()}
+                  onClick={() => logout()}
                 />
               )}
             </div>

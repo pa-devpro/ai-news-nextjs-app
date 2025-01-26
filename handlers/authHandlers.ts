@@ -1,12 +1,13 @@
 import { signup, signin, forgotPassword } from '@/actions/auth';
 import { FormState } from '@/lib/definitions';
+import logger from '@/lib/logger';
 import { RegisteringSuccess, RegisteringError } from '@/reducers/formReducer';
 import { SignInResponse } from 'next-auth/react';
 
 export const handleForgotPassword = async (email: string) => {
   const result = await forgotPassword(email);
   if (result.error) {
-    console.error('Forgot Password error:', result.error);
+    logger.error('Forgot Password error:', result.error);
     return { error: result.error };
   }
   return { success: result.success };
@@ -49,7 +50,7 @@ export const handleSignIn = async (
 ) => {
   const result = await signin(email, password);
   if (result.error) {
-    console.error('Sign in error:', result.error);
+    logger.error('Sign in error:', result.error);
     return { error: result.error };
   }
   await nextAuthSignIn('credentials', { email, password });

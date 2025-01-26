@@ -7,6 +7,12 @@ import { usePathname } from 'next/navigation';
 
 function Menu() {
   const pathname = usePathname();
+  const isDashboard = pathname.includes('/dashboard');
+
+  if (isDashboard) {
+    return null;
+  }
+
   return (
     <div className={styles.Menu}>
       {menuItems.map((item) => (
