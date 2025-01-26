@@ -1,21 +1,10 @@
 import { queryOptions, useQuery } from '@tanstack/react-query';
 import { QueryConfig } from '@/lib/react-query';
 import { Profile } from '@/types/supabase';
+import { api } from '@/lib/api-client';
 
-const getUsers = async () => {
-  const response = await fetch('/api/admin/users', {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-  });
-
-  if (!response.ok) {
-    const error = await response.json();
-    throw new Error(error.message);
-  }
-
-  const data: Profile[] = await response.json();
-
-  return data;
+const getUsers = () => {
+  return api.get<Profile[]>('/admin/users');
 };
 
 export const getUsersQueryOptions = () => {
