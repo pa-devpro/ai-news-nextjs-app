@@ -40,27 +40,27 @@ export type Database = {
       profiles: {
         Row: {
           bio: string | null;
-          created_at: string | null;
-          email: string | null;
+          created_at: string;
+          email: string;
           id: string;
-          name: string | null;
-          role: string | null;
+          name: string;
+          role: string;
         };
         Insert: {
           bio?: string | null;
-          created_at?: string | null;
-          email?: string | null;
+          created_at?: string;
+          email: string;
           id: string;
-          name?: string | null;
-          role?: string | null;
+          name: string;
+          role?: string;
         };
         Update: {
           bio?: string | null;
-          created_at?: string | null;
-          email?: string | null;
+          created_at?: string;
+          email?: string;
           id?: string;
-          name?: string | null;
-          role?: string | null;
+          name?: string;
+          role?: string;
         };
         Relationships: [];
       };
