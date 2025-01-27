@@ -1,7 +1,7 @@
-import Link from 'next/link';
-import styles from './Footer.module.css';
-import { siteInfo } from '@/lib/data';
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
+import Link from 'next/link';
+import { siteInfo } from '@/lib/data';
+import styles from './Footer.module.css';
 
 function Footer() {
   function getYear() {
@@ -11,17 +11,6 @@ function Footer() {
   return (
     <footer className={styles.FooterContainer}>
       <div className={styles.FooterContent}>
-        <div className={styles.FooterLinks}>
-          <Link href="/" style={{ color: 'inherit' }}>
-            Home
-          </Link>
-          <Link href="/about" style={{ color: 'inherit' }}>
-            About
-          </Link>
-          <Link href="/contact" style={{ color: 'inherit' }}>
-            Contact
-          </Link>
-        </div>
         <div className={styles.FooterSocial}>
           <Link
             href="https://github.com/pa-devpro"
@@ -30,13 +19,6 @@ function Footer() {
           >
             <FaGithub />
           </Link>
-          {/* <Link
-            href="#"
-            target="_blank"
-            style={{ color: 'inherit' }}
-          >
-            <FaTwitter />
-          </Link> */}
           <Link href="#" target="_blank" style={{ color: 'inherit' }}>
             <FaLinkedin />
           </Link>

@@ -69,12 +69,6 @@ body {
   color: var(--primary);
 }
 
-body {
-  position: relative;
-  margin: auto;
-  min-height: 100vh;
-}
-
 .Body {
   display: flex;
   flex-direction: column;
