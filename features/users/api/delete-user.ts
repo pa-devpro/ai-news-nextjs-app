@@ -9,7 +9,7 @@ export type DeleteUserDTO = {
 };
 
 const deleteUser = ({ userId }: DeleteUserDTO) => {
-  return api.delete(`/admin/users`, { body: { userId } });
+  return api.delete(`/admin/users?userId=${userId}`);
 };
 
 type UseDeleteUserOptions = {

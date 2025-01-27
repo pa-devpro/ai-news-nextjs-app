@@ -38,7 +38,12 @@ export async function GET() {
  */
 export async function DELETE(request: Request) {
   // Extract userId from request body
-  const { userId } = await request.json();
+  const { searchParams } = new URL(request.url);
+  const userId = searchParams.get('userId');
+
+  if (!userId) {
+    return NextResponse.json({ error: 'User ID is required' }, { status: 400 });
+  }
 
   // Step 1: Delete user from auth.users
   const { error } = await supabaseAdmin.auth.admin.deleteUser(userId, true);
