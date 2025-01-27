@@ -3,6 +3,11 @@
   flex-direction: column;
   background-color: var(--secondary);
   opacity: 95%;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
 .NavbarHeader {
@@ -13,7 +18,7 @@
   width: 75%;
   margin: 1rem auto 0.15rem auto;
   height: 100%;
-  /* gap: 0.5rem; */
+  position: static;
 }
 
 .NavbarContent {
@@ -24,138 +29,61 @@
   max-width: 1200px;
 }
 
-/* xl min width 1280px */
-@media (width <=1280px) {
-  .NavbarHeader {
-    width: 90% !important;
-  }
-
-  .NavSearchContainer {
-    width: 90% !important;
-  }
+.NavHeaderIconsLeft,
+.NavHeaderIconsRight {
+  display: flex;
+  align-items: center;
 }
 
 .NavHeaderIconsLeft {
+  flex: 1;
+}
+
+.center {
+  flex: 2;
   display: flex;
-  flex-direction: row;
+  justify-content: center;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.NavHeaderIconsRight {
+  flex: 3;
+  justify-content: flex-end;
+  gap: 1rem;
+}
+
+.logo {
+  font-size: 1.5rem;
+  font-weight: bold;
+  text-align: center;
+}
+
+.searchContainer {
+  display: flex;
+  align-items: center;
+}
+
+.searchBox {
+  display: flex;
+  align-items: center;
   gap: 0.5rem;
 }
 
-.IconWrapper {
-  padding: 0.75rem;
-  border-radius: 0.75rem;
-  cursor: pointer;
-}
-
-.IconWrapper:hover {
-  background-color: var(--primary-100);
-}
-
-.DropdownMenu {
-  width: 8rem;
-  color: var(--primary-600);
-  position: absolute;
-  top: 1rem;
+.searchBox input {
   padding: 0.5rem;
-  background-color: var(--secondary);
-  border-radius: 1rem;
-  box-shadow: 0px 5px 40px var(--primary-300);
-  z-index: 9;
+  border: 1px solid var(--color-border);
+  border-radius: 0.25rem;
 }
 
-.DropdownMenu .Options {
-  display: flex;
-  flex-direction: row;
-  gap: 2rem;
-}
-
-.OptionWrapper {
-  width: 100%;
-  padding: 0.75rem;
-  border-radius: 0.75rem;
+.loginButton,
+.logoutButton {
+  background: none;
+  border: none;
   cursor: pointer;
-}
-
-.OptionWrapper:hover {
-  color: var(--primary);
-  background-color: var(--primary-100);
-}
-
-.NavSearchForm {
-  height: 100%;
-  width: 100%;
-}
-
-.NavSearchInput {
-  border: 0;
-  height: 100%;
-  width: 100%;
-  background-color: var(--primary-100);
-  font-size: 1.15rem;
-  color: var(--primary);
-  padding: 0 3rem;
-}
-
-.NavSearchInput:focus {
-  outline: none;
-}
-
-.NavSearch::placeholder {
-  color: var(--primary-600);
-  font-size: 1.15rem;
-}
-
-.NavSearchContainer {
-  position: relative;
-  height: 100%;
-  width: 75%;
-  margin: auto;
-  color: var(--primary);
-}
-
-.StartingIcon {
-  position: absolute;
-  top: 50%;
-  left: 1rem;
-  transform: translateY(-50%);
-  color: var(--primary);
-}
-
-.TrailingIconWrapper {
-  position: absolute;
-  top: 50%;
-  right: 1rem;
-  transform: translateY(-50%);
-  color: var(--primary);
-  padding: 0.75rem;
-  cursor: pointer;
-}
-
-.TrailingIconWrapper:hover {
-  background-color: var(--primary-300);
-  border-radius: 0.75rem;
-}
-
-.navContent {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 10px 20px;
-  background-color: #fff;
-  /* Other navbar styles */
-}
-
-.iconContainer {
+  font-size: 1rem;
   display: flex;
   align-items: center;
-}
-
-.iconContainer > * {
-  cursor: pointer;
-}
-
-.signOutIcon {
-  margin-left: 10px;
-  cursor: pointer;
-  /* Additional styles for the sign-out icon */
+  gap: 0.5rem;
 }

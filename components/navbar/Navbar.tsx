@@ -1,84 +1,63 @@
 'use client';
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './Navbar.module.css';
 import ThemeButton from '../theme-button/ThemeButton';
 import Link from 'next/link';
-import { NavbarWrapper } from 'react-show-hide-sticky-navbar';
 import { IconSearch, IconX } from '@tabler/icons-react';
 import { siteInfo } from '@/lib/data';
-import { useState } from 'react';
-import { useSession } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
+import { useSession, signOut } from 'next-auth/react';
 import { FaSignOutAlt } from 'react-icons/fa';
-import { logout } from '@/lib/auth';
+import { Dialog, DialogTrigger, DialogContent } from '@radix-ui/react-dialog';
+import AuthenticationForm from '../authentication/AuthenticationForm';
 
 function Navbar() {
-  const router = useRouter();
+  const { data: session } = useSession();
   const [searchOpen, setSearchOpen] = useState(false);
-  const session = useSession();
-
-  const handleSearchClick = () => {
-    setSearchOpen(!searchOpen);
-  };
-
-  function handleSearchSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const searchKeyword = (e.target as HTMLFormElement).searchKeyword.value;
-    router.push(`/search/${searchKeyword}`);
-    setSearchOpen(false);
-  }
+  const [authDialogOpen, setAuthDialogOpen] = useState(false);
 
   return (
-    <NavbarWrapper>
-      <nav style={{ height: '70px' }} className={styles.Navbar}>
-        {searchOpen ? (
-          <div className={styles.NavSearchContainer}>
-            <IconSearch className={styles.StartingIcon} />
-            <form
-              onSubmit={handleSearchSubmit}
-              className={styles.NavSearchForm}
-            >
-              <input
-                className={styles.NavSearchInput}
-                type="text"
-                name="searchKeyword"
-                placeholder="Search"
-                required
-              />
-            </form>
-            <div
-              onClick={handleSearchClick}
-              className={styles.TrailingIconWrapper}
-            >
-              <IconX className={styles.TrailingIcon} />
-            </div>
+    <div className={styles.Navbar}>
+      <div className={styles.NavbarHeader}>
+        <div className={styles.NavHeaderIconsLeft}>
+          <ThemeButton />
+        </div>
+        <div className={styles.center}>
+          <Link href="/" className={styles.logo}>
+            {siteInfo.title}
+          </Link>
+        </div>
+        <div className={styles.NavHeaderIconsRight}>
+          <div className={styles.searchContainer}>
+            {searchOpen ? (
+              <div className={styles.searchBox}>
+                <input type="text" placeholder="Search..." />
+                <IconX onClick={() => setSearchOpen(false)} />
+              </div>
+            ) : (
+              <IconSearch onClick={() => setSearchOpen(true)} />
+            )}
           </div>
-        ) : (
-          <div className={styles.NavbarHeader}>
-            <div className={styles.NavHeaderIconsLeft}>
-              <ThemeButton />
-            </div>
+          {session ? (
+            <>
+              <Link href="/dashboard">Dashboard</Link>
 
-            <Link
-              style={{ color: 'inherit', textDecoration: 'inherit' }}
-              href="/"
-            >
-              <h1>{siteInfo.title}</h1>
-            </Link>
-            <div onClick={handleSearchClick} className={styles.iconContainer}>
-              <IconSearch size={20} />
-              {session.data && (
-                <FaSignOutAlt
-                  className={styles.signOutIcon}
-                  onClick={() => logout()}
-                />
-              )}
-            </div>
-          </div>
-        )}
-        <hr></hr>
-      </nav>
-    </NavbarWrapper>
+              <button onClick={() => signOut()} className={styles.logoutButton}>
+                <FaSignOutAlt />
+              </button>
+            </>
+          ) : (
+            <Dialog open={authDialogOpen} onOpenChange={setAuthDialogOpen}>
+              <DialogTrigger asChild>
+                <button className={styles.loginButton}>Login</button>
+              </DialogTrigger>
+              <DialogContent>
+                <AuthenticationForm />
+              </DialogContent>
+            </Dialog>
+          )}
+        </div>
+      </div>
+    </div>
   );
 }
 

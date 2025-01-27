@@ -120,7 +120,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
               <Button
                 variant="outline"
                 size="icon"
-                className="overflow-hidden rounded-full"
+                className="overflow-hidden rounded-full focus:outline-none"
               >
                 <span className="sr-only">Open user menu</span>
                 <User2 className="size-6 rounded-full" />

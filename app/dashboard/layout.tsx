@@ -1,6 +1,7 @@
 import { ReactNode } from 'react';
 
 import { DashboardLayout } from './_components/dashboard-layout';
+import ProtectedRoute from '@/components/ProtectedRoute';
 
 export const metadata = {
   title: 'Dashboard',
@@ -8,7 +9,11 @@ export const metadata = {
 };
 
 const AppLayout = ({ children }: { children: ReactNode }) => {
-  return <DashboardLayout>{children}</DashboardLayout>;
+  return (
+    <ProtectedRoute>
+      <DashboardLayout>{children}</DashboardLayout>;
+    </ProtectedRoute>
+  );
 };
 
 export default AppLayout;
