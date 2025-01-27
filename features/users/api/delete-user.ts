@@ -3,6 +3,7 @@ import { UseMutationOptions } from '@tanstack/react-query';
 import { getUsersQueryOptions } from './get-users';
 import { api } from '@/lib/api-client';
 
+// Data Transfer Object for deleting a user
 export type DeleteUserDTO = {
   userId: string;
 };

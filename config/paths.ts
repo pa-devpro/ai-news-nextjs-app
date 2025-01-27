@@ -27,6 +27,9 @@ export const paths = {
     profile: {
       getHref: () => '/dashboard/profile',
     },
+    newsArchive: {
+      getHref: () => '/dashboard/news-archive',
+    },
   },
   public: {
     discussion: {

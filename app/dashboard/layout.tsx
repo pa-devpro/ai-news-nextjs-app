@@ -11,7 +11,7 @@ export const metadata = {
 const AppLayout = ({ children }: { children: ReactNode }) => {
   return (
     <ProtectedRoute>
-      <DashboardLayout>{children}</DashboardLayout>;
+      <DashboardLayout>{children}</DashboardLayout>
     </ProtectedRoute>
   );
 };
