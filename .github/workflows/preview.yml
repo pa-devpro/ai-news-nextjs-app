@@ -16,7 +16,22 @@ on:
       - main
 
 jobs:
+  Migration:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Run Migrations
+        run: |
+          supabase link --project-ref ${{ secrets.SUPABASE_PROJECT_ID }}
+          supabase db push
+
   Test:
+    needs: [Migration]
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
