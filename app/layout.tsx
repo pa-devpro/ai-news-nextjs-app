@@ -4,12 +4,12 @@ import '../styles/main.css';
 import Navbar from '@/components/navbar/Navbar';
 import NextTopLoader from 'nextjs-toploader';
 import Footer from '@/components/footer/Footer';
-import { siteInfo } from '@/lib/data';
 import Menu from '@/components/menu/Menu';
 import ClientErrorBoundary from '@/components/ClientErrorBoundary';
 import PostsProviderWrapper from '@/components/PostsProviderWrapper';
 import SessionProviderWrapper from '@/components/SessionProviderWrapper';
 import QueryClientProviderWrapper from '@/components/QueryClientProviderWrapper';
+import { siteInfo } from '@/config/constants';
 
 export const metadata: Metadata = {
   title: siteInfo.title,

@@ -3,7 +3,7 @@ import { render, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { usePosts } from '@/features/news-posts/context/NewsContext';
 import Home from './page';
-import { mockPosts } from '@/news_sample/mockPosts';
+import { mockPosts } from '@/features/news-posts/fixtures/mockPosts';
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),
 }));
