@@ -1,4 +1,4 @@
-import { FormState } from '@/lib/definitions';
+import { FormState } from '@/features/auth/types/definitions';
 
 export const initialFormState: FormState = {
   user: undefined,

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { PostsProvider, usePosts } from './NewsContext';
-import { mockPosts } from '@/news_sample/mockPosts';
+import { mockPosts } from '@/features/news-posts/fixtures/mockPosts';
 
 const TestComponent = () => {
   const { posts } = usePosts();

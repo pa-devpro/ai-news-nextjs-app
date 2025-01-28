@@ -1,4 +1,4 @@
-import { getMarkdownContent } from '@/lib/markdown';
+import { getMarkdownContent } from '@/utils/markdown';
 import MarkdownWrapper from '@/components/markdown-wrapper/MarkdownWrapper';
 import styles from './about.module.css';
 

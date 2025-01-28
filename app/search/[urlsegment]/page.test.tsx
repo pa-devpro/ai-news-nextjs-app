@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import { usePosts } from '@/features/news-posts/context/NewsContext';
 import Search from './page';
 import { useRouter } from 'next/navigation';
-import { mockPosts } from '@/news_sample/mockPosts';
+import { mockPosts } from '@/features/news-posts/fixtures/mockPosts';
 
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),

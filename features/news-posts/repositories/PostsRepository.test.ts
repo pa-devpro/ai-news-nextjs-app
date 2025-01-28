@@ -1,5 +1,5 @@
 import { PostsRepository } from './PostsRepository';
-import { mockPosts } from '@/news_sample/mockPosts';
+import { mockPosts } from '@/features/news-posts/fixtures/mockPosts';
 
 jest.mock('./PostsRepository', () => {
   return {

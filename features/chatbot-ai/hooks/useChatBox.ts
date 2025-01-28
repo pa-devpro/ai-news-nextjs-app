@@ -1,5 +1,5 @@
 import { useState, useCallback } from 'react';
-import { handleSend } from '../lib/chatUtils';
+import { handleSend } from '../utils/chatUtils';
 
 type UseChatBoxProps = {
   aiContent: string;

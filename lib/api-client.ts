@@ -2,7 +2,7 @@
 
 import { useNotifications } from '@/components/dashboard/ui/notifications';
 import { env } from '@/config/env';
-import logger from './logger';
+import logger from '../utils/logger';
 
 type RequestOptions = {
   method?: string;

@@ -25,9 +25,3 @@ export const menuItems: IMenuItem[] = [
     href: '/contact',
   },
 ];
-
-export const siteInfo = {
-  title: 'News AI',
-  description:
-    'Understand and question the news by talking with the article directly',
-};

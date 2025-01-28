@@ -1,5 +1,5 @@
 import { Post } from '@/features/news-posts/types/Post';
-import logger from '@/lib/logger';
+import logger from '@/utils/logger';
 import { getAIContent } from '@/lib/openai-service';
 import { useState, useEffect } from 'react';
 

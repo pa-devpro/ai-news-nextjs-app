@@ -1,6 +1,6 @@
 import { queryOptions, useQuery } from '@tanstack/react-query';
 import { QueryConfig } from '@/lib/react-query';
-import { Profile } from '@/types/supabase';
+import { Profile } from '@/lib/types/supabase-types';
 import { api } from '@/lib/api-client';
 
 const getUsers = () => {

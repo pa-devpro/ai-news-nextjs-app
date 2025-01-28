@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { supabaseAdmin } from '@/lib/supabaseAdminClient';
 import { supabase } from '@/lib/supabaseClient';
-import { Profile } from '@/types/supabase';
+import { Profile } from '@/lib/types/supabase-types';
 import { PostgrestError } from '@supabase/supabase-js';
 
 type ProfilesResponse = {

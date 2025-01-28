@@ -4,11 +4,11 @@ import styles from './Navbar.module.css';
 import ThemeButton from '../theme-button/ThemeButton';
 import Link from 'next/link';
 import { IconSearch, IconX } from '@tabler/icons-react';
-import { siteInfo } from '@/lib/data';
 import { useSession, signOut } from 'next-auth/react';
 import { FaSignOutAlt } from 'react-icons/fa';
 import AuthenticationForm from '../../features/auth/components/AuthenticationForm';
 import { Dialog, DialogContent, DialogTrigger } from '../dashboard/ui/dialog';
+import { siteInfo } from '@/config/constants';
 
 function Navbar() {
   const { data: session } = useSession();

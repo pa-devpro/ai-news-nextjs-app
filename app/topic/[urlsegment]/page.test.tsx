@@ -5,7 +5,7 @@ import { useParams } from 'next/navigation';
 import { usePosts } from '@/features/news-posts/context/NewsContext';
 import TopicPage from './page'; // Adjust the import path as needed
 import { useRouter } from 'next/router';
-import { mockPosts } from '@/news_sample/mockPosts';
+import { mockPosts } from '@/features/news-posts/fixtures/mockPosts';
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),

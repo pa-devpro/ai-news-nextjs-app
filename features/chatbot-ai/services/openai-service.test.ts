@@ -6,7 +6,7 @@ import {
 import { ChatOpenAI } from '@langchain/openai';
 import { ChatPromptTemplate } from '@langchain/core/prompts';
 
-jest.mock('@/lib/logger', () => ({
+jest.mock('@/utils/logger', () => ({
   info: jest.fn(),
 }));
 

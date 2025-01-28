@@ -13,7 +13,7 @@ import {
   DialogTrigger,
 } from '../dialog';
 import { Button } from '../../button';
-import { useDisclosure } from '@/hooks/use-disclosure';
+import { useDisclosure } from '@/lib/hooks/use-disclosure';
 
 export type ConfirmationDialogProps = {
   triggerButton: React.ReactElement;

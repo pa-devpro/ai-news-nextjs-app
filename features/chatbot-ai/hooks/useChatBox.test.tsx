@@ -1,10 +1,10 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { handleSend } from '../lib/chatUtils';
 import useChatBox from './useChatBox';
+import { handleSend } from '../utils/chatUtils';
 
-jest.mock('../lib/chatUtils', () => ({
+jest.mock('../utils/chatUtils', () => ({
   handleSend: jest.fn(
     (question, aiContent, setMessages, setResponses, setAlertMessages) => {
       setMessages((prevMessages: string[]) => [...prevMessages, question]);

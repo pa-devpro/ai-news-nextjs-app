@@ -1,6 +1,6 @@
 import { Post } from '../../../features/news-posts/types/Post';
-import { toKebabCase } from '@/lib/utils';
-import logger from '@/lib/logger';
+import { toKebabCase } from '@/utils/format-text';
+import logger from '@/utils/logger';
 
 type NewsApiResponse = {
   status: string;

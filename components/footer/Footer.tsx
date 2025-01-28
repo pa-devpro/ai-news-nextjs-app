@@ -1,7 +1,7 @@
 import { FaGithub, FaLinkedin } from 'react-icons/fa';
 import Link from 'next/link';
-import { siteInfo } from '@/lib/data';
 import styles from './Footer.module.css';
+import { siteInfo } from '@/config/constants';
 
 function Footer() {
   function getYear() {

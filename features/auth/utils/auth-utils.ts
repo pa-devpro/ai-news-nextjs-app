@@ -1,7 +1,7 @@
 import { signOut } from 'next-auth/react';
 import { queryOptions, useQuery } from '@tanstack/react-query';
-import { Profile } from '@/types/supabase';
-import logger from '../../../lib/logger';
+import { Profile } from '@/lib/types/supabase-types';
+import logger from '../../../utils/logger';
 
 export const logout = async () => {
   try {

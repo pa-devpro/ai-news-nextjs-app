@@ -4,8 +4,8 @@ import { ChatOpenAI } from '@langchain/openai';
 import { ChatPromptTemplate } from '@langchain/core/prompts';
 import { MessageContent } from '@langchain/core/messages';
 import { Post } from '@/features/news-posts/types/Post';
-import logger from '@/lib/logger';
-import cache from './cache';
+import logger from '@/utils/logger';
+import cache from '@/lib/cache';
 
 const model = new ChatOpenAI({
   modelName: 'gpt-3.5-turbo',

@@ -2,7 +2,7 @@
 import MarkdownWrapper from '@/components/markdown-wrapper/MarkdownWrapper';
 import styles from './Article.module.css';
 import { Post } from '@/features/news-posts/types/Post';
-import { useAiContent } from '@/hooks/useAiContent';
+import { useAiContent } from '@/features/chatbot-ai/hooks/useAiContent';
 import { Spinner } from '@/components/dashboard/ui/spinner';
 
 interface NewsAiContentProps {

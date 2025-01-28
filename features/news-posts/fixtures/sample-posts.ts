@@ -1,5 +1,5 @@
 import { Post } from '@/features/news-posts/types/Post';
-import { toKebabCase } from '@/lib/utils';
+import { toKebabCase } from '@/utils/format-text';
 
 export const samplePosts: Post[] = [
   {

@@ -1,4 +1,4 @@
-import { SignupFormSchema, FormState } from '../../../lib/definitions';
+import { SignupFormSchema, FormState } from '../types/definitions';
 import { supabase } from '@/lib/supabaseClient';
 
 export const BASE_URL =

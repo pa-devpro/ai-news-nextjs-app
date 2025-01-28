@@ -1,6 +1,6 @@
 import { signup, signin, forgotPassword } from '@/features/auth/actions/auth';
-import { FormState } from '@/lib/definitions';
-import logger from '@/lib/logger';
+import { FormState } from '@/features/auth/types/definitions';
+import logger from '@/utils/logger';
 import {
   RegisteringSuccess,
   RegisteringError,
