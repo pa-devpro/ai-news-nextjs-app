@@ -1,7 +1,10 @@
-import { signup, signin, forgotPassword } from '@/actions/auth';
+import { signup, signin, forgotPassword } from '@/features/auth/actions/auth';
 import { FormState } from '@/lib/definitions';
 import logger from '@/lib/logger';
-import { RegisteringSuccess, RegisteringError } from '@/reducers/formReducer';
+import {
+  RegisteringSuccess,
+  RegisteringError,
+} from '@/features/auth/reducers/authFormReducer';
 import { SignInResponse } from 'next-auth/react';
 
 export const handleForgotPassword = async (email: string) => {

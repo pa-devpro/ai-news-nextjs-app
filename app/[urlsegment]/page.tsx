@@ -9,6 +9,7 @@ import { usePosts } from '@/context/NewsContext';
 import { useParams } from 'next/navigation';
 import MarkdownWrapper from '@/components/markdown-wrapper/MarkdownWrapper';
 import ProtectedRoute from '@/components/ProtectedRoute';
+import { Spinner } from '@/components/dashboard/ui/spinner';
 
 const NewsAiContent = dynamic(() => import('./NewsAiContent'));
 const ChatBox = dynamic(() => import('@/components/chat-box/ChatBox'));
@@ -62,7 +63,7 @@ const PostPage = () => {
       <div className={styles.ArticleBody}>
         <MarkdownWrapper>{post.body.raw}</MarkdownWrapper>
       </div>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Spinner />}>
         <ProtectedRoute>
           <NewsAiContent post={post} />
           <ChatBox post={post} />

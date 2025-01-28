@@ -3,12 +3,15 @@
 import { useReducer, useState } from 'react';
 import { signIn as nextAuthSignIn } from 'next-auth/react';
 import Image from 'next/image';
-import { formReducer, initialFormState } from '@/reducers/formReducer';
+import {
+  formReducer,
+  initialFormState,
+} from '@/features/auth/reducers/authFormReducer';
 import {
   handleForgotPassword,
   handleRegistration,
   handleSignIn,
-} from '@/handlers/authHandlers';
+} from '@/features/auth/handlers/authHandlers';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 
 const LoginForm = () => {

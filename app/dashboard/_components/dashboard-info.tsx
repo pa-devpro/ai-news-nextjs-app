@@ -1,7 +1,7 @@
 'use client';
 
 import { Spinner } from '@/components/dashboard/ui/spinner';
-import { useUserProfile } from '@/lib/auth';
+import { useUserProfile } from '@/features/auth/utils/auth-utils';
 
 export const DashboardInfo = () => {
   const { data: user, isLoading } = useUserProfile();

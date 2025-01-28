@@ -1,6 +1,6 @@
 'use client';
-import { BASE_URL } from '@/actions/auth';
-import AuthenticationForm from '@/components/authentication/AuthenticationForm';
+import { BASE_URL } from '@/features/auth/actions/auth';
+import AuthenticationForm from '@/features/auth/components/AuthenticationForm';
 import { Suspense } from 'react';
 
 const LoginPage = () => {

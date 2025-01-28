@@ -1,4 +1,4 @@
-import { SignupFormSchema, FormState } from '../lib/definitions';
+import { SignupFormSchema, FormState } from '../../../lib/definitions';
 import { supabase } from '@/lib/supabaseClient';
 
 export const BASE_URL =
@@ -54,7 +54,7 @@ export async function signup(
           data: {
             full_name: name,
           },
-          emailRedirectTo: EMAIL_REDIRECT_TO, // Set the redirect URL here
+          emailRedirectTo: EMAIL_REDIRECT_TO,
         },
       }),
     );
@@ -94,7 +94,7 @@ export async function forgotPassword(
 ): Promise<{ success?: string; error?: string }> {
   try {
     const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: RESET_PASSWORD_REDIRECT_TO, // Set the redirect URL here
+      redirectTo: RESET_PASSWORD_REDIRECT_TO,
     });
 
     if (error) {

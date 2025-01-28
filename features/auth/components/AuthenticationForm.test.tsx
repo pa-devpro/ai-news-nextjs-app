@@ -1,13 +1,13 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import AuthenticationForm from './AuthenticationForm';
-import * as authHandlers from '@/handlers/authHandlers';
+import * as authHandlers from '@/features/auth/handlers/authHandlers';
 import { signIn } from 'next-auth/react';
 
 jest.mock('next-auth/react', () => ({
   signIn: jest.fn(),
 }));
 
-jest.mock('@/handlers/authHandlers');
+jest.mock('@/features/auth/handlers/authHandlers');
 
 describe('AuthenticationForm', () => {
   beforeEach(() => {

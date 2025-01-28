@@ -4,7 +4,7 @@ import { ConfirmationDialog } from '@/components/dashboard/ui/dialog/confirmatio
 import { useDeleteUser } from '../api/delete-user';
 import { useNotifications } from '@/components/dashboard/ui/notifications';
 import { Button } from '@/components/dashboard/ui/button';
-import { useUserProfile } from '@/lib/auth';
+import { useUserProfile } from '@/features/auth/utils/auth-utils';
 
 type DeleteUserProps = {
   id: string;

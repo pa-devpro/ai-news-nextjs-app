@@ -1,8 +1,8 @@
 'use client';
 
 import { Spinner } from '@/components/dashboard/ui/spinner';
-import { useUserProfile } from '@/lib/auth';
-import { canViewUsers } from '@/lib/authorization';
+import { useUserProfile } from '@/features/auth/utils/auth-utils';
+import { canViewUsers } from '@/features/auth/utils/authorization';
 
 export const AdminGuard = ({ children }: { children: React.ReactNode }) => {
   const user = useUserProfile();

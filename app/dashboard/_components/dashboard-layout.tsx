@@ -19,7 +19,7 @@ import {
 } from '@/components/dashboard/ui/dropdown';
 import { paths } from '@/config/paths';
 import { cn } from '@/utils/cn';
-import { logout, useUserProfile } from '@/lib/auth';
+import { logout, useUserProfile } from '@/features/auth/utils/auth-utils';
 import { Spinner } from '@/components/dashboard/ui/spinner';
 
 type SideNavigationItem = {

@@ -13,6 +13,9 @@ export default async function PostsProviderWrapper({
 }) {
   try {
     const posts = await postsModule.getAllPosts();
+    if (!posts) {
+      throw new Error('Failed to fetch posts');
+    }
     return (
       <PostsProvider posts={[...posts, ...samplePosts]}>
         {children}

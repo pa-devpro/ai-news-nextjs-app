@@ -1,6 +1,6 @@
 'use client';
 
-import { useUserProfile } from '@/lib/auth';
+import { useUserProfile } from '@/features/auth/utils/auth-utils';
 // import { UpdateProfile } from '@/features/users/components/update-profile';
 
 type EntryProps = {
