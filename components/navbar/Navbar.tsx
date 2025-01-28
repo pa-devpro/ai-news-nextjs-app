@@ -7,8 +7,8 @@ import { IconSearch, IconX } from '@tabler/icons-react';
 import { siteInfo } from '@/lib/data';
 import { useSession, signOut } from 'next-auth/react';
 import { FaSignOutAlt } from 'react-icons/fa';
-import { Dialog, DialogTrigger, DialogContent } from '@radix-ui/react-dialog';
-import AuthenticationForm from '../authentication/AuthenticationForm';
+import AuthenticationForm from '../../features/auth/components/AuthenticationForm';
+import { Dialog, DialogContent, DialogTrigger } from '../dashboard/ui/dialog';
 
 function Navbar() {
   const { data: session } = useSession();
@@ -50,7 +50,7 @@ function Navbar() {
               <DialogTrigger asChild>
                 <button className={styles.loginButton}>Login</button>
               </DialogTrigger>
-              <DialogContent>
+              <DialogContent className={styles.dialogContent}>
                 <AuthenticationForm />
               </DialogContent>
             </Dialog>

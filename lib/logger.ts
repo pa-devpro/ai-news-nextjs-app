@@ -1,5 +1,22 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createLogger, format, transports } from 'winston';
 import { TransformableInfo } from 'logform';
+import TransportStream from 'winston-transport';
+
+type SetTimeoutTransportOptions = TransportStream.TransportStreamOptions;
+
+class SetTimeoutTransport extends TransportStream {
+  constructor(opts?: SetTimeoutTransportOptions) {
+    super(opts);
+  }
+
+  log(info: any, callback: () => void) {
+    setTimeout(() => {
+      this.emit('logged', info);
+      callback();
+    }, 0);
+  }
+}
 
 const initializeLogger = () =>
   createLogger({
@@ -28,7 +45,7 @@ const initializeLogger = () =>
         return `${timestamp} ${level}: ${message}`;
       }),
     ),
-    transports: [new transports.Console()],
+    transports: [new transports.Console(), new SetTimeoutTransport()],
   });
 const logger = initializeLogger();
 

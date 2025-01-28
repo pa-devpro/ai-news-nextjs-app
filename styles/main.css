@@ -122,6 +122,13 @@ hr {
   background-color: var(--primary-100);
 }
 
+.spinner-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
 /* xl min width 1280px */
 @media (width <=1280px) {
   .content {
@@ -148,3 +155,4 @@ hr {
     margin: 0 auto;
   }
 }
+
