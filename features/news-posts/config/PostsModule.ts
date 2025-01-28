@@ -1,5 +1,5 @@
-import { PostsRepository } from './repositories/PostsRepository';
-import { PostsService } from './services/PostsService';
+import { PostsRepository } from '../repositories/PostsRepository';
+import { PostsService } from '../services/PostsService';
 
 export class PostsModule {
   static create() {

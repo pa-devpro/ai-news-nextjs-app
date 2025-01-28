@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { usePathname } from 'next/navigation';
-import { usePosts } from '@/context/NewsContext';
+import { usePosts } from '@/features/news-posts/context/NewsContext';
 import Search from './page';
 import { useRouter } from 'next/navigation';
 import { mockPosts } from '@/news_sample/mockPosts';
@@ -11,7 +11,7 @@ jest.mock('next/navigation', () => ({
   usePathname: jest.fn(),
 }));
 
-jest.mock('@/context/NewsContext', () => ({
+jest.mock('@/features/news-posts/context/NewsContext', () => ({
   usePosts: jest.fn(),
 }));
 

@@ -3,8 +3,8 @@ import styles from './Search.module.css';
 import { usePathname } from 'next/navigation';
 import { compareDesc } from 'date-fns';
 import PostPreview from '@/components/post-preview/PostPreview';
-import { usePosts } from '@/context/NewsContext';
-import { Post } from '@/domain/posts/entities/Post';
+import { usePosts } from '@/features/news-posts/context/NewsContext';
+import { Post } from '@/features/news-posts/types/Post';
 
 function Search() {
   const pathname = usePathname();

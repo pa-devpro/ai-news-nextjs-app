@@ -1,5 +1,5 @@
 'use client';
-import { Post } from '@/domain/posts/entities/Post';
+import { Post } from '@/features/news-posts/types/Post';
 import React, { createContext, useContext, ReactNode } from 'react';
 
 interface NewsContextType {

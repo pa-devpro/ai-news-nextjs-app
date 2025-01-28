@@ -2,14 +2,15 @@
 import React from 'react';
 import { render, screen, act } from '@testing-library/react';
 import { useParams } from 'next/navigation';
-import { usePosts } from '../../context/NewsContext';
+import { usePosts } from '../../features/news-posts/context/NewsContext';
 import PostPage from './page'; // Ensure this path is correct and PostPage is a valid React component
 import { mockPosts } from '@/news_sample/mockPosts';
 import { useSession } from 'next-auth/react';
+
 jest.mock('next/navigation', () => ({
   useParams: jest.fn(),
 }));
-jest.mock('../../context/NewsContext', () => ({
+jest.mock('../../features/news-posts/context/NewsContext', () => ({
   usePosts: jest.fn(),
 }));
 jest.mock('next-auth/react', () => ({

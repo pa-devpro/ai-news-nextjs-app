@@ -1,7 +1,7 @@
 'use client';
 import MarkdownWrapper from '@/components/markdown-wrapper/MarkdownWrapper';
 import styles from './Article.module.css';
-import { Post } from '@/domain/posts/entities/Post';
+import { Post } from '@/features/news-posts/types/Post';
 import { useAiContent } from '@/hooks/useAiContent';
 import { Spinner } from '@/components/dashboard/ui/spinner';
 

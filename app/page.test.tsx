@@ -1,10 +1,9 @@
 import React from 'react';
 import { render, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
-import { usePosts } from '@/context/NewsContext';
+import { usePosts } from '@/features/news-posts/context/NewsContext';
 import Home from './page';
 import { mockPosts } from '@/news_sample/mockPosts';
-
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),
 }));
@@ -13,7 +12,7 @@ jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
 }));
 
-jest.mock('@/context/NewsContext', () => ({
+jest.mock('@/features/news-posts/context/NewsContext', () => ({
   usePosts: jest.fn(),
 }));
 

@@ -1,8 +1,8 @@
 'use client';
 import React, { useState, useEffect, Suspense } from 'react';
 import { compareDesc } from 'date-fns';
-import { usePosts } from '@/context/NewsContext';
-import { Post } from '@/domain/posts/entities/Post';
+import { usePosts } from '@/features/news-posts/context/NewsContext';
+import { Post } from '@/features/news-posts/types/Post';
 import { Spinner } from '@/components/dashboard/ui/spinner';
 
 const PostPreview = React.lazy(

@@ -5,7 +5,7 @@ import Link from 'next/link';
 import { format, parseISO } from 'date-fns';
 import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
-import { usePosts } from '@/context/NewsContext';
+import { usePosts } from '@/features/news-posts/context/NewsContext';
 import { useParams } from 'next/navigation';
 import MarkdownWrapper from '@/components/markdown-wrapper/MarkdownWrapper';
 import ProtectedRoute from '@/components/ProtectedRoute';

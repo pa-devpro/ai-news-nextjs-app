@@ -6,7 +6,7 @@ import { handleSend } from '@/lib/chatUtils';
 import { MessageList } from './MessageList';
 import useChatBox from '../../hooks/useChatBox';
 import { useAiContent } from '@/hooks/useAiContent';
-import { Post } from '@/domain/posts/entities/Post';
+import { Post } from '@/features/news-posts/types/Post';
 
 type ChatBoxProps = {
   post: Post;

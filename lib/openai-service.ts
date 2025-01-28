@@ -3,7 +3,7 @@
 import { ChatOpenAI } from '@langchain/openai';
 import { ChatPromptTemplate } from '@langchain/core/prompts';
 import { MessageContent } from '@langchain/core/messages';
-import { Post } from '@/domain/posts/entities/Post';
+import { Post } from '@/features/news-posts/types/Post';
 import logger from '@/lib/logger';
 import cache from './cache';
 

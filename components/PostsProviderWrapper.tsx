@@ -1,6 +1,6 @@
 import React from 'react';
-import { PostsProvider } from '@/context/NewsContext';
-import { PostsModule } from '@/domain/posts/PostsModule';
+import { PostsProvider } from '@/features/news-posts/context/NewsContext';
+import { PostsModule } from '@/features/news-posts/config/PostsModule';
 import { samplePosts } from '@/news_sample/sample-posts';
 import logger from '@/lib/logger';
 

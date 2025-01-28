@@ -1,5 +1,5 @@
 import { PostsRepository } from '../repositories/PostsRepository';
-import { Post } from '../entities/Post';
+import { Post } from '../../../features/news-posts/types/Post';
 
 export class PostsService {
   constructor(private newsRepository: PostsRepository) {}

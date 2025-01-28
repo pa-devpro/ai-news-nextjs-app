@@ -4,7 +4,7 @@ import styles from './PostPreview.module.css';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { format, parseISO } from 'date-fns';
-import { Post } from '@/domain/posts/entities/Post';
+import { Post } from '@/features/news-posts/types/Post';
 
 function PostPreview(post: Post) {
   const router = useRouter();

@@ -1,4 +1,4 @@
-import { Post } from '../entities/Post';
+import { Post } from '../../../features/news-posts/types/Post';
 import { toKebabCase } from '@/lib/utils';
 import logger from '@/lib/logger';
 

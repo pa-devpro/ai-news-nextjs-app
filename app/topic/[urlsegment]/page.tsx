@@ -2,7 +2,7 @@
 import styles from './Topic.module.css';
 import PostPreview from '@/components/post-preview/PostPreview';
 import { Suspense } from 'react';
-import { usePosts } from '@/context/NewsContext';
+import { usePosts } from '@/features/news-posts/context/NewsContext';
 import { useParams } from 'next/navigation';
 
 export default function Topic() {

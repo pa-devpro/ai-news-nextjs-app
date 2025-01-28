@@ -1,4 +1,4 @@
-import { Post } from '@/domain/posts/entities/Post';
+import { Post } from '@/features/news-posts/types/Post';
 import logger from '@/lib/logger';
 import { getAIContent } from '@/lib/openai-service';
 import { useState, useEffect } from 'react';

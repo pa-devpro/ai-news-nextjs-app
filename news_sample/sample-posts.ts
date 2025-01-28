@@ -1,4 +1,4 @@
-import { Post } from '@/domain/posts/entities/Post';
+import { Post } from '@/features/news-posts/types/Post';
 import { toKebabCase } from '@/lib/utils';
 
 export const samplePosts: Post[] = [
