@@ -10,6 +10,7 @@ import PostsProviderWrapper from '@/components/PostsProviderWrapper';
 import SessionProviderWrapper from '@/components/SessionProviderWrapper';
 import QueryClientProviderWrapper from '@/components/QueryClientProviderWrapper';
 import { siteInfo } from '@/config/constants';
+import '@/utils/polyfills'; // Import the polyfill
 
 export const metadata: Metadata = {
   title: siteInfo.title,
