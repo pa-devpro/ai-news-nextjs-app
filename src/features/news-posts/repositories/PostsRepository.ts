@@ -1,4 +1,4 @@
-import { Post } from '../../../features/news-posts/types/Post';
+import { Post } from '../types/Post';
 import { toKebabCase } from '@/utils/format-text';
 import logger from '@/utils/logger';
 

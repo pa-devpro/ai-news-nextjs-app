@@ -16,7 +16,6 @@ const getUserProfile = async () => {
     method: 'GET',
     headers: { 'Content-Type': 'application/json' },
   });
-  console.log('User Profile Response:', response);
 
   if (!response.ok) {
     const error = await response.json();

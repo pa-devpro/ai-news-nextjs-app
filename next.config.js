@@ -1,8 +1,4 @@
-/** @type {import('next').NextConfig} */
-
-const withBundleAnalyzer = require('@next/bundle-analyzer')({
-  enabled: process.env.ANALYZE === 'true',
-});
+const path = require('path');
 
 const nextConfig = {
   reactStrictMode: true,
@@ -17,32 +13,14 @@ const nextConfig = {
         pathname: '/**',
       },
     ],
-    unoptimized: false,
   },
-
-  webpack(config, { isServer }) {
-    if (!isServer) {
-      config.resolve.fallback = {
-        ...config.resolve.fallback,
-        fs: false,
-        module: false,
-      };
-    }
-
-    const originalEntry = config.entry;
-    config.entry = async () => {
-      const entries = await originalEntry();
-      if (
-        entries['main.js'] &&
-        !entries['main.js'].includes('./polyfills.js')
-      ) {
-        entries['main.js'].unshift('./polyfills.js');
-      }
-      return entries;
+  webpack: (config) => {
+    config.resolve.alias['@'] = path.resolve(__dirname, 'src');
+    config.resolve.fallback = {
+      fs: false,
     };
-
     return config;
   },
 };
 
-module.exports = withBundleAnalyzer(nextConfig);
+module.exports = nextConfig;

@@ -71,7 +71,6 @@ async function fetchApi<T>(
   }
 
   const fullUrl = buildUrlWithParams(`${env.API_URL}${url}`, params);
-  console.log('fullUrl', fullUrl);
   const response = await fetch(fullUrl, {
     method,
     headers: {
@@ -115,7 +114,6 @@ export const api = {
     return fetchApi<T>(url, { ...options, method: 'PATCH', body });
   },
   delete<T>(url: string, options?: RequestOptions): Promise<T> {
-    console.log('url', url);
     return fetchApi<T>(url, { ...options, method: 'DELETE' });
   },
 };

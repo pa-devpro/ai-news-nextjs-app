@@ -63,17 +63,14 @@ export const authConfig: NextAuthOptions = {
   },
   callbacks: {
     async jwt({ token, user }) {
-      console.log('jwt async funct:', { token, user });
       if (user) {
         token.id = user.id;
         token.email = user.email;
         token.name = user.name;
       }
-      console.log({ token });
       return token;
     },
     async session({ session, token }: { session: Session; token: JWT }) {
-      console.log('session async funct:', { session, token });
       if (token) {
         session.user = {
           email: token.email as string,
@@ -81,7 +78,6 @@ export const authConfig: NextAuthOptions = {
           image: session.user?.image || null,
         };
       }
-      console.log({ session });
       return session;
     },
   },

@@ -38,7 +38,6 @@ describe('AuthenticationForm', () => {
     expect(passwordInput).toHaveAttribute('type', 'password');
 
     const toggleButton = screen.getByTestId('toggle-password-visibility');
-    console.log({ toggleButton });
     fireEvent.click(toggleButton);
     expect(passwordInput).toHaveAttribute('type', 'text');
   });
