@@ -1,7 +1,7 @@
 'use client';
 
 import { useUserProfile } from '@/features/auth/utils/auth-utils';
-// import { UpdateProfile } from '@/features/users/components/update-profile';
+import { UpdateProfile } from '@/features/users/components/update-profile';
 
 type EntryProps = {
   label: string;
@@ -28,7 +28,7 @@ export const Profile = () => {
           <h3 className="text-lg font-medium leading-6 text-gray-900">
             User Information
           </h3>
-          {/* <UpdateProfile /> */}
+          <UpdateProfile />
         </div>
         <p className="mt-1 max-w-2xl text-sm text-gray-500">
           Personal details of the user.

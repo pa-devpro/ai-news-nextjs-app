@@ -126,7 +126,7 @@ const Layout = ({ children }: { children: React.ReactNode }) => {
                 <User2 className="size-6 rounded-full" />
               </Button>
             </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
+            <DropdownMenuContent align="end" className="bg-white">
               <DropdownMenuItem
                 onClick={() => router.push(paths.app.profile.getHref())}
                 className={cn('block px-4 py-2 text-sm text-gray-700')}
