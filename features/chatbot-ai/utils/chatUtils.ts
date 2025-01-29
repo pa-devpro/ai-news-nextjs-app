@@ -1,4 +1,4 @@
-import { askQuestionToArticle } from './openai-service';
+import { askQuestionToArticle } from '../services/openai-service';
 
 export const handleSend = async (
   msg: string,

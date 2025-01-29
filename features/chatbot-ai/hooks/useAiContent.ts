@@ -1,7 +1,7 @@
 import { Post } from '@/features/news-posts/types/Post';
 import logger from '@/utils/logger';
-import { getAIContent } from '@/lib/openai-service';
 import { useState, useEffect } from 'react';
+import { getAIContent } from '../services/openai-service';
 
 export const useAiContent = (post: Post) => {
   const [aiContent, setAiContent] = useState<string>('');

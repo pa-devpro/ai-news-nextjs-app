@@ -2,11 +2,11 @@
 import React, { useEffect } from 'react';
 import styles from './Chatbox.module.css';
 import SuggestQuestionsBox from './SuggestQuestionsBox';
-import { handleSend } from '@/lib/chatUtils';
 import { MessageList } from './MessageList';
 import useChatBox from '../../features/chatbot-ai/hooks/useChatBox';
 import { useAiContent } from '@/features/chatbot-ai/hooks/useAiContent';
 import { Post } from '@/features/news-posts/types/Post';
+import { handleSend } from '@/features/chatbot-ai/utils/chatUtils';
 
 type ChatBoxProps = {
   post: Post;
