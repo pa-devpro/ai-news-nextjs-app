@@ -49,3 +49,9 @@
 .ArticleBody {
   font-size: 1.2rem;
 }
+
+.ImageWrapper {
+  max-width: 480px; /* Adjust this value to make the image smaller */
+  width: 100%;
+  height: auto;
+}

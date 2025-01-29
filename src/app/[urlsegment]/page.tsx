@@ -47,13 +47,13 @@ const PostPage = () => {
       <div className={styles.ArticleTopics}>{topicLinks}</div>
       <h1 className={styles.ArticleTitle}>{post.title}</h1>
       <div className={styles.ArticleSubtitle}>{post.subtitle}</div>
-      <Image
-        src={post.featured_image || '/images/placeholder.jpg'}
-        alt={post.title}
-        width={400}
-        height={280}
-      />
-      <div className={styles.Byline}>
+      <div className={styles.ImageWrapper}>
+        <Image
+          src={post.featured_image || '/images/placeholder.jpg'}
+          alt={post.title}
+          width={400}
+          height={200}
+        />
         {post.author} /{' '}
         <time dateTime={post.date}>
           {format(parseISO(post.date), 'LLLL d, yyyy')}
