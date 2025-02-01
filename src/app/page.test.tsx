@@ -3,7 +3,8 @@ import { render, screen, act } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { usePosts } from '@/features/news-posts/context/NewsContext';
 import Home from './page';
-import { mockPosts } from '@/features/news-posts/fixtures/mockPosts';
+import { mockArticles } from '@/features/news-posts/fixtures/mockArticles';
+
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),
 }));
@@ -18,7 +19,7 @@ jest.mock('@/features/news-posts/context/NewsContext', () => ({
 
 describe('Home', () => {
   it('renders the home page with sorted posts', async () => {
-    (usePosts as jest.Mock).mockReturnValue({ posts: mockPosts });
+    (usePosts as jest.Mock).mockReturnValue({ articles: mockArticles });
 
     await act(async () => {
       render(<Home />);

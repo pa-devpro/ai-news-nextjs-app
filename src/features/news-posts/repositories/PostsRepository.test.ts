@@ -1,14 +1,14 @@
 import { PostsRepository } from './PostsRepository';
-import { mockPosts } from '@/features/news-posts/fixtures/mockPosts';
+import { mockArticles } from '@/features/news-posts/fixtures/mockArticles';
 
 jest.mock('./PostsRepository', () => {
   return {
     PostsRepository: jest.fn().mockImplementation(() => {
       return {
-        getAllPosts: jest.fn().mockResolvedValue(mockPosts),
+        getAllPosts: jest.fn().mockResolvedValue(mockArticles),
         getNewBySlug: jest.fn().mockImplementation((urlsegment: string) => {
           return Promise.resolve(
-            mockPosts.find((post) => post.urlsegment === urlsegment) || null,
+            mockArticles.find((post) => post.urlsegment === urlsegment) || null,
           );
         }),
       };
@@ -25,12 +25,12 @@ describe('PostsRepository', () => {
 
   it('should fetch all posts', async () => {
     const posts = await postsRepository.getAllPosts();
-    expect(posts).toEqual(mockPosts);
+    expect(posts).toEqual(mockArticles);
   });
 
   it('should fetch a post by urlsegment', async () => {
     const post = await postsRepository.getNewBySlug('title-1');
-    expect(post).toEqual(mockPosts[0]);
+    expect(post).toEqual(mockArticles[0]);
   });
 
   it('should return null for a non-existent urlsegment', async () => {

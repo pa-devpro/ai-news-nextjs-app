@@ -1,15 +1,15 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
 import { PostsProvider, usePosts } from './NewsContext';
-import { mockPosts } from '@/features/news-posts/fixtures/mockPosts';
+import { mockArticles } from '../fixtures/mockArticles';
 
 const TestComponent = () => {
-  const { posts } = usePosts();
+  const { articles } = usePosts();
   return (
     <div>
-      {posts.map((post) => (
-        <div key={post._id} data-testid="post">
-          {post.title}
+      {articles.map((article) => (
+        <div key={article.id} data-testid="article-test">
+          {article.title}
         </div>
       ))}
     </div>
@@ -19,16 +19,16 @@ const TestComponent = () => {
 describe('PostsContext', () => {
   it('provides posts to the component', () => {
     render(
-      <PostsProvider posts={mockPosts}>
+      <PostsProvider articles={mockArticles}>
         <TestComponent />
       </PostsProvider>,
     );
 
-    const postElements = screen.getAllByTestId('post');
+    const postElements = screen.getAllByTestId('article-test');
 
-    expect(postElements).toHaveLength(mockPosts.length);
-    expect(postElements[0]).toHaveTextContent(mockPosts[0].title);
-    expect(postElements[1]).toHaveTextContent(mockPosts[1].title);
+    expect(postElements).toHaveLength(mockArticles.length);
+    expect(postElements[0]).toHaveTextContent(mockArticles[0].title);
+    expect(postElements[1]).toHaveTextContent(mockArticles[1].title);
   });
 
   it('throws an error when usePosts is used outside of PostsProvider', () => {

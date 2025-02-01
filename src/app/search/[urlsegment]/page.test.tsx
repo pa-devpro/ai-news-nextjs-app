@@ -4,7 +4,7 @@ import { usePathname } from 'next/navigation';
 import { usePosts } from '@/features/news-posts/context/NewsContext';
 import Search from './page';
 import { useRouter } from 'next/navigation';
-import { mockPosts } from '@/features/news-posts/fixtures/mockPosts';
+import { mockArticles } from '@/features/news-posts/fixtures/mockArticles';
 
 jest.mock('next/navigation', () => ({
   useRouter: jest.fn(),
@@ -19,7 +19,7 @@ describe('Search', () => {
   it('renders the search results', () => {
     (useRouter as jest.Mock).mockReturnValue({ pathname: '/search/title-1' });
     (usePathname as jest.Mock).mockReturnValue('/search/title');
-    (usePosts as jest.Mock).mockReturnValue({ posts: mockPosts });
+    (usePosts as jest.Mock).mockReturnValue({ articles: mockArticles || [] });
 
     render(<Search />);
 
@@ -29,7 +29,7 @@ describe('Search', () => {
 
   it('renders no results if no posts match the search keyword', () => {
     (usePathname as jest.Mock).mockReturnValue('/search/non-existent');
-    (usePosts as jest.Mock).mockReturnValue({ posts: mockPosts });
+    (usePosts as jest.Mock).mockReturnValue({ articles: mockArticles });
 
     render(<Search />);
 

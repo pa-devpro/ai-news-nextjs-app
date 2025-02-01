@@ -14,7 +14,7 @@ export default function Home() {
   const { articles } = usePosts();
 
   useEffect(() => {
-    if (articles.length >= 0) {
+    if (articles.length > 0) {
       setLoading(false);
     }
   }, [articles]);
