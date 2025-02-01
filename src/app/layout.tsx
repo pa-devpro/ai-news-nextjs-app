@@ -6,7 +6,7 @@ import NextTopLoader from 'nextjs-toploader';
 import Footer from '@/components/footer/Footer';
 import Menu from '@/components/menu/Menu';
 import ClientErrorBoundary from '@/components/ClientErrorBoundary';
-import PostsProviderWrapper from '@/components/PostsProviderWrapper';
+import ArticlesProviderWrapper from '@/components/ArticlesProviderWrapper';
 import SessionProviderWrapper from '@/components/SessionProviderWrapper';
 import QueryClientProviderWrapper from '@/components/QueryClientProviderWrapper';
 import { siteInfo } from '@/config/constants';
@@ -28,13 +28,13 @@ export default function RootLayout({
         <ClientErrorBoundary>
           <QueryClientProviderWrapper>
             <SessionProviderWrapper>
-              <PostsProviderWrapper>
+              <ArticlesProviderWrapper>
                 <NextTopLoader color="#d1d5db" />
                 <Navbar />
                 <Menu />
                 <div className="content">{children}</div>
                 <Footer />
-              </PostsProviderWrapper>
+              </ArticlesProviderWrapper>
             </SessionProviderWrapper>
           </QueryClientProviderWrapper>
         </ClientErrorBoundary>

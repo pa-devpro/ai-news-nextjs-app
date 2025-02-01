@@ -6,21 +6,40 @@ import { format, parseISO } from 'date-fns';
 import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
 import { usePosts } from '@/features/news-posts/context/NewsContext';
-import { useParams } from 'next/navigation';
+import { useParams, useSearchParams } from 'next/navigation';
 import MarkdownWrapper from '@/components/markdown-wrapper/MarkdownWrapper';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { Spinner } from '@/components/dashboard/ui/spinner';
+import { useArticles } from '@/features/news-posts/api/get-articles';
 
 const NewsAiContent = dynamic(() => import('./NewsAiContent'));
 const ChatBox = dynamic(() => import('@/components/chat-box/ChatBox'));
 
 const PostPage = () => {
-  const { posts } = usePosts();
+  const { articles } = usePosts();
   const { urlsegment } = useParams();
+  const searchParams = useSearchParams();
+  const userId = searchParams.get('userId') || '';
+  const { data: articlesSaved, isLoading } = useArticles(userId);
 
-  const post = posts.find((post) => post.urlsegment === urlsegment);
+  if (isLoading) {
+    return (
+      <div className="flex h-48 w-full items-center justify-center">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
 
-  if (!post) {
+  const articlesList = articlesSaved
+    ? [...articlesSaved, ...articles]
+    : articles;
+
+  const articleSelected = articlesList.find(
+    (article) => article.urlsegment === urlsegment,
+  );
+
+  console.log('Article:', articleSelected);
+  if (!articleSelected) {
     return (
       <div className={styles.ErrorMessage}>
         <h1>Page not found</h1>
@@ -31,7 +50,26 @@ const PostPage = () => {
     );
   }
 
-  const topicLinks = post.topics.map((category: string) => (
+  const DisplayAiContent = () => {
+    if (!articleSelected.generated_ai_content) {
+      console.log(
+        '1.ROUTE --> Doesnt Have generated ai content yet, Article level',
+      );
+      return <NewsAiContent article={articleSelected} />;
+    } else {
+      console.log('1.ROUTE --> Has generated ai content, Article level');
+
+      return (
+        <div className={styles.ArticleBody}>
+          <MarkdownWrapper>
+            {String(articleSelected.generated_ai_content)}
+          </MarkdownWrapper>
+        </div>
+      );
+    }
+  };
+
+  const topicLinks = articleSelected.topics?.map((category: string) => (
     <Link
       href={`topic/${category}`}
       key={category}
@@ -45,28 +83,34 @@ const PostPage = () => {
   return (
     <div className={styles.Article}>
       <div className={styles.ArticleTopics}>{topicLinks}</div>
-      <h1 className={styles.ArticleTitle}>{post.title}</h1>
-      <div className={styles.ArticleSubtitle}>{post.subtitle}</div>
+      <h1 className={styles.ArticleTitle}>{articleSelected.title}</h1>
+
+      <div className={styles.ArticleSubtitle}>{articleSelected.subtitle}</div>
+
       <div className={styles.ImageWrapper}>
         <Image
-          src={post.featured_image || '/images/placeholder.jpg'}
-          alt={post.title}
+          src={articleSelected.featured_image || '/images/placeholder.jpg'}
+          alt={articleSelected.title}
           width={400}
           height={200}
         />
-        {post.author} /{' '}
-        <time dateTime={post.date}>
-          {format(parseISO(post.date), 'LLLL d, yyyy')}
+        {articleSelected.author} /{' '}
+        <time dateTime={articleSelected.date!}>
+          {format(parseISO(articleSelected.date!), 'LLLL d, yyyy')}
         </time>
       </div>
 
       <div className={styles.ArticleBody}>
-        <MarkdownWrapper>{post.body.raw}</MarkdownWrapper>
+        {!articleSelected.generated_ai_content && (
+          <MarkdownWrapper>
+            {String(articleSelected.body_raw || '')}
+          </MarkdownWrapper>
+        )}
       </div>
       <Suspense fallback={<Spinner />}>
         <ProtectedRoute>
-          <NewsAiContent post={post} />
-          <ChatBox post={post} />
+          <DisplayAiContent />
+          <ChatBox article={articleSelected} />
         </ProtectedRoute>
       </Suspense>
     </div>

@@ -1,5 +1,4 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { useNotifications } from '@/components/dashboard/ui/notifications';
 import { env } from '@/config/env';
 import logger from '../utils/logger';
@@ -12,6 +11,7 @@ type RequestOptions = {
   params?: Record<string, string | number | boolean | undefined | null>;
   cache?: RequestCache;
   next?: NextFetchRequestConfig;
+  baseUrl?: string; // Allows overriding the base URL for a custom backend server API
 };
 
 function buildUrlWithParams(
@@ -62,6 +62,7 @@ async function fetchApi<T>(
     params,
     cache = 'no-store',
     next,
+    baseUrl,
   } = options;
 
   // Get cookies from the request when running on server
@@ -70,7 +71,9 @@ async function fetchApi<T>(
     cookieHeader = await getServerCookies();
   }
 
-  const fullUrl = buildUrlWithParams(`${env.API_URL}${url}`, params);
+  const apiBaseUrl = baseUrl || env.API_URL;
+
+  const fullUrl = buildUrlWithParams(`${apiBaseUrl}${url}`, params);
   const response = await fetch(fullUrl, {
     method,
     headers: {

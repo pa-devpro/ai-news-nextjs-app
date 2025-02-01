@@ -1,5 +1,7 @@
 export type User = Database['public']['Tables']['profiles']['Row'];
 export type Profile = Database['public']['Tables']['profiles']['Row'];
+export type SavedArticle =
+  Database['public']['Tables']['saved_articles']['Row'];
 
 export type Json =
   | string
@@ -61,6 +63,63 @@ export type Database = {
           id?: string;
           name?: string;
           role?: string;
+        };
+        Relationships: [];
+      };
+      saved_articles: {
+        Row: {
+          author: string | null;
+          body_raw: string | null;
+          created_at: string;
+          date: string;
+          featured_image: string | null;
+          generated_ai_content: string | null;
+          id: number;
+          original_url: string | null;
+          questions_and_answers: Json | null;
+          subtitle: string | null;
+          title: string;
+          topics: string[] | null;
+          urlsegment: string | null;
+          user_id: string;
+        };
+        Insert: {
+          author?: string | null;
+          body_html?: string | null;
+          body_raw?: string | null;
+          created_at?: string | null;
+          date: string;
+          featured_image?: string | null;
+          generated_ai_content?: string | null;
+          id?: number;
+          original_url?: string | null;
+          questions_and_answers?: Json | null;
+          subtitle?: string | null;
+          title: string;
+          topics?: string[] | null;
+          type?: string | null;
+          url?: string | null;
+          urlsegment?: string | null;
+          user_id: string;
+        };
+        Update: {
+          author?: string | null;
+          body_html?: string | null;
+          body_raw?: string | null;
+          created_at?: string | null;
+          date?: string;
+          featured_image?: string | null;
+          generated_ai_content?: string | null;
+          id?: number;
+          original_url?: string | null;
+          questions_and_answers?: Json | null;
+          subtitle?: string | null;
+          title?: string;
+          topics?: string[] | null;
+          type?: string | null;
+          url?: string | null;
+          urlsegment?: string | null;
+          user_id?: string;
         };
         Relationships: [];
       };

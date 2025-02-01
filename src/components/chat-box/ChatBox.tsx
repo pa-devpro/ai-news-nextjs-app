@@ -5,16 +5,28 @@ import SuggestQuestionsBox from './SuggestQuestionsBox';
 import { MessageList } from './MessageList';
 import useChatBox from '../../features/chatbot-ai/hooks/useChatBox';
 import { useAiContent } from '@/features/chatbot-ai/hooks/useAiContent';
-import { Post } from '@/features/news-posts/types/Post';
 import { handleSend } from '@/features/chatbot-ai/utils/chatUtils';
+import { useMutation } from '@tanstack/react-query';
+import saveArticle from '@/features/news-posts/api/save-articles';
+import { useUserProfile } from '@/features/auth/utils/auth-utils';
+import {
+  ArticleToDisplay,
+  QuestionAndAnswer,
+} from '@/features/news-posts/types/ArticlesToDisplay';
 
 type ChatBoxProps = {
-  post: Post;
+  article: ArticleToDisplay;
 };
 
-const ChatBox: React.FC<ChatBoxProps> = ({ post }) => {
-  const { aiContent, questions, loading } = useAiContent(post);
+const ChatBox: React.FC<ChatBoxProps> = ({ article }) => {
+  const {
+    aiContent,
+    questions,
+    loading: loadingContent,
+  } = useAiContent(article);
+  const { data: userProfile, isLoading: isLoadingProfile } = useUserProfile();
 
+  console.log('ChatBox -> questions:', questions);
   const {
     message,
     setMessage,
@@ -47,26 +59,84 @@ const ChatBox: React.FC<ChatBoxProps> = ({ post }) => {
     }
   };
 
-  if (loading) {
+  const mutation = useMutation<ArticleToDisplay, Error, ArticleToDisplay>({
+    mutationFn: saveArticle,
+  });
+
+  const handleSaveArticle = (article: ArticleToDisplay) => {
+    const formatNewQuestionsAndAnswers = [...messages].map(
+      (question, index) => ({
+        question,
+        answer: responses[index],
+      }),
+    );
+
+    const articleToSave = {
+      ...article,
+      user_id: userProfile?.id,
+      generated_ai_content: aiContent,
+      questions_and_answers: [
+        ...article.questions_and_answers,
+        ...formatNewQuestionsAndAnswers,
+      ],
+    };
+
+    mutation.mutate(articleToSave, {
+      onSuccess: (data) => {
+        console.log('Article saved:', data);
+      },
+      onError: (error) => {
+        console.error('Error saving article:', error);
+      },
+    });
+  };
+
+  if (loadingContent || isLoadingProfile) {
     return <div>Loading ChatBox...</div>;
   }
+
+  const DisplayQuestionsAnswers = () => {
+    console.log(
+      'ChatBox -> DisplayQuestionsAnswers:',
+      article.questions_and_answers,
+    );
+    if (article.questions_and_answers.length === 0) {
+      return <MessageList messages={messages} responses={responses} />;
+    }
+
+    const questionsAndAnswers: QuestionAndAnswer[] =
+      article.questions_and_answers;
+    const allQuestions = questionsAndAnswers.map((item) => item.question);
+    const allAnswers = questionsAndAnswers.map((item) => item.answer);
+
+    return (
+      <MessageList
+        messages={[...allQuestions, ...messages]}
+        responses={[...allAnswers, ...responses]}
+      />
+    );
+  };
 
   return (
     <>
       <button onClick={() => setIsOpen(!isOpen)} className={styles.openButton}>
         {isOpen ? 'Hide Chat' : 'Open Chat'}
       </button>
+      <button
+        onClick={() => handleSaveArticle(article)}
+        className={styles.openButton}
+      >
+        Save Article
+      </button>
       {isOpen && (
         <div className={`${styles.chatboxContainer} ${styles.light}`}>
           <h1 className={styles.title}>Chat with the AI</h1>
-          <div className={styles.questionsContainer}>
-            <SuggestQuestionsBox
-              questions={suggestedQuestions}
-              onQuestionClick={handleQuestionClick}
-            />
-          </div>
+          <SuggestQuestionsBox
+            questions={suggestedQuestions}
+            onQuestionClick={handleQuestionClick}
+          />
           <div className={styles.messagesContainer}>
-            <MessageList messages={messages} responses={responses} />
+            <DisplayQuestionsAnswers />
           </div>
           {alertMessage && (
             <div className={styles.alertBox}>{alertMessage}</div>

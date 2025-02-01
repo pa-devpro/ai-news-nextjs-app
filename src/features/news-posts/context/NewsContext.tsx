@@ -1,22 +1,24 @@
 'use client';
-import { Post } from '@/features/news-posts/types/Post';
 import React, { createContext, useContext, ReactNode } from 'react';
+import { ArticleToDisplay } from '../types/ArticlesToDisplay';
 
 interface NewsContextType {
-  posts: Post[];
+  articles: ArticleToDisplay[];
 }
 
 const PostsContext = createContext<NewsContextType | undefined>(undefined);
 
 export const PostsProvider = ({
   children,
-  posts,
+  articles,
 }: {
   children: ReactNode;
-  posts: Post[];
+  articles: ArticleToDisplay[];
 }) => {
   return (
-    <PostsContext.Provider value={{ posts }}>{children}</PostsContext.Provider>
+    <PostsContext.Provider value={{ articles }}>
+      {children}
+    </PostsContext.Provider>
   );
 };
 

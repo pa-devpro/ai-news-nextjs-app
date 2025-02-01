@@ -1,6 +1,6 @@
-import { Post } from '../types/Post';
 import { toKebabCase } from '@/utils/format-text';
 import logger from '@/utils/logger';
+import { ArticleToDisplay } from '../types/ArticlesToDisplay';
 
 type NewsApiResponse = {
   status: string;
@@ -29,7 +29,7 @@ export class PostsRepository {
     }
   }
 
-  async getAllPosts(): Promise<Post[]> {
+  async getAllPosts(): Promise<ArticleToDisplay[]> {
     try {
       logger.info('--- Fetching News (NewsRepository) ---');
 
@@ -64,7 +64,7 @@ export class PostsRepository {
     }
   }
 
-  async getNewBySlug(urlsegment: string): Promise<Post | null> {
+  async getNewBySlug(urlsegment: string): Promise<ArticleToDisplay | null> {
     try {
       const allNews = await this.getAllPosts();
       return allNews.find((post) => post.urlsegment === urlsegment) || null;
@@ -75,23 +75,19 @@ export class PostsRepository {
   }
 }
 
-const mapNewsToPost = (news: NewsFromApi): Post => {
+export const mapNewsToPost = (news: NewsFromApi): ArticleToDisplay => {
   return {
-    _id: news.source.name,
+    created_at: news.publishedAt,
     author: news.author,
     title: news.title,
     subtitle: news.description,
-    url: `/${toKebabCase(news.title)}`,
     featured_image: news.urlToImage || '/images/placeholder.jpg',
     date: news.publishedAt,
-    body: {
-      raw: news.content,
-      html: news.content,
-    },
-    type: 'Post',
+    body_raw: news.content,
     topics: ['News'],
     urlsegment: toKebabCase(news.title),
     original_url: news.url,
-    _raw: {},
+    generated_ai_content: null,
+    questions_and_answers: [],
   };
 };

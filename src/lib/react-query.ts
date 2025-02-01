@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { UseMutationOptions, DefaultOptions } from '@tanstack/react-query';
 
 export const queryConfig = {
@@ -17,6 +18,11 @@ export type QueryConfig<T extends (...args: unknown[]) => unknown> = Omit<
   ReturnType<T>,
   'queryKey' | 'queryFn'
 >;
+
+export type QueryConfigTypeWithArgs<T extends (...args: any) => any> = {
+  queryKey: ReturnType<T>['queryKey'];
+  queryFn: ReturnType<T>['queryFn'];
+};
 
 export type MutationConfig<
   MutationFnType extends (...args: unknown[]) => Promise<unknown>,

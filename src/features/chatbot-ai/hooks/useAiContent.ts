@@ -1,24 +1,33 @@
-import { Post } from '@/features/news-posts/types/Post';
 import logger from '@/utils/logger';
 import { useState, useEffect } from 'react';
-import { getAIContent } from '../services/openai-service';
+import { generateAIContent } from '../services/openai-service';
+import { ArticleToDisplay } from '@/features/news-posts/types/ArticlesToDisplay';
 
-export const useAiContent = (post: Post) => {
+export const useAiContent = (article: ArticleToDisplay) => {
   const [aiContent, setAiContent] = useState<string>('');
   const [questions, setQuestions] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchAIContent = async () => {
+    const getAIContent = async () => {
       logger.info('🔴 Fetching AI content');
-      const { aiContent, questions } = await getAIContent(post);
-      setAiContent(aiContent);
-      setQuestions(questions);
-      setLoading(false);
+      if (!article.generated_ai_content) {
+        console.log(
+          '2.ROUTE --> No generated ai content yet, useAiContent level',
+        );
+
+        const { aiContent, questions } = await generateAIContent(article);
+        setAiContent(aiContent);
+        setQuestions(questions);
+        setLoading(false);
+      } else {
+        setAiContent(article.generated_ai_content!);
+        setLoading(false);
+      }
     };
 
-    fetchAIContent();
-  }, [post]);
+    getAIContent();
+  }, [article]);
 
   return { aiContent, questions, loading };
 };

@@ -3,9 +3,9 @@
 import { ChatOpenAI } from '@langchain/openai';
 import { ChatPromptTemplate } from '@langchain/core/prompts';
 import { MessageContent } from '@langchain/core/messages';
-import { Post } from '@/features/news-posts/types/Post';
 import logger from '@/utils/logger';
 import cache from '@/lib/cache';
+import { ArticleToDisplay } from '@/features/news-posts/types/ArticlesToDisplay';
 
 const model = new ChatOpenAI({
   modelName: 'gpt-3.5-turbo',
@@ -117,14 +117,14 @@ export const suggestQuestions = async (content: string): Promise<string[]> => {
   }
 };
 
-export const getAIContent = async (post: Post) => {
+export const generateAIContent = async (post: ArticleToDisplay) => {
   try {
     logger.info('🔴 Generating AI content');
 
     const aiContent = await generateArticle({
       title: post.title.toString(),
-      subtitle: post.subtitle,
-      body: post.body.raw,
+      subtitle: post.subtitle!,
+      body: post.body_raw!,
     });
 
     const questions = await suggestQuestions(aiContent);

@@ -2,22 +2,22 @@
 import React, { useState, useEffect, Suspense } from 'react';
 import { compareDesc } from 'date-fns';
 import { usePosts } from '@/features/news-posts/context/NewsContext';
-import { Post } from '@/features/news-posts/types/Post';
 import { Spinner } from '@/components/dashboard/ui/spinner';
+import { ArticleToDisplay } from '@/features/news-posts/types/ArticlesToDisplay';
 
-const PostPreview = React.lazy(
-  () => import('@/components/post-preview/PostPreview'),
+const ArticlePreview = React.lazy(
+  () => import('@/components/article-preview/ArticlePreview'),
 );
 
 export default function Home() {
   const [loading, setLoading] = useState(true);
-  const data = usePosts();
+  const { articles } = usePosts();
 
   useEffect(() => {
-    if (data.posts.length > 0) {
+    if (articles.length >= 0) {
       setLoading(false);
     }
-  }, [data.posts]);
+  }, [articles]);
 
   if (loading) {
     return (
@@ -27,19 +27,21 @@ export default function Home() {
     );
   }
 
-  const news = data.posts.sort((a, b) =>
-    compareDesc(new Date(a.date), new Date(b.date)),
+  const news = articles.sort((a, b) =>
+    compareDesc(new Date(a.date!), new Date(b.date!)),
   );
 
-  const newsPreviews = news.map((post: Post, idx: number) => (
-    <Suspense key={idx}>
-      <PostPreview {...post} />
-    </Suspense>
-  ));
+  const articlesPreviews = news.map(
+    (article: ArticleToDisplay, idx: number) => (
+      <Suspense key={idx}>
+        <ArticlePreview {...article} />
+      </Suspense>
+    ),
+  );
 
   return (
     <div>
-      <main className="ListPosts">{newsPreviews}</main>
+      <main className="ListPosts">{articlesPreviews}</main>
     </div>
   );
 }
