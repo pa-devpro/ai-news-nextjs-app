@@ -38,7 +38,6 @@ const PostPage = () => {
     (article) => article.urlsegment === urlsegment,
   );
 
-  console.log('Article:', articleSelected);
   if (!articleSelected) {
     return (
       <div className={styles.ErrorMessage}>
@@ -52,13 +51,8 @@ const PostPage = () => {
 
   const DisplayAiContent = () => {
     if (!articleSelected.generated_ai_content) {
-      console.log(
-        '1.ROUTE --> Doesnt Have generated ai content yet, Article level',
-      );
       return <NewsAiContent article={articleSelected} />;
     } else {
-      console.log('1.ROUTE --> Has generated ai content, Article level');
-
       return (
         <div className={styles.ArticleBody}>
           <MarkdownWrapper>

@@ -12,10 +12,6 @@ export const useAiContent = (article: ArticleToDisplay) => {
     const getAIContent = async () => {
       logger.info('🔴 Fetching AI content');
       if (!article.generated_ai_content) {
-        console.log(
-          '2.ROUTE --> No generated ai content yet, useAiContent level',
-        );
-
         const { aiContent, questions } = await generateAIContent(article);
         setAiContent(aiContent);
         setQuestions(questions);

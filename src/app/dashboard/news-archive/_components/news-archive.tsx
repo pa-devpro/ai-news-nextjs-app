@@ -34,7 +34,6 @@ const ArticlesList: React.FC<{ userId: string }> = ({ userId }) => {
   }
 
   if (!articles) return null;
-  console.log('Articles in child component:', articles);
   return (
     <>
       <Table
@@ -55,8 +54,7 @@ const ArticlesList: React.FC<{ userId: string }> = ({ userId }) => {
           {
             title: 'Link',
             field: 'urlsegment',
-            Cell({ entry: { urlsegment, user_id } }) {
-              console.log({ urlsegment, user_id });
+            Cell({ entry: { urlsegment } }) {
               const modifiedUrl = `/${urlsegment}?userId=${userId}`;
               return (
                 <Link href={modifiedUrl} target="_blank">

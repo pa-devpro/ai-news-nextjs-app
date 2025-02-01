@@ -13,6 +13,7 @@ import {
   ArticleToDisplay,
   QuestionAndAnswer,
 } from '@/features/news-posts/types/ArticlesToDisplay';
+import logger from '@/utils/logger';
 
 type ChatBoxProps = {
   article: ArticleToDisplay;
@@ -26,7 +27,6 @@ const ChatBox: React.FC<ChatBoxProps> = ({ article }) => {
   } = useAiContent(article);
   const { data: userProfile, isLoading: isLoadingProfile } = useUserProfile();
 
-  console.log('ChatBox -> questions:', questions);
   const {
     message,
     setMessage,
@@ -83,10 +83,10 @@ const ChatBox: React.FC<ChatBoxProps> = ({ article }) => {
 
     mutation.mutate(articleToSave, {
       onSuccess: (data) => {
-        console.log('Article saved:', data);
+        logger.info('Article saved:', data);
       },
       onError: (error) => {
-        console.error('Error saving article:', error);
+        logger.error('Error saving article:', error);
       },
     });
   };
@@ -96,10 +96,6 @@ const ChatBox: React.FC<ChatBoxProps> = ({ article }) => {
   }
 
   const DisplayQuestionsAnswers = () => {
-    console.log(
-      'ChatBox -> DisplayQuestionsAnswers:',
-      article.questions_and_answers,
-    );
     if (article.questions_and_answers.length === 0) {
       return <MessageList messages={messages} responses={responses} />;
     }

@@ -12,7 +12,6 @@ import { BACKEND_API_URL } from './get-articles';
 const saveArticle = async (
   article: ArticleToDisplay,
 ): Promise<ArticleToDisplay> => {
-  console.log('Saving article:', article);
   const url = `${BACKEND_API_URL}/articles`;
   const response = await fetch(url, {
     method: 'POST',
@@ -25,7 +24,6 @@ const saveArticle = async (
   if (!response.ok) {
     if (response.status === 500) {
       // Proceed to update the article
-      console.log('Article already exists, updating article:', article);
       const updateUrl = `${BACKEND_API_URL}/articles/${article.id}`;
       const updateResponse = await fetch(updateUrl, {
         method: 'PUT',
@@ -36,13 +34,11 @@ const saveArticle = async (
       });
 
       if (!updateResponse.ok) {
-        console.log('Failed to update article:', updateResponse);
         throw new Error('Failed to update article');
       }
 
       return await updateResponse.json();
     } else {
-      console.log('Failed to save article:', response);
       throw new Error('Failed to save article');
     }
   }
