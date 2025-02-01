@@ -119,8 +119,6 @@ export const suggestQuestions = async (content: string): Promise<string[]> => {
 
 export const generateAIContent = async (post: ArticleToDisplay) => {
   try {
-    logger.info('🔴 Generating AI content');
-
     const aiContent = await generateArticle({
       title: post.title.toString(),
       subtitle: post.subtitle!,

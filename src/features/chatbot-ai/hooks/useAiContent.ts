@@ -1,4 +1,3 @@
-import logger from '@/utils/logger';
 import { useState, useEffect } from 'react';
 import { generateAIContent } from '../services/openai-service';
 import { ArticleToDisplay } from '@/features/news-posts/types/ArticlesToDisplay';
@@ -10,7 +9,6 @@ export const useAiContent = (article: ArticleToDisplay) => {
 
   useEffect(() => {
     const getAIContent = async () => {
-      logger.info('🔴 Fetching AI content');
       if (!article.generated_ai_content) {
         const { aiContent, questions } = await generateAIContent(article);
         setAiContent(aiContent);

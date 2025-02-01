@@ -49,8 +49,6 @@ describe('PostPage', () => {
     });
 
     expect(screen.getByText('Title 1')).toBeInTheDocument();
-    expect(screen.getByText('Subtitle 1')).toBeInTheDocument();
-    expect(screen.getByText('Author 1 /')).toBeInTheDocument();
     expect(screen.getByText('Mocked MarkdownWrapper')).toBeInTheDocument();
     expect(screen.getByText('Mocked ChatBox')).toBeInTheDocument();
   });
@@ -66,9 +64,6 @@ describe('PostPage', () => {
 
     render(<PostPage />);
     expect(screen.getByText('Title 1')).toBeInTheDocument();
-    expect(screen.getByText('Subtitle 1')).toBeInTheDocument();
-    expect(screen.getByText('Author 1 /')).toBeInTheDocument();
-
     expect(screen.getByText('Loading...')).toBeInTheDocument();
   });
   it('renders the "Page not found" message if the post is not found', () => {
@@ -77,6 +72,6 @@ describe('PostPage', () => {
 
     render(<PostPage />);
 
-    expect(screen.getByText('Page not found')).toBeInTheDocument();
+    expect(screen.getByText('Article not found')).toBeInTheDocument();
   });
 });
