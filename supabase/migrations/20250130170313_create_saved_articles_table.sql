@@ -13,5 +13,5 @@ CREATE TABLE IF NOT EXISTS public.saved_articles (
     original_url VARCHAR(255),
     generated_ai_content TEXT,
     questions_and_answers JSONB,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 );

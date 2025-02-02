@@ -28,7 +28,7 @@ jobs:
       - name: Run Migrations
         run: |
           supabase link --project-ref ${{ secrets.SUPABASE_PROJECT_ID }}
-          supabase db push
+          yes | supabase db push
         env:
           NEXT_PUBLIC_SUPABASE_URL: ${{ secrets.NEXT_PUBLIC_SUPABASE_URL }}
           NEXT_PUBLIC_SUPABASE_ANON_KEY: ${{ secrets.NEXT_PUBLIC_SUPABASE_ANON_KEY }}
