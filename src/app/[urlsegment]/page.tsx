@@ -12,9 +12,86 @@ import styles from './Article.module.css';
 import { usePosts } from '@/features/news-posts/context/NewsContext';
 import NewsAiContent from './NewsAiContent';
 import ProtectedRoute from '@/components/ProtectedRoute';
+import { ArticleToDisplay } from '@/features/news-posts/types/ArticlesToDisplay';
 
 // Dynamically load ChatBox so that it's always rendered regardless of article visibility
 const ChatBox = dynamic(() => import('@/components/chat-box/ChatBox'), {});
+
+interface ArticleTopicsProps {
+  topics: string[];
+}
+
+const ArticleTopics = ({ topics }: ArticleTopicsProps) => {
+  return (
+    <div className={styles.ArticleTopics}>
+      {topics?.map((category: string) => (
+        <Link
+          href={`topic/${category}`}
+          key={category}
+          className={styles.ArticleTopic}
+          style={{ textDecoration: 'inherit' }}
+        >
+          {category}
+        </Link>
+      ))}
+    </div>
+  );
+};
+
+type ArticleHeaderProps = Pick<ArticleToDisplay, 'title' | 'subtitle'> & {
+  showSubtitle: boolean;
+};
+
+const ArticleHeader = ({
+  title,
+  subtitle,
+  showSubtitle,
+}: ArticleHeaderProps) => {
+  return (
+    <>
+      <h1 className={styles.ArticleTitle}>{title}</h1>
+      {showSubtitle && <div className={styles.ArticleSubtitle}>{subtitle}</div>}
+    </>
+  );
+};
+
+const ArticleContent = ({
+  article,
+  isArticleVisible,
+}: {
+  article: ArticleToDisplay;
+  isArticleVisible: boolean;
+}) => {
+  return (
+    isArticleVisible && (
+      <>
+        <div className={styles.ImageWrapper}>
+          <Image
+            src={article.featured_image || '/images/placeholder.jpg'}
+            alt={article.title}
+            width={400}
+            height={200}
+          />
+          <div className={styles.ArticleMeta}>
+            <span>{article.author}</span>{' '}
+            <time dateTime={article.date!}>
+              {format(parseISO(article.date!), 'LLLL d, yyyy')}
+            </time>
+          </div>
+        </div>
+        <div className={styles.ArticleBody}>
+          {article.generated_ai_content ? (
+            <MarkdownWrapper>
+              {article.generated_ai_content || String(article.body_raw || '')}
+            </MarkdownWrapper>
+          ) : (
+            <NewsAiContent article={article} />
+          )}
+        </div>
+      </>
+    )
+  );
+};
 
 const Page = () => {
   // Assuming urlsegment defines the article (for a dynamic route)
@@ -58,66 +135,28 @@ const Page = () => {
     return <div>Article not found</div>;
   }
 
-  // Map topics to clickable links
-  const topicLinks = articleSelected.topics?.map((category: string) => (
-    <Link
-      href={`topic/${category}`}
-      key={category}
-      className={styles.ArticleTopic}
-      style={{ textDecoration: 'inherit' }}
-    >
-      {category}
-    </Link>
-  ));
-
   return (
     <div className={styles.ArticlePage}>
-      {/* Button to toggle visibility of the article content */}
-      <div className={styles.ToggleArticle}>
-        <button onClick={() => setIsArticleVisible((prev) => !prev)}>
-          {isArticleVisible ? 'Hide Article' : 'Show Article'}
-        </button>
-      </div>
-
       <div className={styles.Article}>
-        <div className={styles.ArticleTopics}>{topicLinks}</div>
-        <h1 className={styles.ArticleTitle}>{articleSelected.title}</h1>
-
-        {showSubtitle && (
-          <div className={styles.ArticleSubtitle}>
-            {articleSelected.subtitle}
-          </div>
-        )}
-        {isArticleVisible && (
-          <>
-            <div className={styles.ImageWrapper}>
-              <Image
-                src={
-                  articleSelected.featured_image || '/images/placeholder.jpg'
-                }
-                alt={articleSelected.title}
-                width={400}
-                height={200}
-              />
-              <div className={styles.ArticleMeta}>
-                <span>{articleSelected.author}</span>{' '}
-                <time dateTime={articleSelected.date!}>
-                  {format(parseISO(articleSelected.date!), 'LLLL d, yyyy')}
-                </time>
-              </div>
-            </div>
-            <div className={styles.ArticleBody}>
-              {articleSelected.generated_ai_content ? (
-                <MarkdownWrapper>
-                  {articleSelected.generated_ai_content ||
-                    String(articleSelected.body_raw || '')}
-                </MarkdownWrapper>
-              ) : (
-                <NewsAiContent article={articleSelected} />
-              )}
-            </div>
-          </>
-        )}
+        <ArticleTopics topics={articleSelected.topics} />
+        <ArticleHeader
+          title={articleSelected.title}
+          subtitle={articleSelected.subtitle}
+          showSubtitle={showSubtitle}
+        />
+        {/* Button to toggle visibility of the article content */}
+        <div className={styles.ToggleArticle}>
+          <button
+            onClick={() => setIsArticleVisible((prev) => !prev)}
+            className={styles.button}
+          >
+            {isArticleVisible ? 'Hide Article' : 'Show Article'}
+          </button>
+        </div>
+        <ArticleContent
+          article={articleSelected}
+          isArticleVisible={isArticleVisible}
+        />
       </div>
 
       {/* ChatBox is always visible */}

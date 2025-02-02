@@ -115,55 +115,64 @@ const ChatBox: React.FC<ChatBoxProps> = ({ article }) => {
 
   return (
     <>
-      <button onClick={() => setIsOpen(!isOpen)} className={styles.openButton}>
-        {isOpen ? 'Hide Chat' : 'Open Chat'}
-      </button>
-      <button
-        onClick={() => handleSaveArticle(article)}
-        className={styles.openButton}
-      >
-        Save Article
-      </button>
-      {isOpen && (
-        <div className={`${styles.chatboxContainer} ${styles.light}`}>
+      <div className={`${styles.chatboxContainer} ${styles.light}`}>
+        <div className={styles.HeaderButtons}>
           <h1 className={styles.title}>Chat with the AI</h1>
-          <SuggestQuestionsBox
-            questions={suggestedQuestions}
-            onQuestionClick={handleQuestionClick}
-          />
-          <div className={styles.messagesContainer}>
-            <DisplayQuestionsAnswers />
-          </div>
-          {alertMessage && (
-            <div className={styles.alertBox}>{alertMessage}</div>
-          )}
-
-          <div className={styles.inputContainer}>
-            <input
-              type="text"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              onKeyDown={handleKeyDown}
-              className={styles.input}
-              placeholder="Type your message..."
-            />
+          <div className={styles.dialogActions}>
             <button
-              onClick={() =>
-                handleSend(
-                  message,
-                  aiContent,
-                  setMessages,
-                  setResponses,
-                  setAlertMessage,
-                )
-              }
-              className={styles.sendButton}
+              onClick={() => setIsOpen(!isOpen)}
+              className={styles.dialogIconButton}
             >
-              Send
+              {isOpen ? 'Hide Chat' : 'Open Chat'}
+            </button>
+            <button
+              onClick={() => handleSaveArticle(article)}
+              className={styles.dialogIconButton}
+            >
+              Save Article
             </button>
           </div>
         </div>
-      )}
+        {isOpen && (
+          <>
+            <SuggestQuestionsBox
+              questions={suggestedQuestions}
+              onQuestionClick={handleQuestionClick}
+            />
+            <div className={styles.messagesContainer}>
+              <DisplayQuestionsAnswers />
+            </div>
+            {alertMessage && (
+              <div className={styles.alertBox}>{alertMessage}</div>
+            )}
+
+            <div className={styles.inputContainer}>
+              <input
+                type="text"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                onKeyDown={handleKeyDown}
+                className={styles.input}
+                placeholder="Type your message..."
+              />
+              <button
+                onClick={() =>
+                  handleSend(
+                    message,
+                    aiContent,
+                    setMessages,
+                    setResponses,
+                    setAlertMessage,
+                  )
+                }
+                className={styles.sendButton}
+              >
+                Send
+              </button>
+            </div>
+          </>
+        )}
+      </div>
     </>
   );
 };
