@@ -1,76 +1,172 @@
 'use client';
+import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
-import styles from './Article.module.css';
 import Link from 'next/link';
 import { format, parseISO } from 'date-fns';
-import { Suspense } from 'react';
+import { useParams, useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
-import { usePosts } from '@/features/news-posts/context/NewsContext';
-import { useParams } from 'next/navigation';
-import MarkdownWrapper from '@/components/markdown-wrapper/MarkdownWrapper';
-import ProtectedRoute from '@/components/ProtectedRoute';
 import { Spinner } from '@/components/dashboard/ui/spinner';
+import MarkdownWrapper from '@/components/markdown-wrapper/MarkdownWrapper';
+import { useArticles } from '@/features/news-posts/api/get-articles';
+import styles from './Article.module.css';
+import { usePosts } from '@/features/news-posts/context/NewsContext';
+import NewsAiContent from './NewsAiContent';
+import ProtectedRoute from '@/components/ProtectedRoute';
+import { ArticleToDisplay } from '@/features/news-posts/types/ArticlesToDisplay';
 
-const NewsAiContent = dynamic(() => import('./NewsAiContent'));
-const ChatBox = dynamic(() => import('@/components/chat-box/ChatBox'));
+// Dynamically load ChatBox so that it's always rendered regardless of article visibility
+const ChatBox = dynamic(() => import('@/components/chat-box/ChatBox'), {});
 
-const PostPage = () => {
-  const { posts } = usePosts();
-  const { urlsegment } = useParams();
+interface ArticleTopicsProps {
+  topics: string[];
+}
 
-  const post = posts.find((post) => post.urlsegment === urlsegment);
-
-  if (!post) {
-    return (
-      <div className={styles.ErrorMessage}>
-        <h1>Page not found</h1>
-        <p>
-          Let&apos;s go to the <Link href="/">homepage</Link> instead.
-        </p>
-      </div>
-    );
-  }
-
-  const topicLinks = post.topics.map((category: string) => (
-    <Link
-      href={`topic/${category}`}
-      key={category}
-      className={styles.ArticleTopic}
-      style={{ textDecoration: 'inherit' }}
-    >
-      {category}
-    </Link>
-  ));
-
+const ArticleTopics = ({ topics }: ArticleTopicsProps) => {
   return (
-    <div className={styles.Article}>
-      <div className={styles.ArticleTopics}>{topicLinks}</div>
-      <h1 className={styles.ArticleTitle}>{post.title}</h1>
-      <div className={styles.ArticleSubtitle}>{post.subtitle}</div>
-      <div className={styles.ImageWrapper}>
-        <Image
-          src={post.featured_image || '/images/placeholder.jpg'}
-          alt={post.title}
-          width={400}
-          height={200}
-        />
-        {post.author} /{' '}
-        <time dateTime={post.date}>
-          {format(parseISO(post.date), 'LLLL d, yyyy')}
-        </time>
-      </div>
-
-      <div className={styles.ArticleBody}>
-        <MarkdownWrapper>{post.body.raw}</MarkdownWrapper>
-      </div>
-      <Suspense fallback={<Spinner />}>
-        <ProtectedRoute>
-          <NewsAiContent post={post} />
-          <ChatBox post={post} />
-        </ProtectedRoute>
-      </Suspense>
+    <div className={styles.ArticleTopics}>
+      {topics?.map((category: string) => (
+        <Link
+          href={`topic/${category}`}
+          key={category}
+          className={styles.ArticleTopic}
+          style={{ textDecoration: 'inherit' }}
+        >
+          {category}
+        </Link>
+      ))}
     </div>
   );
 };
 
-export default PostPage;
+type ArticleHeaderProps = Pick<ArticleToDisplay, 'title' | 'subtitle'> & {
+  showSubtitle: boolean;
+};
+
+const ArticleHeader = ({
+  title,
+  subtitle,
+  showSubtitle,
+}: ArticleHeaderProps) => {
+  return (
+    <>
+      <h1 className={styles.ArticleTitle}>{title}</h1>
+      {showSubtitle && <div className={styles.ArticleSubtitle}>{subtitle}</div>}
+    </>
+  );
+};
+
+const ArticleContent = ({
+  article,
+  isArticleVisible,
+}: {
+  article: ArticleToDisplay;
+  isArticleVisible: boolean;
+}) => {
+  return (
+    isArticleVisible && (
+      <>
+        <div className={styles.ImageWrapper}>
+          <Image
+            src={article.featured_image || '/images/placeholder.jpg'}
+            alt={article.title}
+            width={400}
+            height={200}
+          />
+          <div className={styles.ArticleMeta}>
+            <span>{article.author}</span>{' '}
+            <time dateTime={article.date!}>
+              {format(parseISO(article.date!), 'LLLL d, yyyy')}
+            </time>
+          </div>
+        </div>
+        <div className={styles.ArticleBody}>
+          {article.generated_ai_content ? (
+            <MarkdownWrapper>
+              {article.generated_ai_content || String(article.body_raw || '')}
+            </MarkdownWrapper>
+          ) : (
+            <NewsAiContent article={article} />
+          )}
+        </div>
+      </>
+    )
+  );
+};
+
+const Page = () => {
+  // Assuming urlsegment defines the article (for a dynamic route)
+  const { urlsegment } = useParams();
+  // Use search params to fetch the user id if needed
+  const searchParams = useSearchParams();
+  const userId = searchParams.get('userId') || '';
+
+  // Fetch articles for this user
+  const dataFromApi = usePosts();
+  const { data: articlesFromUser, isLoading } = useArticles(userId);
+  // Select the article based on the urlsegment
+  const aritclesList = [...(articlesFromUser || []), ...dataFromApi?.articles];
+
+  const articleSelected = aritclesList?.find(
+    (article) => article.urlsegment === urlsegment,
+  );
+
+  // Local state to toggle article visibility and subtitle
+  const [isArticleVisible, setIsArticleVisible] = useState(true);
+  const [showSubtitle, setShowSubtitle] = useState(true);
+
+  // When content is loaded, hide the subtitle automatically
+  useEffect(() => {
+    if (
+      articleSelected &&
+      (articleSelected.body_raw || articleSelected.generated_ai_content)
+    ) {
+      setShowSubtitle(false);
+    }
+  }, [articleSelected]);
+
+  if (isLoading) {
+    return (
+      <div className="flex h-48 w-full items-center justify-center">
+        <Spinner size="lg" />
+      </div>
+    );
+  }
+  if (!articleSelected) {
+    return <div>Article not found</div>;
+  }
+
+  return (
+    <div className={styles.ArticlePage}>
+      <div className={styles.Article}>
+        <ArticleTopics topics={articleSelected.topics} />
+        <ArticleHeader
+          title={articleSelected.title}
+          subtitle={articleSelected.subtitle}
+          showSubtitle={showSubtitle}
+        />
+        {/* Button to toggle visibility of the article content */}
+        <div className={styles.ToggleArticle}>
+          <button
+            onClick={() => setIsArticleVisible((prev) => !prev)}
+            className={styles.button}
+          >
+            {isArticleVisible ? 'Hide Article' : 'Show Article'}
+          </button>
+        </div>
+        <ArticleContent
+          article={articleSelected}
+          isArticleVisible={isArticleVisible}
+        />
+      </div>
+
+      {/* ChatBox is always visible */}
+      <React.Suspense fallback={<Spinner size="lg" />}>
+        <ProtectedRoute>
+          <ChatBox article={articleSelected} />
+        </ProtectedRoute>
+      </React.Suspense>
+    </div>
+  );
+};
+
+export default Page;

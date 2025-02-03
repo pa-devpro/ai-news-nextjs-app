@@ -6,23 +6,19 @@ import logger from '@/utils/logger';
 
 const postsModule = PostsModule.create();
 
-export default async function PostsProviderWrapper({
+export default async function ArticlesProviderWrapper({
   children,
 }: {
   children: React.ReactNode;
 }) {
   try {
-    const posts = await postsModule.getAllPosts();
-    if (!posts) {
+    const articles = await postsModule.getAllPosts();
+    if (!articles) {
       throw new Error('Failed to fetch posts');
     }
-    return (
-      <PostsProvider posts={[...posts, ...samplePosts]}>
-        {children}
-      </PostsProvider>
-    );
+    return <PostsProvider articles={[...articles]}>{children}</PostsProvider>;
   } catch (error) {
     logger.error('Error while fetching posts', error);
-    return <PostsProvider posts={samplePosts}>{children}</PostsProvider>;
+    return <PostsProvider articles={samplePosts}>{children}</PostsProvider>;
   }
 }

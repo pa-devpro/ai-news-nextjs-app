@@ -5,15 +5,27 @@ import SuggestQuestionsBox from './SuggestQuestionsBox';
 import { MessageList } from './MessageList';
 import useChatBox from '../../features/chatbot-ai/hooks/useChatBox';
 import { useAiContent } from '@/features/chatbot-ai/hooks/useAiContent';
-import { Post } from '@/features/news-posts/types/Post';
 import { handleSend } from '@/features/chatbot-ai/utils/chatUtils';
+import { useMutation } from '@tanstack/react-query';
+import saveArticle from '@/features/news-posts/api/save-articles';
+import { useUserProfile } from '@/features/auth/utils/auth-utils';
+import {
+  ArticleToDisplay,
+  QuestionAndAnswer,
+} from '@/features/news-posts/types/ArticlesToDisplay';
+import logger from '@/utils/logger';
 
 type ChatBoxProps = {
-  post: Post;
+  article: ArticleToDisplay;
 };
 
-const ChatBox: React.FC<ChatBoxProps> = ({ post }) => {
-  const { aiContent, questions, loading } = useAiContent(post);
+const ChatBox: React.FC<ChatBoxProps> = ({ article }) => {
+  const {
+    aiContent,
+    questions,
+    loading: loadingContent,
+  } = useAiContent(article);
+  const { data: userProfile, isLoading: isLoadingProfile } = useUserProfile();
 
   const {
     message,
@@ -47,57 +59,120 @@ const ChatBox: React.FC<ChatBoxProps> = ({ post }) => {
     }
   };
 
-  if (loading) {
+  const mutation = useMutation<ArticleToDisplay, Error, ArticleToDisplay>({
+    mutationFn: saveArticle,
+  });
+
+  const handleSaveArticle = (article: ArticleToDisplay) => {
+    const formatNewQuestionsAndAnswers = [...messages].map(
+      (question, index) => ({
+        question,
+        answer: responses[index],
+      }),
+    );
+
+    const articleToSave = {
+      ...article,
+      user_id: userProfile?.id,
+      generated_ai_content: aiContent,
+      questions_and_answers: [
+        ...article.questions_and_answers,
+        ...formatNewQuestionsAndAnswers,
+      ],
+    };
+
+    mutation.mutate(articleToSave, {
+      onSuccess: (data) => {
+        logger.info('Article saved:', data);
+      },
+      onError: (error) => {
+        logger.error('Error saving article:', error);
+      },
+    });
+  };
+
+  if (loadingContent || isLoadingProfile) {
     return <div>Loading ChatBox...</div>;
   }
 
+  const DisplayQuestionsAnswers = () => {
+    if (article.questions_and_answers.length === 0) {
+      return <MessageList messages={messages} responses={responses} />;
+    }
+
+    const questionsAndAnswers: QuestionAndAnswer[] =
+      article.questions_and_answers;
+    const allQuestions = questionsAndAnswers.map((item) => item.question);
+    const allAnswers = questionsAndAnswers.map((item) => item.answer);
+
+    return (
+      <MessageList
+        messages={[...allQuestions, ...messages]}
+        responses={[...allAnswers, ...responses]}
+      />
+    );
+  };
+
   return (
     <>
-      <button onClick={() => setIsOpen(!isOpen)} className={styles.openButton}>
-        {isOpen ? 'Hide Chat' : 'Open Chat'}
-      </button>
-      {isOpen && (
-        <div className={`${styles.chatboxContainer} ${styles.light}`}>
+      <div className={`${styles.chatboxContainer} ${styles.light}`}>
+        <div className={styles.HeaderButtons}>
           <h1 className={styles.title}>Chat with the AI</h1>
-          <div className={styles.questionsContainer}>
+          <div className={styles.dialogActions}>
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className={styles.dialogIconButton}
+            >
+              {isOpen ? 'Hide Chat' : 'Open Chat'}
+            </button>
+            <button
+              onClick={() => handleSaveArticle(article)}
+              className={styles.dialogIconButton}
+            >
+              Save Article
+            </button>
+          </div>
+        </div>
+        {isOpen && (
+          <>
             <SuggestQuestionsBox
               questions={suggestedQuestions}
               onQuestionClick={handleQuestionClick}
             />
-          </div>
-          <div className={styles.messagesContainer}>
-            <MessageList messages={messages} responses={responses} />
-          </div>
-          {alertMessage && (
-            <div className={styles.alertBox}>{alertMessage}</div>
-          )}
+            <div className={styles.messagesContainer}>
+              <DisplayQuestionsAnswers />
+            </div>
+            {alertMessage && (
+              <div className={styles.alertBox}>{alertMessage}</div>
+            )}
 
-          <div className={styles.inputContainer}>
-            <input
-              type="text"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              onKeyDown={handleKeyDown}
-              className={styles.input}
-              placeholder="Type your message..."
-            />
-            <button
-              onClick={() =>
-                handleSend(
-                  message,
-                  aiContent,
-                  setMessages,
-                  setResponses,
-                  setAlertMessage,
-                )
-              }
-              className={styles.sendButton}
-            >
-              Send
-            </button>
-          </div>
-        </div>
-      )}
+            <div className={styles.inputContainer}>
+              <input
+                type="text"
+                value={message}
+                onChange={(e) => setMessage(e.target.value)}
+                onKeyDown={handleKeyDown}
+                className={styles.input}
+                placeholder="Type your message..."
+              />
+              <button
+                onClick={() =>
+                  handleSend(
+                    message,
+                    aiContent,
+                    setMessages,
+                    setResponses,
+                    setAlertMessage,
+                  )
+                }
+                className={styles.sendButton}
+              >
+                Send
+              </button>
+            </div>
+          </>
+        )}
+      </div>
     </>
   );
 };

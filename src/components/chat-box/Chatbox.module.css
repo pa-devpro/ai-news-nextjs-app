@@ -30,6 +30,31 @@
   color: #ffffff;
 }
 
+.HeaderButtons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+.dialogActions {
+  display: flex;
+  gap: 0.5rem;
+  margin-left: auto;
+}
+
+.dialogIconButton {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.dialogIconButton:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+
 .messagesContainer {
   flex: 1;
   overflow-y: auto;
@@ -76,7 +101,7 @@
   background-color: #005bb5;
 }
 
-.openButton {
+/* .openButton {
   padding: 10px 20px;
   border: none;
   border-radius: 4px;
@@ -93,7 +118,7 @@
 .openButton:hover {
   background: linear-gradient(90deg, #005bb5, #0070f3);
   box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
-}
+} */
 
 .alertBox {
   color: red;

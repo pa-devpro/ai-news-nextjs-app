@@ -1,12 +1,12 @@
 'use client';
 import React from 'react';
-import styles from './PostPreview.module.css';
+import styles from './ArticlePreview.module.css';
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 import { format, parseISO } from 'date-fns';
-import { Post } from '@/features/news-posts/types/Post';
+import { ArticleToDisplay } from '@/features/news-posts/types/ArticlesToDisplay';
 
-function PostPreview(post: Post) {
+function ArticlePreview(article: ArticleToDisplay) {
   const router = useRouter();
 
   return (
@@ -14,14 +14,14 @@ function PostPreview(post: Post) {
       style={{ textDecoration: 'inherit', color: 'inherit' }}
       onClick={(event) => {
         event.stopPropagation();
-        router.push(post.url);
+        router.push(`/${article.urlsegment}`);
       }}
       className={styles.PostPreviewContainer}
     >
       <div className={styles.ImageWrapper}>
         <Image
           className={styles.Image}
-          src={post.featured_image || '/images/placeholder.jpg'}
+          src={article.featured_image || '/images/placeholder.jpg'}
           alt=""
           fill
           sizes="100%"
@@ -31,7 +31,7 @@ function PostPreview(post: Post) {
       </div>
       <div className={styles.ArticleTextInfo}>
         <div className={styles.Topics}>
-          {post.topics.map((topic) => (
+          {article.topics.map((topic) => (
             <div
               onClick={(event) => {
                 event.stopPropagation();
@@ -45,13 +45,13 @@ function PostPreview(post: Post) {
             </div>
           ))}
         </div>
-        <div className={styles.Title}>{post.title}</div>
-        <time className={styles.Date} dateTime={post.date}>
-          {format(parseISO(post.date), 'LLLL d, yyyy')}
+        <div className={styles.Title}>{article.title}</div>
+        <time className={styles.Date} dateTime={article.date!}>
+          {format(parseISO(article.date!), 'LLLL d, yyyy')}
         </time>
       </div>
     </div>
   );
 }
 
-export default PostPreview;
+export default ArticlePreview;
