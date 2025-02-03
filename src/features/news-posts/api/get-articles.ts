@@ -7,7 +7,7 @@ import {
   QuestionAndAnswer,
 } from '../types/ArticlesToDisplay';
 
-export const BACKEND_API_URL = 'http://localhost:3001';
+export const BACKEND_API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 
 /**
  * Fetches articles for a given user.
