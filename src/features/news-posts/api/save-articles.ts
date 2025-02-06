@@ -18,24 +18,26 @@ import {
  */
 const saveArticle = async (
   article: ArticleToDisplay,
-): Promise<ArticleToDisplay> => {
+): Promise<{ success: boolean; message: string }> => {
   const session = await getSession();
   const token = session?.accessToken;
 
   const url = `/articles`;
-  const response = await api.post(url, article, {
+  return await api.post(url, article, {
     baseUrl: BACKEND_API_URL,
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
   });
-
-  return response as Promise<ArticleToDisplay>;
 };
 
 type UseDeleteSavedArticleOptions = {
-  mutationConfig?: UseMutationOptions<unknown, unknown, ArticleToDisplay>;
+  mutationConfig?: UseMutationOptions<
+    { success: boolean; message: string },
+    unknown,
+    ArticleToDisplay
+  >;
 };
 
 export const useDeleteSavedArticle = ({

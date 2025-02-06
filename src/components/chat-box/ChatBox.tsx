@@ -71,10 +71,9 @@ const ChatBox: React.FC<ChatBoxProps> = ({ article }) => {
         name: 'Save Article',
       };
 
-  const mutation = useMutation<ArticleToDisplay, Error, ArticleToDisplay>({
-    mutationFn: actionSave.action as (
-      article: ArticleToDisplay,
-    ) => Promise<ArticleToDisplay>,
+  type SaveArticleResponse = string | { success: boolean; message: string };
+  const mutation = useMutation<SaveArticleResponse, Error, ArticleToDisplay>({
+    mutationFn: actionSave.action,
   });
 
   const handleSaveArticle = (article: ArticleToDisplay) => {
