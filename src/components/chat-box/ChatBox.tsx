@@ -111,7 +111,6 @@ const ChatBox: React.FC<ChatBoxProps> = ({ article }) => {
   if (loadingContent || isLoadingProfile) {
     return <div>Loading ChatBox...</div>;
   }
-  console.log('ARTICLE ON CHATBOX', { article });
   const DisplayQuestionsAnswers = () => {
     if (article.questions_and_answers.length === 0) {
       return <MessageList messages={messages} responses={responses} />;
