@@ -22,15 +22,19 @@ const saveArticle = async (
   });
 
   if (!response.ok) {
-    if (response.status === 500) {
+    if (response.status === 409) {
       // Proceed to update the article
+
+      const dataToUpdateFromArticle = {
+        questions_and_answers: article.questions_and_answers,
+      };
       const updateUrl = `${BACKEND_API_URL}/articles/${article.id}`;
       const updateResponse = await fetch(updateUrl, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify(article),
+        body: JSON.stringify(dataToUpdateFromArticle),
       });
 
       if (!updateResponse.ok) {
