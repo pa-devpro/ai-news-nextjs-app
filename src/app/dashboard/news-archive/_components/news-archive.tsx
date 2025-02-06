@@ -17,14 +17,13 @@ const NewsArchive: React.FC = () => {
     <div>
       <h1>News Archive</h1>
       <p>Welcome to the news archive page.</p>
-      <ArticlesList userId={profile?.id} />
+      <ArticlesSavedList />
     </div>
   );
 };
 
-const ArticlesList: React.FC<{ userId: string }> = ({ userId }) => {
-  const { data: articles, isLoading } = useArticles(userId);
-
+const ArticlesSavedList: React.FC = () => {
+  const { data: articles, isLoading } = useArticles();
   if (isLoading) {
     return (
       <div className="flex h-48 w-full items-center justify-center">
@@ -55,7 +54,7 @@ const ArticlesList: React.FC<{ userId: string }> = ({ userId }) => {
             title: 'Link',
             field: 'urlsegment',
             Cell({ entry: { urlsegment } }) {
-              const modifiedUrl = `/${urlsegment}?userId=${userId}`;
+              const modifiedUrl = `/${urlsegment}`;
               return (
                 <Link href={modifiedUrl} target="_blank">
                   Link

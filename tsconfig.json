@@ -25,6 +25,6 @@
       }
     ]
   },
-  "include": ["src", ".next/types/**/*.ts"],
+  "include": ["src", ".next/types/**/*.ts", "src/features/auth/types/**/*.ts"],
   "exclude": ["node_modules", "custom-coverage"]
 }

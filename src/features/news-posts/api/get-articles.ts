@@ -6,28 +6,40 @@ import {
   ArticleToDisplay,
   QuestionAndAnswer,
 } from '../types/ArticlesToDisplay';
+import { getSession } from 'next-auth/react';
 
 export const BACKEND_API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
 
 /**
  * Fetches articles for a given user.
  *
- * @param userId - The ID of the user whose articles are to be fetched.
+ * @Token userId - The ID of the user whose articles are to be fetched.
  * @returns A promise that resolves to an array of articles mapped to display format.
  */
-const getArticles = async (userId: string) => {
-  const url = `/articles?userId=${userId}`;
+const getArticles = async () => {
+  const session = await getSession();
+  const token = session?.accessToken;
+
+  if (!token) {
+    throw new Error('No authentication token found');
+  }
+
+  const url = `/articles`;
   const response = await api.get<SavedArticle[]>(url, {
     baseUrl: BACKEND_API_URL,
+    headers: {
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    },
   });
 
   return response.map(mapSavedArticleToDisplay);
 };
 
-export const getArticlesQueryOptions = (userId?: string) => {
+export const getArticlesQueryOptions = () => {
   return {
-    queryKey: ['articles', userId],
-    queryFn: () => getArticles(userId!),
+    queryKey: ['articles'],
+    queryFn: () => getArticles(),
   };
 };
 
@@ -35,12 +47,9 @@ type UseArticlesOptions = {
   queryConfig?: QueryConfigTypeWithArgs<typeof getArticlesQueryOptions>;
 };
 
-export const useArticles = (
-  userId: string,
-  { queryConfig }: UseArticlesOptions = {},
-) => {
+export const useArticles = ({ queryConfig }: UseArticlesOptions = {}) => {
   return useQuery({
-    ...getArticlesQueryOptions(userId),
+    ...getArticlesQueryOptions(),
     ...queryConfig,
   });
 };
@@ -56,7 +65,7 @@ function mapSavedArticleToDisplay(saved: SavedArticle): ArticleToDisplay {
     author: saved.author,
     date: saved.date,
     body_raw: saved.body_raw,
-    topics: ['News'],
+    topics: saved.topics || ['General'],
     urlsegment: saved.urlsegment || saved.title,
     original_url: saved.original_url,
     generated_ai_content: saved.generated_ai_content,

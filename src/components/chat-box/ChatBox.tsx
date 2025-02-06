@@ -6,7 +6,7 @@ import { MessageList } from './MessageList';
 import useChatBox from '../../features/chatbot-ai/hooks/useChatBox';
 import { useAiContent } from '@/features/chatbot-ai/hooks/useAiContent';
 import { handleSend } from '@/features/chatbot-ai/utils/chatUtils';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import saveArticle from '@/features/news-posts/api/save-articles';
 import { useUserProfile } from '@/features/auth/utils/auth-utils';
 import {
@@ -14,6 +14,7 @@ import {
   QuestionAndAnswer,
 } from '@/features/news-posts/types/ArticlesToDisplay';
 import logger from '@/utils/logger';
+import updateSavedArticle from '@/features/news-posts/api/update-saved-articles';
 
 type ChatBoxProps = {
   article: ArticleToDisplay;
@@ -26,6 +27,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({ article }) => {
     loading: loadingContent,
   } = useAiContent(article);
   const { data: userProfile, isLoading: isLoadingProfile } = useUserProfile();
+  const queryClient = useQueryClient();
 
   const {
     message,
@@ -59,8 +61,20 @@ const ChatBox: React.FC<ChatBoxProps> = ({ article }) => {
     }
   };
 
+  const actionSave = article.id
+    ? {
+        action: updateSavedArticle,
+        name: 'Update Article',
+      }
+    : {
+        action: saveArticle,
+        name: 'Save Article',
+      };
+
   const mutation = useMutation<ArticleToDisplay, Error, ArticleToDisplay>({
-    mutationFn: saveArticle,
+    mutationFn: actionSave.action as (
+      article: ArticleToDisplay,
+    ) => Promise<ArticleToDisplay>,
   });
 
   const handleSaveArticle = (article: ArticleToDisplay) => {
@@ -84,6 +98,9 @@ const ChatBox: React.FC<ChatBoxProps> = ({ article }) => {
     mutation.mutate(articleToSave, {
       onSuccess: (data) => {
         logger.info('Article saved:', data);
+        const test = queryClient.invalidateQueries({ queryKey: ['articles'] });
+
+        logger.info('Refetch:', test);
       },
       onError: (error) => {
         logger.error('Error saving article:', error);
@@ -94,7 +111,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({ article }) => {
   if (loadingContent || isLoadingProfile) {
     return <div>Loading ChatBox...</div>;
   }
-
+  console.log('ARTICLE ON CHATBOX', { article });
   const DisplayQuestionsAnswers = () => {
     if (article.questions_and_answers.length === 0) {
       return <MessageList messages={messages} responses={responses} />;
@@ -129,7 +146,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({ article }) => {
               onClick={() => handleSaveArticle(article)}
               className={styles.dialogIconButton}
             >
-              Save Article
+              {actionSave.name}
             </button>
           </div>
         </div>

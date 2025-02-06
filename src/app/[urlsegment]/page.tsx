@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { format, parseISO } from 'date-fns';
-import { useParams, useSearchParams } from 'next/navigation';
+import { useParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import { Spinner } from '@/components/dashboard/ui/spinner';
 import MarkdownWrapper from '@/components/markdown-wrapper/MarkdownWrapper';
@@ -96,13 +96,10 @@ const ArticleContent = ({
 const Page = () => {
   // Assuming urlsegment defines the article (for a dynamic route)
   const { urlsegment } = useParams();
-  // Use search params to fetch the user id if needed
-  const searchParams = useSearchParams();
-  const userId = searchParams.get('userId') || '';
 
   // Fetch articles for this user
   const dataFromApi = usePosts();
-  const { data: articlesFromUser, isLoading } = useArticles(userId);
+  const { data: articlesFromUser, isLoading } = useArticles();
   // Select the article based on the urlsegment
   const aritclesList = [...(articlesFromUser || []), ...dataFromApi?.articles];
 

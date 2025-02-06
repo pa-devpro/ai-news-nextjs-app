@@ -9,6 +9,7 @@ type User = {
   name: string;
   email: string;
   emailVerified: Date | null;
+  accessToken: string | null;
 };
 
 const NEXTAUTH_SECRET = process.env.NEXTAUTH_SECRET;
@@ -51,6 +52,7 @@ export const authConfig: NextAuthOptions = {
           emailVerified: data.user.email_confirmed_at
             ? new Date(data.user.email_confirmed_at)
             : null,
+          accessToken: data.session?.access_token,
         };
 
         return user;
@@ -67,7 +69,9 @@ export const authConfig: NextAuthOptions = {
         token.id = user.id;
         token.email = user.email;
         token.name = user.name;
+        token.accessToken = (user as User).accessToken;
       }
+
       return token;
     },
     async session({ session, token }: { session: Session; token: JWT }) {
@@ -77,7 +81,9 @@ export const authConfig: NextAuthOptions = {
           name: token.name as string,
           image: session.user?.image || null,
         };
+        session.accessToken = token.accessToken as string;
       }
+
       return session;
     },
   },

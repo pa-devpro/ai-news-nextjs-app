@@ -11,6 +11,7 @@ import SessionProviderWrapper from '@/components/SessionProviderWrapper';
 import QueryClientProviderWrapper from '@/components/QueryClientProviderWrapper';
 import { siteInfo } from '@/config/constants';
 import '@/utils/polyfills'; // Import the polyfill
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 
 export const metadata: Metadata = {
   title: siteInfo.title,
@@ -33,6 +34,7 @@ export default function RootLayout({
                 <Navbar />
                 <Menu />
                 <div className="content">{children}</div>
+                <ReactQueryDevtools initialIsOpen={false} />
                 <Footer />
               </ArticlesProviderWrapper>
             </SessionProviderWrapper>
