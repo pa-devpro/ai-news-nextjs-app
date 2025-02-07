@@ -11,7 +11,7 @@ import { api } from '@/lib/api-client';
  * @throws {Error} - Throws an error if the article cannot be saved or updated.
  */
 const updateSavedArticle = async (
-  article: ArticleToDisplay,
+  article: Omit<ArticleToDisplay, 'created_at'>,
 ): Promise<string> => {
   const session = await getSession();
   const token = session?.accessToken;

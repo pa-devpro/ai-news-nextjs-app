@@ -2,11 +2,6 @@ import { getSession } from 'next-auth/react';
 import { ArticleToDisplay } from '../types/ArticlesToDisplay';
 import { BACKEND_API_URL } from './get-articles';
 import { api } from '@/lib/api-client';
-import {
-  useMutation,
-  UseMutationOptions,
-  useQueryClient,
-} from '@tanstack/react-query';
 
 /**
  * Saves an article to the backend.
@@ -17,7 +12,7 @@ import {
  * @throws {Error} - Throws an error if the article cannot be saved or updated.
  */
 const saveArticle = async (
-  article: ArticleToDisplay,
+  article: Omit<ArticleToDisplay, 'created_at'>,
 ): Promise<{ success: boolean; message: string }> => {
   const session = await getSession();
   const token = session?.accessToken;
@@ -29,33 +24,6 @@ const saveArticle = async (
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
-  });
-};
-
-type UseDeleteSavedArticleOptions = {
-  mutationConfig?: UseMutationOptions<
-    { success: boolean; message: string },
-    unknown,
-    ArticleToDisplay
-  >;
-};
-
-export const useDeleteSavedArticle = ({
-  mutationConfig,
-}: UseDeleteSavedArticleOptions = {}) => {
-  const queryClient = useQueryClient();
-
-  const { onSuccess, ...restConfig } = mutationConfig || {};
-
-  return useMutation({
-    onSuccess: (...args) => {
-      queryClient.invalidateQueries({
-        queryKey: ['articles'],
-      });
-      onSuccess?.(...args);
-    },
-    ...restConfig,
-    mutationFn: saveArticle,
   });
 };
 

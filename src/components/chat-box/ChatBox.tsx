@@ -72,7 +72,11 @@ const ChatBox: React.FC<ChatBoxProps> = ({ article }) => {
       };
 
   type SaveArticleResponse = string | { success: boolean; message: string };
-  const mutation = useMutation<SaveArticleResponse, Error, ArticleToDisplay>({
+  const mutation = useMutation<
+    SaveArticleResponse,
+    Error,
+    Omit<ArticleToDisplay, 'created_at'>
+  >({
     mutationFn: actionSave.action,
   });
 
@@ -84,8 +88,9 @@ const ChatBox: React.FC<ChatBoxProps> = ({ article }) => {
       }),
     );
 
-    const articleToSave = {
-      ...article,
+    const { created_at, ...restArticle } = article;
+    const articleToSave: Omit<ArticleToDisplay, 'created_at'> = {
+      ...restArticle,
       user_id: userProfile?.id,
       generated_ai_content: aiContent,
       questions_and_answers: [
@@ -96,7 +101,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({ article }) => {
 
     mutation.mutate(articleToSave, {
       onSuccess: (data) => {
-        logger.info('Article saved:', data);
+        logger.info('Article saved:', data, created_at);
         const test = queryClient.invalidateQueries({ queryKey: ['articles'] });
 
         logger.info('Refetch:', test);
