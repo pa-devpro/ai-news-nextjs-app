@@ -1,7 +1,6 @@
 'use client';
 import React, { useState } from 'react';
 import styles from './Navbar.module.css';
-import ThemeButton from '../theme-button/ThemeButton';
 import Link from 'next/link';
 import { IconSearch, IconX } from '@tabler/icons-react';
 import { useSession, signOut } from 'next-auth/react';
@@ -9,17 +8,18 @@ import { FaSignOutAlt } from 'react-icons/fa';
 import AuthenticationForm from '../../features/auth/components/AuthenticationForm';
 import { Dialog, DialogContent, DialogTrigger } from '../dashboard/ui/dialog';
 import { siteInfo } from '@/config/constants';
+import { useRouter } from 'next/navigation';
 
 function Navbar() {
   const { data: session } = useSession();
-  const [searchOpen, setSearchOpen] = useState(false);
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
 
   return (
     <div className={styles.Navbar}>
       <div className={styles.NavbarHeader}>
         <div className={styles.NavHeaderIconsLeft}>
-          <ThemeButton />
+          {/* <ThemeButton /> */}
+          <SearchContainer />
         </div>
         <div className={styles.center}>
           <Link href="/" className={styles.logo}>
@@ -27,16 +27,6 @@ function Navbar() {
           </Link>
         </div>
         <div className={styles.NavHeaderIconsRight}>
-          <div className={styles.searchContainer}>
-            {searchOpen ? (
-              <div className={styles.searchBox}>
-                <input type="text" placeholder="Search..." />
-                <IconX onClick={() => setSearchOpen(false)} />
-              </div>
-            ) : (
-              <IconSearch onClick={() => setSearchOpen(true)} />
-            )}
-          </div>
           {session ? (
             <>
               <Link href="/dashboard">Dashboard</Link>
@@ -60,5 +50,35 @@ function Navbar() {
     </div>
   );
 }
+
+export const SearchContainer = () => {
+  const [searchOpen, setSearchOpen] = useState(false);
+  const [searchInput, setSearchInput] = useState('');
+  const router = useRouter();
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      router.push(`/search/${encodeURIComponent(searchInput)}`);
+      setSearchOpen(false);
+    }
+  };
+  return (
+    <div className={styles.searchContainer}>
+      {searchOpen ? (
+        <div className={styles.searchBox}>
+          <input
+            type="text"
+            placeholder="Search..."
+            value={searchInput}
+            onChange={(e) => setSearchInput(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+          <IconX onClick={() => setSearchOpen(false)} />
+        </div>
+      ) : (
+        <IconSearch onClick={() => setSearchOpen(true)} />
+      )}
+    </div>
+  );
+};
 
 export default Navbar;
