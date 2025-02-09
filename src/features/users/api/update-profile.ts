@@ -4,6 +4,7 @@ import { z } from 'zod';
 import { api } from '@/lib/api-client';
 
 import { useUserProfile } from '@/features/auth/utils/auth-utils';
+import { getSession } from 'next-auth/react';
 
 export const updateProfileInputSchema = z.object({
   email: z.string().min(1, 'Required').email('Invalid email'),
@@ -13,8 +14,15 @@ export const updateProfileInputSchema = z.object({
 
 export type UpdateProfileInput = z.infer<typeof updateProfileInputSchema>;
 
-export const updateProfile = (data: UpdateProfileInput): Promise<unknown> => {
-  return api.patch(`/admin/profile`, data);
+export const updateProfile = async (
+  data: UpdateProfileInput,
+): Promise<unknown> => {
+  const session = await getSession();
+  const token = session?.accessToken;
+  if (!session || !token) {
+    return null;
+  }
+  return api.patch(`/admin/profile`, { data, token });
 };
 
 type UseUpdateProfileOptions = {

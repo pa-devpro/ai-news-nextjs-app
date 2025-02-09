@@ -1,10 +1,9 @@
-import { supabase } from '@/lib/supabaseClient';
+import { getSupabaseWithUserAuth, supabase } from '@/lib/supabaseClient';
 import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET() {
   const session = await getServerSession();
-
   if (!session || !session.user) {
     return NextResponse.json({ error: 'No session found' }, { status: 404 });
   }
@@ -24,11 +23,9 @@ export async function GET() {
   if (!data) {
     return NextResponse.json({ error: 'No profiles found' }, { status: 404 });
   }
-
   return NextResponse.json(data);
 }
 
-// PATCH /api/admin/profile
 export async function PATCH(request: NextRequest) {
   const session = await getServerSession();
 
@@ -36,12 +33,18 @@ export async function PATCH(request: NextRequest) {
     return NextResponse.json({ error: 'No session found' }, { status: 404 });
   }
 
-  const { name, bio } = await request.json();
+  const req = await request.json();
+
+  const { name, bio } = req.data;
+  const token = req.token;
+
+  const supabase = getSupabaseWithUserAuth(token);
 
   const { data, error: updateProfileError } = await supabase
     .from('profiles')
     .update({ name, bio, email: session.user.email })
-    .eq('email', session.user.email);
+    .eq('email', session.user.email)
+    .select('*');
 
   if (updateProfileError) {
     return NextResponse.json(
