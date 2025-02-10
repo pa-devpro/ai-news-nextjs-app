@@ -40,7 +40,8 @@
   gap: 1rem;
 }
 
-.navLink, .loginButton {
+.navLink,
+.loginButton {
   text-decoration: none;
   color: #333;
   padding: 0.5rem 1rem;
@@ -53,7 +54,8 @@
   height: 38px; /* Fixed height for consistency */
 }
 
-.navLink:hover, .loginButton:hover {
+.navLink:hover,
+.loginButton:hover {
   background-color: #f5f5f5;
   border-color: #ccc;
 }
@@ -77,7 +79,6 @@
   height: 38px; /* Same height as navLink */
 }
 
-
 .logoutButton:hover {
   background-color: #f5f5f5;
   border-color: #ccc;
@@ -99,8 +100,6 @@
   text-decoration: none;
   color: inherit;
 }
-
-
 
 .searchContainer {
   position: relative;
@@ -183,7 +182,6 @@
 }
 
 @media (max-width: 768px) {
-
   .searchBox {
     background: #f8f9fa;
   }
@@ -208,7 +206,7 @@
     right: 0;
     background: white;
     padding: 1rem;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border-radius: 4px;
     min-width: 200px;
     z-index: 1000;
