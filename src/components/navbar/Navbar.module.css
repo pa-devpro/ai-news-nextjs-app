@@ -1,106 +1,135 @@
 .Navbar {
-  display: flex;
-  flex-direction: column;
-  background-color: var(--secondary);
-  opacity: 95%;
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
+  right: 0;
+  background: white;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   z-index: 1000;
 }
 
 .NavbarHeader {
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  font-weight: 500;
-  width: 75%;
-  margin: 1rem auto 0.15rem auto;
-  height: 100%;
-  position: static;
-}
-
-.NavbarContent {
-  display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
-  max-width: 1200px;
-}
-
-.NavHeaderIconsLeft,
-.NavHeaderIconsRight {
-  display: flex;
-  align-items: center;
+  padding: 1rem;
+  position: relative;
 }
 
 .NavHeaderIconsLeft {
-  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.hamburger {
+  display: none;
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 0.5rem;
+  margin-right: 0.5rem;
+}
+
+.navLink {
+  text-decoration: none;
+  color: inherit;
+  padding: 0.5rem;
+}
+
+.logoutButton {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem;
+}
+
+.logoutButton span {
+  display: none;
 }
 
 .center {
-  flex: 2;
-  display: flex;
-  justify-content: center;
   position: absolute;
   left: 50%;
   transform: translateX(-50%);
 }
 
-.NavHeaderIconsRight {
-  flex: 3;
-  justify-content: flex-end;
-  gap: 1rem;
-}
-
 .logo {
   font-size: 1.5rem;
   font-weight: bold;
-  text-align: center;
+  text-decoration: none;
+  color: inherit;
 }
 
-.searchContainer {
+.NavHeaderIconsRight {
   display: flex;
   align-items: center;
+  gap: 1rem;
 }
 
-.searchBox {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
+@media (max-width: 768px) {
+  .hamburger {
+    display: block;
+  }
 
-.searchBox input {
-  padding: 0.5rem;
-  border: 1px solid var(--color-border);
-  border-radius: 0.25rem;
-}
+  .NavHeaderIconsRight {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: white;
+    padding: 1rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    flex-direction: column;
+    align-items: stretch;
+    gap: 1rem;
+  }
 
-.loginButton,
-.logoutButton {
-  background: none;
-  border: none;
-  cursor: pointer;
-  font-size: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
+  .NavHeaderIconsRight.showMenu {
+    display: flex;
+  }
 
-.dialogOverlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-}
+  .navLink,
+  .loginButton,
+  .logoutButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    padding: 0.75rem;
+    background: #f5f5f5;
+    border-radius: 4px;
+    text-decoration: none;
+    color: inherit;
+  }
 
-.dialogContent {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  background: white;
-  padding: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  .logoutButton span {
+    display: inline;
+  }
+
+  .searchContainer {
+    position: static;
+  }
+
+  .searchBox {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    padding: 1rem;
+    background: white;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  }
+
+  .searchBox input {
+    width: 100%;
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+  }
 }

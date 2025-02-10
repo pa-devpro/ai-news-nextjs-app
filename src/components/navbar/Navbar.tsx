@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './Navbar.module.css';
 import Link from 'next/link';
 import { IconSearch, IconX } from '@tabler/icons-react';
@@ -9,16 +9,38 @@ import AuthenticationForm from '../../features/auth/components/AuthenticationFor
 import { Dialog, DialogContent, DialogTrigger } from '../dashboard/ui/dialog';
 import { siteInfo } from '@/config/constants';
 import { useRouter } from 'next/navigation';
+import { FaBars } from 'react-icons/fa';
 
 function Navbar() {
   const { data: session } = useSession();
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+
+  // Add useEffect to close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        mobileMenuOpen &&
+        !(event.target as Element).closest(`.${styles.NavbarHeader}`)
+      ) {
+        setMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener('click', handleClickOutside);
+    return () => document.removeEventListener('click', handleClickOutside);
+  }, [mobileMenuOpen]);
 
   return (
     <div className={styles.Navbar}>
       <div className={styles.NavbarHeader}>
         <div className={styles.NavHeaderIconsLeft}>
-          {/* <ThemeButton /> */}
+          <button
+            className={styles.hamburger}
+            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+          >
+            <FaBars />
+          </button>
           <SearchContainer />
         </div>
         <div className={styles.center}>
@@ -26,13 +48,17 @@ function Navbar() {
             {siteInfo.title}
           </Link>
         </div>
-        <div className={styles.NavHeaderIconsRight}>
+        <div
+          className={`${styles.NavHeaderIconsRight} ${mobileMenuOpen ? styles.showMenu : ''}`}
+        >
           {session ? (
             <>
-              <Link href="/dashboard">Dashboard</Link>
-
+              <Link href="/dashboard" className={styles.navLink}>
+                Dashboard
+              </Link>
               <button onClick={() => signOut()} className={styles.logoutButton}>
                 <FaSignOutAlt />
+                <span>Logout</span>
               </button>
             </>
           ) : (
