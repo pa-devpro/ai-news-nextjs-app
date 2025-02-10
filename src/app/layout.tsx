@@ -33,7 +33,7 @@ export default function RootLayout({
                 <NextTopLoader color="#d1d5db" />
                 <Navbar />
                 <Menu />
-                <div className="content">{children}</div>
+                <div className="navbarSpacing">{children}</div>
                 <ReactQueryDevtools initialIsOpen={false} />
                 <Footer />
               </ArticlesProviderWrapper>

@@ -79,6 +79,10 @@ body {
   overflow: hidden;
 }
 
+.navbarSpacing {
+  margin-top: 100px; /* Same as navbar height */
+}
+
 .content {
   flex: 1;
   display: flex;
