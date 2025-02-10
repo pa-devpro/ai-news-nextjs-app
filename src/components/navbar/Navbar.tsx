@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from './Navbar.module.css';
 import Link from 'next/link';
 import { IconSearch, IconX } from '@tabler/icons-react';
@@ -16,7 +16,10 @@ function Navbar() {
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
-  // Add useEffect to close menu when clicking outside
+  const handleNavigation = () => {
+    setMobileMenuOpen(false);
+  };
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (
@@ -35,42 +38,60 @@ function Navbar() {
     <div className={styles.Navbar}>
       <div className={styles.NavbarHeader}>
         <div className={styles.NavHeaderIconsLeft}>
+          <SearchContainer />
+        </div>
+        <div className={styles.center}>
+          <Link href="/" className={styles.logo} onClick={handleNavigation}>
+            {siteInfo.title}
+          </Link>
+        </div>
+        <div className={styles.NavHeaderIconsRight}>
           <button
             className={styles.hamburger}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
             <FaBars />
           </button>
-          <SearchContainer />
-        </div>
-        <div className={styles.center}>
-          <Link href="/" className={styles.logo}>
-            {siteInfo.title}
-          </Link>
-        </div>
-        <div
-          className={`${styles.NavHeaderIconsRight} ${mobileMenuOpen ? styles.showMenu : ''}`}
-        >
-          {session ? (
-            <>
-              <Link href="/dashboard" className={styles.navLink}>
-                Dashboard
-              </Link>
-              <button onClick={() => signOut()} className={styles.logoutButton}>
-                <FaSignOutAlt />
-                <span>Logout</span>
-              </button>
-            </>
-          ) : (
-            <Dialog open={authDialogOpen} onOpenChange={setAuthDialogOpen}>
-              <DialogTrigger asChild>
-                <button className={styles.loginButton}>Login</button>
-              </DialogTrigger>
-              <DialogContent className={styles.dialogContent}>
-                <AuthenticationForm />
-              </DialogContent>
-            </Dialog>
-          )}
+          <div
+            className={`${styles.mobileMenu} ${mobileMenuOpen ? styles.showMenu : ''}`}
+          >
+            {session ? (
+              <>
+                <Link
+                  href="/dashboard"
+                  className={styles.navLink}
+                  onClick={handleNavigation}
+                >
+                  Dashboard
+                </Link>
+                <button
+                  onClick={() => {
+                    handleNavigation();
+                    signOut();
+                  }}
+                  className={styles.logoutButton}
+                >
+                  <FaSignOutAlt />
+                  <span>Logout</span>
+                </button>
+              </>
+            ) : (
+              <Dialog
+                open={authDialogOpen}
+                onOpenChange={(open) => {
+                  setAuthDialogOpen(open);
+                  handleNavigation();
+                }}
+              >
+                <DialogTrigger asChild>
+                  <button className={styles.loginButton}>Login</button>
+                </DialogTrigger>
+                <DialogContent className={styles.dialogContent}>
+                  <AuthenticationForm />
+                </DialogContent>
+              </Dialog>
+            )}
+          </div>
         </div>
       </div>
     </div>
@@ -81,24 +102,50 @@ export const SearchContainer = () => {
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchInput, setSearchInput] = useState('');
   const router = useRouter();
+  const searchRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        searchRef.current &&
+        !searchRef.current.contains(event.target as Node)
+      ) {
+        setSearchOpen(false);
+      }
+    };
+
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
+
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       router.push(`/search/${encodeURIComponent(searchInput)}`);
       setSearchOpen(false);
     }
   };
+
   return (
-    <div className={styles.searchContainer}>
+    <div className={styles.searchContainer} ref={searchRef}>
       {searchOpen ? (
         <div className={styles.searchBox}>
-          <input
-            type="text"
-            placeholder="Search..."
-            value={searchInput}
-            onChange={(e) => setSearchInput(e.target.value)}
-            onKeyDown={handleKeyDown}
-          />
-          <IconX onClick={() => setSearchOpen(false)} />
+          <form onSubmit={(e) => e.preventDefault()}>
+            <input
+              type="text"
+              placeholder="Search..."
+              value={searchInput}
+              onChange={(e) => setSearchInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              autoFocus
+            />
+            <button
+              className={styles.closeButton}
+              onClick={() => setSearchOpen(false)}
+              type="button"
+            >
+              <IconX size={18} stroke={2} />
+            </button>
+          </form>
         </div>
       ) : (
         <IconSearch onClick={() => setSearchOpen(true)} />
@@ -106,5 +153,4 @@ export const SearchContainer = () => {
     </div>
   );
 };
-
 export default Navbar;
