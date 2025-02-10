@@ -1,16 +1,46 @@
-.ErrorMessage {
-  margin-top: 2rem;
-  text-align: center;
+/* Global styles */
+
+/* Article styles */
+.ArticlePage {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 400px;
+  gap: 2rem;
+  max-width: 1600px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.ArticleContainer {
+  background-color: var(--background);
+  border-radius: 8px;
+  padding: 2rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
   display: flex;
-  flex-direction: column;
-  gap: 1rem;
+  justify-content: center;
 }
 
 .Article {
+  width: 100%;
+  max-width: 800px; /* Add a max-width to control content width */
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
   align-items: center;
+}
+
+.ArticleBody {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 0;
+}
+
+.ArticleBody > * {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  margin: 0 auto;
 }
 
 .ArticleTopics {
@@ -41,13 +71,82 @@
   font-size: 1.2rem;
 }
 
+.ToggleArticle {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+/* Chatbox styles */
+.ChatboxContainer {
+  position: sticky;
+  top: 2rem;
+  height: calc(100vh - 4rem);
+  background-color: var(--background);
+  border-radius: 8px;
+  padding: 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+}
+
+.ChatContent {
+  flex: 1;
+  overflow-y: auto;
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.ChatboxHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid var(--border-color);
+  margin-bottom: 1rem;
+}
+
+.ChatVisibilityToggle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: var(--primary-50);
+  border: 1px solid var(--primary-200);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.ChatVisibilityToggle:hover {
+  background-color: var(--primary-100);
+}
+
+.ChatVisibilityIcon {
+  transition: transform 0.2s ease;
+}
+
+.ChatVisibilityIcon.rotated {
+  transform: rotate(180deg);
+}
+
+/* Other styles */
+.ErrorMessage {
+  margin-top: 2rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
 .Byline {
   color: var(--primary-600) !important;
   font-weight: 500;
-}
-
-.ArticleBody {
-  font-size: 1.2rem;
 }
 
 .ImageWrapper {
@@ -69,8 +168,56 @@
   background-color: rgba(0, 0, 0, 0.1);
 }
 
-.ToggleArticle {
-  display: flex;
-  justify-content: flex-end;
-  margin-bottom: 1rem;
+/* Add a wrapper for the markdown content */
+.MarkdownContainer {
+  width: 100%;
+  max-width: 100%;
+  margin: 0 auto;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Media Styles */
+@media (max-width: 1024px) {
+  .ArticlePage {
+    grid-template-columns: 1fr;
+    padding: 0.5rem;
+    width: 100%;
+    margin: 0;
+    overflow-x: hidden;
+  }
+
+  .ArticleContainer {
+    padding: 0.5rem;
+    width: 100%;
+    margin: 0;
+    display: block; /* Change from flex to block */
+  }
+
+  .Article {
+    width: 100%;
+    max-width: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .ArticleBody {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .MarkdownContainer {
+    width: 100%;
+    padding: 0 0.5rem;
+    margin: 0;
+    overflow-x: hidden;
+  }
+
+  .ChatboxContainer {
+    position: relative;
+    height: 600px;
+    margin: 1rem 0 0 0;
+    width: 100%;
+  }
 }

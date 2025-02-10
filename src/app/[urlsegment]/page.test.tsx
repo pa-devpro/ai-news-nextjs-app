@@ -8,6 +8,10 @@ import { mockArticles } from '../../features/news-posts/fixtures/mockArticles';
 import { useSession } from 'next-auth/react';
 import { useArticles } from '@/features/news-posts/api/get-articles';
 
+jest.mock('lucide-react', () => ({
+  ChevronDown: () => <div>Mocked ChevronDown Icon</div>,
+}));
+
 jest.mock('next/navigation', () => ({
   useParams: jest.fn(),
   useSearchParams: jest.fn().mockReturnValue({ get: jest.fn() }),

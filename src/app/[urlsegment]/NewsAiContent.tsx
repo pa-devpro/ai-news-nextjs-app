@@ -11,14 +11,19 @@ interface NewsAiContentProps {
 
 const NewsAiContent: React.FC<NewsAiContentProps> = ({ article }) => {
   const { aiContent, loading } = useAiContent(article);
-
   if (!aiContent || loading) {
-    return <Spinner />;
+    return (
+      <div className={styles.ArticleBody}>
+        <Spinner />
+      </div>
+    );
   }
 
   return (
     <div className={styles.ArticleBody}>
-      <MarkdownWrapper>{aiContent}</MarkdownWrapper>
+      <div className={styles.MarkdownContainer}>
+        <MarkdownWrapper>{aiContent}</MarkdownWrapper>
+      </div>
     </div>
   );
 };

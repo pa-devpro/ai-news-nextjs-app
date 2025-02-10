@@ -4,7 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { format, parseISO } from 'date-fns';
 import { useParams } from 'next/navigation';
-import dynamic from 'next/dynamic';
 import { Spinner } from '@/components/dashboard/ui/spinner';
 import MarkdownWrapper from '@/components/markdown-wrapper/MarkdownWrapper';
 import { useArticles } from '@/features/news-posts/api/get-articles';
@@ -13,9 +12,9 @@ import { usePosts } from '@/features/news-posts/context/NewsContext';
 import NewsAiContent from './NewsAiContent';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { ArticleToDisplay } from '@/features/news-posts/types/ArticlesToDisplay';
+import ChatBoxContainer from './ChatBoxContainer';
 
 // Dynamically load ChatBox so that it's always rendered regardless of article visibility
-const ChatBox = dynamic(() => import('@/components/chat-box/ChatBox'), {});
 
 interface ArticleTopicsProps {
   topics: string[];
@@ -134,34 +133,36 @@ const Page = () => {
 
   return (
     <div className={styles.ArticlePage}>
-      <div className={styles.Article}>
-        <ArticleTopics topics={articleSelected.topics} />
-        <ArticleHeader
-          title={articleSelected.title}
-          subtitle={articleSelected.subtitle}
-          showSubtitle={showSubtitle}
-        />
-        {/* Button to toggle visibility of the article content */}
-        <div className={styles.ToggleArticle}>
-          <button
-            onClick={() => setIsArticleVisible((prev) => !prev)}
-            className={styles.button}
-          >
-            {isArticleVisible ? 'Hide Article' : 'Show Article'}
-          </button>
+      <div className={styles.ArticleContainer}>
+        <div className={styles.Article}>
+          <ArticleTopics topics={articleSelected.topics} />
+          <ArticleHeader
+            title={articleSelected.title}
+            subtitle={articleSelected.subtitle}
+            showSubtitle={showSubtitle}
+          />
+          <div className={styles.ToggleArticle}>
+            <button
+              onClick={() => setIsArticleVisible((prev) => !prev)}
+              className={styles.button}
+            >
+              {isArticleVisible ? 'Hide Article' : 'Show Article'}
+            </button>
+          </div>
+          <ArticleContent
+            article={articleSelected}
+            isArticleVisible={isArticleVisible}
+          />
         </div>
-        <ArticleContent
-          article={articleSelected}
-          isArticleVisible={isArticleVisible}
-        />
       </div>
 
-      {/* ChatBox is always visible */}
-      <React.Suspense fallback={<Spinner size="lg" />}>
-        <ProtectedRoute>
-          <ChatBox article={articleSelected} />
-        </ProtectedRoute>
-      </React.Suspense>
+      <div className={styles.ChatboxContainer}>
+        <React.Suspense fallback={<Spinner size="lg" />}>
+          <ProtectedRoute>
+            <ChatBoxContainer article={articleSelected} />
+          </ProtectedRoute>
+        </React.Suspense>
+      </div>
     </div>
   );
 };

@@ -6,7 +6,12 @@ const createJestConfig = nextJest({
 
 const config = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
-  transformIgnorePatterns: ['/node_modules/(?!(react-markdown|remark-gfm)/)'],
+  transformIgnorePatterns: [
+    '/node_modules/(?!(react-markdown|remark-gfm|lucide-react)/)',
+  ],
+  transform: {
+    '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
+  },
   roots: ['<rootDir>/src'],
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',

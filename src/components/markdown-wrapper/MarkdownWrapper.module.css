@@ -1,7 +1,9 @@
-.MarkdownWrapper p {
-  padding-top: 1rem;
+.MarkdownWrapper {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
 }
 
-.MarkdownWrapper h2 {
-  padding-top: 1rem;
+.MarkdownWrapper > * {
+  max-width: 100%;
 }
