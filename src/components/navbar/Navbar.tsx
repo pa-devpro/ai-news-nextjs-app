@@ -46,17 +46,17 @@ function Navbar() {
           </Link>
         </div>
         <div className={styles.NavHeaderIconsRight}>
-          <button
-            className={styles.hamburger}
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            <FaBars />
-          </button>
-          <div
-            className={`${styles.mobileMenu} ${mobileMenuOpen ? styles.showMenu : ''}`}
-          >
-            {session ? (
-              <>
+          {session ? (
+            <>
+              <button
+                className={styles.hamburger}
+                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              >
+                <FaBars />
+              </button>
+              <div
+                className={`${styles.navMenuItems} ${mobileMenuOpen ? styles.showMenu : ''}`}
+              >
                 <Link
                   href="/dashboard"
                   className={styles.navLink}
@@ -72,26 +72,26 @@ function Navbar() {
                   className={styles.logoutButton}
                 >
                   <FaSignOutAlt />
-                  <span>Logout</span>
+                  <span className={styles.buttonText}>Logout</span>
                 </button>
-              </>
-            ) : (
-              <Dialog
-                open={authDialogOpen}
-                onOpenChange={(open) => {
-                  setAuthDialogOpen(open);
-                  handleNavigation();
-                }}
-              >
-                <DialogTrigger asChild>
-                  <button className={styles.loginButton}>Login</button>
-                </DialogTrigger>
-                <DialogContent className={styles.dialogContent}>
-                  <AuthenticationForm />
-                </DialogContent>
-              </Dialog>
-            )}
-          </div>
+              </div>
+            </>
+          ) : (
+            <Dialog
+              open={authDialogOpen}
+              onOpenChange={(open) => {
+                setAuthDialogOpen(open);
+                handleNavigation();
+              }}
+            >
+              <DialogTrigger asChild>
+                <button className={styles.loginButton}>Login</button>
+              </DialogTrigger>
+              <DialogContent className={styles.dialogContent}>
+                <AuthenticationForm />
+              </DialogContent>
+            </Dialog>
+          )}
         </div>
       </div>
     </div>
