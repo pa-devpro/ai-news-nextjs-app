@@ -42,8 +42,12 @@ export const generateArticle = async ({
     ]);
 
     const chain = template.pipe(model);
-    const input =
-      'Create a new article based on the content that express the same idea and same information and present it in a markdown form. Has to be written in an engaging and positive form';
+    const input = `Create a new article based on the content that express the same idea and same information 
+      and present it in a markdown form. Has to be written in an engaging and positive form. 
+      At the beggining of the article you will present main points, then you will elaborate on them. 
+      At the end of the article you present some takeaways, and ask a question to the user to reflect or
+      encourage them to explore further using the chatbox.`;
+
     const response = await chain.invoke({
       input: input,
       context: content,
@@ -99,7 +103,8 @@ export const suggestQuestions = async (content: string): Promise<string[]> => {
     const template = ChatPromptTemplate.fromMessages([
       [
         'system',
-        'Provide me with 3 interesting questions regarding this content: {context}, please separate each question with a ;',
+        `Provide me with 3 short interesting questions regarding this content: {context}, make them short and concise, 
+        please separate each question with a ;`,
       ],
     ]);
     const chain = template.pipe(model);

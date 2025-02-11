@@ -74,6 +74,10 @@ describe('askQuestionToArticle', () => {
 });
 
 describe('suggestQuestions', () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should suggest questions based on the provided content', async () => {
     const content = 'Sample article content';
 
@@ -83,7 +87,8 @@ describe('suggestQuestions', () => {
     expect(ChatPromptTemplate.fromMessages).toHaveBeenCalledWith([
       [
         'system',
-        'Provide me with 3 interesting questions regarding this content: {context}, please separate each question with a ;',
+        `Provide me with 3 short interesting questions regarding this content: {context}, make them short and concise, 
+        please separate each question with a ;`,
       ],
     ]);
   });

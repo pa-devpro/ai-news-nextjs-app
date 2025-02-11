@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import MarkdownWrapper from '../markdown-wrapper/MarkdownWrapper';
 import styles from './MessageList.module.css';
 
@@ -11,25 +11,46 @@ export const MessageList: React.FC<MessageListProps> = ({
   messages,
   responses,
 }) => {
-  const [visibleResponses, setVisibleResponses] = useState<boolean[]>(
-    Array(messages.length).fill(true),
+  const [visibleResponses, setVisibleResponses] = useState<
+    Record<number, boolean>
+  >(() =>
+    messages.reduce(
+      (acc, _, index) => ({
+        ...acc,
+        [index]: true,
+      }),
+      {},
+    ),
   );
 
+  // Memoize the list of messages to prevent unnecessary re-renders
+  const messagesList = useMemo(() => messages, [messages]);
+
+  const addNewMessageVisibility = (index: number) => {
+    setVisibleResponses((prev) => ({
+      ...prev,
+      [index]: true,
+    }));
+  };
+
+  // Only add visibility state for new messages
   useEffect(() => {
-    setVisibleResponses(Array(messages.length).fill(true));
-  }, [messages]);
+    const lastIndex = messages.length - 1;
+    if (!visibleResponses.hasOwnProperty(lastIndex) && messages[lastIndex]) {
+      addNewMessageVisibility(lastIndex);
+    }
+  }, [messages, visibleResponses]);
 
   const toggleResponseVisibility = (index: number) => {
-    setVisibleResponses((prevVisibleResponses) => {
-      const newVisibleResponses = [...prevVisibleResponses];
-      newVisibleResponses[index] = !newVisibleResponses[index];
-      return newVisibleResponses;
-    });
+    setVisibleResponses((prev) => ({
+      ...prev,
+      [index]: !prev[index],
+    }));
   };
 
   return (
     <div className={styles.messageList}>
-      {messages.map((msg: string, index: number) => (
+      {messagesList.map((msg: string, index: number) => (
         <div key={index} className={styles.messageGroup}>
           <div
             className={styles.message}

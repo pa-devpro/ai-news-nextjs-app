@@ -12,9 +12,7 @@ import { usePosts } from '@/features/news-posts/context/NewsContext';
 import NewsAiContent from './NewsAiContent';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { ArticleToDisplay } from '@/features/news-posts/types/ArticlesToDisplay';
-import ChatBoxContainer from './ChatBoxContainer';
-
-// Dynamically load ChatBox so that it's always rendered regardless of article visibility
+import ChatBox2 from '@/components/chat-box/ChatBox2';
 
 interface ArticleTopicsProps {
   topics: string[];
@@ -159,7 +157,7 @@ const Page = () => {
       <div className={styles.ChatboxContainer}>
         <React.Suspense fallback={<Spinner size="lg" />}>
           <ProtectedRoute>
-            <ChatBoxContainer article={articleSelected} />
+            <ChatBox2 article={articleSelected} />
           </ProtectedRoute>
         </React.Suspense>
       </div>

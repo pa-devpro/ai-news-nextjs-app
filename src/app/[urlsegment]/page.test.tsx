@@ -26,7 +26,7 @@ jest.mock('@/components/markdown-wrapper/MarkdownWrapper', () => () => (
   <div>Mocked MarkdownWrapper</div>
 ));
 jest.mock('./NewsAiContent', () => () => <div>Mocked NewsAiContent</div>);
-jest.mock('@/components/chat-box/ChatBox', () => () => (
+jest.mock('@/components/chat-box/ChatBox2', () => () => (
   <div>Mocked ChatBox</div>
 ));
 jest.mock('@/features/news-posts/api/get-articles', () => ({
