@@ -1,0 +1,49 @@
+.messageList {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  padding: 1rem;
+}
+
+.messageGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.message,
+.response {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.message {
+  background-color: #e3f2fd;
+  align-self: flex-end;
+  margin-left: 2rem;
+}
+
+.response {
+  background-color: #f5f5f5;
+  align-self: flex-start;
+  margin-right: 2rem;
+}
+
+.messageLabel {
+  font-weight: 600;
+  color: #666;
+  min-width: 25px;
+}
+
+.messageContent {
+  flex: 1;
+}
+
+.message:hover,
+.response:hover {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}

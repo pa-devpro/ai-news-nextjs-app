@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import MarkdownWrapper from '../markdown-wrapper/MarkdownWrapper';
-import styles from './Chatbox.module.css';
+import styles from './MessageList.module.css';
 
-type MessageListProps = {
+interface MessageListProps {
   messages: string[];
   responses: string[];
-};
+}
 
 export const MessageList: React.FC<MessageListProps> = ({
   messages,
@@ -16,7 +16,6 @@ export const MessageList: React.FC<MessageListProps> = ({
   );
 
   useEffect(() => {
-    // Update the visibleResponses state when messages change
     setVisibleResponses(Array(messages.length).fill(true));
   }, [messages]);
 
@@ -29,22 +28,28 @@ export const MessageList: React.FC<MessageListProps> = ({
   };
 
   return (
-    <>
-      {messages.map((msg, index) => (
-        <React.Fragment key={index}>
+    <div className={styles.messageList}>
+      {messages.map((msg: string, index: number) => (
+        <div key={index} className={styles.messageGroup}>
           <div
             className={styles.message}
             onClick={() => toggleResponseVisibility(index)}
           >
-            <MarkdownWrapper>{msg}</MarkdownWrapper>
+            <div className={styles.messageLabel}>Q:</div>
+            <div className={styles.messageContent}>
+              <MarkdownWrapper>{msg}</MarkdownWrapper>
+            </div>
           </div>
           {visibleResponses[index] && (
             <div className={styles.response}>
-              <MarkdownWrapper>{responses[index]}</MarkdownWrapper>
+              <div className={styles.messageLabel}>A:</div>
+              <div className={styles.messageContent}>
+                <MarkdownWrapper>{responses[index]}</MarkdownWrapper>
+              </div>
             </div>
           )}
-        </React.Fragment>
+        </div>
       ))}
-    </>
+    </div>
   );
 };

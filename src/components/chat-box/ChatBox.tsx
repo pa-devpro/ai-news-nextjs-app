@@ -9,10 +9,7 @@ import { handleSend } from '@/features/chatbot-ai/utils/chatUtils';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import saveArticle from '@/features/news-posts/api/save-articles';
 import { useUserProfile } from '@/features/auth/utils/auth-utils';
-import {
-  ArticleToDisplay,
-  QuestionAndAnswer,
-} from '@/features/news-posts/types/ArticlesToDisplay';
+import { ArticleToDisplay } from '@/features/news-posts/types/ArticlesToDisplay';
 import logger from '@/utils/logger';
 import updateSavedArticle from '@/features/news-posts/api/update-saved-articles';
 import { useNotifications } from '../dashboard/ui/notifications';
@@ -83,22 +80,28 @@ const ChatBox: React.FC<ChatBoxProps> = ({ article }) => {
   });
 
   const handleSaveArticle = (article: ArticleToDisplay) => {
-    const formatNewQuestionsAndAnswers = [...messages].map(
-      (question, index) => ({
-        question,
-        answer: responses[index],
-      }),
+    // Create a Map of existing Q&As using question as key
+    const existingQAMap = new Map(
+      article.questions_and_answers.map((qa) => [qa.question, qa]),
     );
+
+    // Process new Q&As
+    const formatNewQuestionsAndAnswers = messages.map((question, index) => ({
+      question,
+      answer: responses[index],
+    }));
+
+    // Merge existing and new Q&As, newer answers override older ones
+    formatNewQuestionsAndAnswers.forEach((qa) => {
+      existingQAMap.set(qa.question, qa);
+    });
 
     const { created_at, ...restArticle } = article;
     const articleToSave: Omit<ArticleToDisplay, 'created_at'> = {
       ...restArticle,
       user_id: userProfile?.id,
       generated_ai_content: aiContent,
-      questions_and_answers: [
-        ...article.questions_and_answers,
-        ...formatNewQuestionsAndAnswers,
-      ],
+      questions_and_answers: Array.from(existingQAMap.values()),
     };
 
     mutation.mutate(articleToSave, {
@@ -125,20 +128,40 @@ const ChatBox: React.FC<ChatBoxProps> = ({ article }) => {
     return <div>Loading ChatBox...</div>;
   }
   const DisplayQuestionsAnswers = () => {
+    // If there are no saved Q&As, just show current session messages
     if (article.questions_and_answers.length === 0) {
       return <MessageList messages={messages} responses={responses} />;
     }
 
-    const questionsAndAnswers: QuestionAndAnswer[] =
-      article.questions_and_answers;
-    const allQuestions = questionsAndAnswers.map((item) => item.question);
-    const allAnswers = questionsAndAnswers.map((item) => item.answer);
+    // Get unique messages by creating a Set of questions
+    const uniqueMessages = new Set([
+      ...article.questions_and_answers.map((qa) => qa.question),
+      ...messages,
+    ]);
+
+    // Create arrays for display keeping the order
+    const displayMessages: string[] = [];
+    const displayResponses: string[] = [];
+
+    // First add saved Q&As
+    article.questions_and_answers.forEach((qa) => {
+      if (uniqueMessages.has(qa.question)) {
+        displayMessages.push(qa.question);
+        displayResponses.push(qa.answer);
+        uniqueMessages.delete(qa.question); // Remove to avoid duplication
+      }
+    });
+
+    // Then add new messages from current session
+    messages.forEach((msg, index) => {
+      if (uniqueMessages.has(msg)) {
+        displayMessages.push(msg);
+        displayResponses.push(responses[index]);
+      }
+    });
 
     return (
-      <MessageList
-        messages={[...allQuestions, ...messages]}
-        responses={[...allAnswers, ...responses]}
-      />
+      <MessageList messages={displayMessages} responses={displayResponses} />
     );
   };
 
