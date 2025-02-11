@@ -129,6 +129,7 @@ const ChatBox2: React.FC<ChatBoxProps> = ({ article }) => {
       user_id: userProfile?.id,
       generated_ai_content: aiContent,
       questions_and_answers: Array.from(existingQAMap.values()),
+      subtitle: article.subtitle || '',
     };
 
     mutation.mutate(articleToSave, {
