@@ -10,6 +10,7 @@ import { Dialog, DialogContent, DialogTrigger } from '../dashboard/ui/dialog';
 import { siteInfo } from '@/config/constants';
 import { useRouter } from 'next/navigation';
 import { FaBars } from 'react-icons/fa';
+import { Notifications } from '../dashboard/ui/notifications';
 
 function Navbar() {
   const { data: session } = useSession();
@@ -46,6 +47,7 @@ function Navbar() {
           </Link>
         </div>
         <div className={styles.NavHeaderIconsRight}>
+          <Notifications />
           {session ? (
             <>
               <button

@@ -29,6 +29,12 @@ export const DeleteSavedArticle = ({ id }: DeleteSavedArticleProps) => {
           title: 'Saved Article Deleted',
         });
       },
+      onError: () => {
+        addNotification({
+          type: 'error',
+          title: 'Failed to Delete Saved Article',
+        });
+      },
     },
   });
 

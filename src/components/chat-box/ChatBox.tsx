@@ -15,6 +15,7 @@ import {
 } from '@/features/news-posts/types/ArticlesToDisplay';
 import logger from '@/utils/logger';
 import updateSavedArticle from '@/features/news-posts/api/update-saved-articles';
+import { useNotifications } from '../dashboard/ui/notifications';
 
 type ChatBoxProps = {
   article: ArticleToDisplay;
@@ -28,6 +29,7 @@ const ChatBox: React.FC<ChatBoxProps> = ({ article }) => {
   } = useAiContent(article);
   const { data: userProfile, isLoading: isLoadingProfile } = useUserProfile();
   const queryClient = useQueryClient();
+  const { addNotification } = useNotifications();
 
   const {
     message,
@@ -102,12 +104,19 @@ const ChatBox: React.FC<ChatBoxProps> = ({ article }) => {
     mutation.mutate(articleToSave, {
       onSuccess: (data) => {
         logger.info('Article saved:', data, created_at);
-        const test = queryClient.invalidateQueries({ queryKey: ['articles'] });
+        queryClient.invalidateQueries({ queryKey: ['articles'] });
 
-        logger.info('Refetch:', test);
+        addNotification({
+          type: 'success',
+          title: 'Saved Article',
+        });
       },
       onError: (error) => {
         logger.error('Error saving article:', error);
+        addNotification({
+          type: 'error',
+          title: 'Failed to Save Article',
+        });
       },
     });
   };
