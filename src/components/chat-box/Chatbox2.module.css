@@ -98,7 +98,8 @@
   overflow-y: auto;
 }
 
-.message, .response {
+.message,
+.response {
   padding: 8px;
   margin-bottom: 8px;
   border-radius: 4px;
@@ -193,7 +194,7 @@
 }
 
 .markdown-content :global(li::before) {
-  content: "•";
+  content: '•';
   color: #0070f3;
   position: absolute;
   left: -1.5em;
