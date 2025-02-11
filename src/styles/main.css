@@ -1,3 +1,4 @@
+/* stylelint-disable at-rule-no-unknown */
 @import url('https://fonts.googleapis.com/css2?family=Jost:wght@300;400;500;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Encode+Sans+Semi+Condensed:wght@600&display=swap');
 @tailwind base;
@@ -60,27 +61,24 @@
 
 html {
   height: 100%;
-  overflow-y: scroll;
-}
-
-html,
-body {
   background-color: var(--secondary);
   color: var(--primary);
 }
 
-.Body {
+body {
+  min-height: 100vh;
+  margin: 0;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  overflow-x: hidden;
+}
+
+main {
+  width: 100%;
+  min-height: calc(100vh - 160px); /* viewport height minus header and footer */
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-}
-
-.no-scroll {
-  overflow: hidden;
-}
-
-.navbarSpacing {
-  margin-top: 100px; /* Same as navbar height */
+  padding-bottom: 60px; /* Space for footer */
 }
 
 .content {
@@ -89,9 +87,26 @@ body {
   flex-direction: column;
   padding-top: 3rem;
   width: 75%;
-  height: 100%;
-  overflow: hidden;
   margin: 0 auto;
+  position: relative;
+  overflow: visible;
+}
+
+footer {
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  height: 60px;
+  background-color: var(--secondary);
+  box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.no-scroll {
+  overflow: hidden;
+}
+
+.navbarSpacing {
+  margin-top: 100px; /* Same as navbar height */
 }
 
 h1 {
@@ -133,6 +148,12 @@ hr {
   height: 50vh;
 }
 
+@media (max-width: 640px) {
+  main {
+    margin-bottom: 60px; /* Keep consistent spacing on mobile */
+  }
+}
+
 /* xl min width 1280px */
 @media (width <=1280px) {
   .content {
@@ -146,10 +167,6 @@ hr {
     grid-template-columns: repeat(2, 1fr);
   }
 }
-
-/* md min width 768px */
-/* @media (width <=768px) {
-} */
 
 /* phones sm min width 640px */
 @media (width <=640px) {

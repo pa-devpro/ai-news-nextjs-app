@@ -123,6 +123,7 @@ export {
 type TableColumn<Entry> = {
   title: string;
   field: keyof Entry;
+  className?: string;
   Cell?({ entry }: { entry: Entry }): React.ReactElement;
 };
 
@@ -151,15 +152,20 @@ export const Table = <Entry,>({
         <TableHeader>
           <TableRow>
             {columns.map((column, index) => (
-              <TableHead key={column.title + index}>{column.title}</TableHead>
+              <TableHead
+                key={column.title + index}
+                className={column.className}
+              >
+                {column.title}
+              </TableHead>
             ))}
           </TableRow>
         </TableHeader>
         <TableBody>
           {data.map((entry, entryIndex) => (
             <TableRow key={entryIndex}>
-              {columns.map(({ Cell, field, title }, columnIndex) => (
-                <TableCell key={title + columnIndex}>
+              {columns.map(({ Cell, field, title, className }, columnIndex) => (
+                <TableCell key={title + columnIndex} className={className}>
                   {Cell ? <Cell entry={entry} /> : `${entry[field]}`}
                 </TableCell>
               ))}

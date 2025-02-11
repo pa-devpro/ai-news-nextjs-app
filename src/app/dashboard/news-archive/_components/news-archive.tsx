@@ -7,6 +7,7 @@ import { useArticles } from '@/features/news-posts/api/get-articles';
 import { DeleteSavedArticle } from '@/features/news-posts/components/delete-saved-articles';
 import { formatDate } from '@/utils/format';
 import React from 'react';
+import styles from './Archive.module.css';
 
 const NewsArchive: React.FC = () => {
   const { data: profile, isLoading } = useUserProfile();
@@ -34,13 +35,14 @@ const ArticlesSavedList: React.FC = () => {
 
   if (!articles) return null;
   return (
-    <>
+    <div className={styles['table-container']}>
       <Table
         data={articles}
         columns={[
           {
             title: 'ID',
             field: 'id',
+            className: styles['hide-on-mobile'],
           },
           {
             title: 'Title',
@@ -49,6 +51,7 @@ const ArticlesSavedList: React.FC = () => {
           {
             title: 'Topics',
             field: 'topics',
+            className: styles['hide-on-mobile'],
           },
           {
             title: 'Link',
@@ -65,6 +68,8 @@ const ArticlesSavedList: React.FC = () => {
           {
             title: 'Saved Date',
             field: 'created_at',
+            className: styles['hide-on-mobile'],
+
             Cell({ entry: { created_at } }) {
               return <span>{formatDate(created_at!)}</span>;
             },
@@ -78,7 +83,7 @@ const ArticlesSavedList: React.FC = () => {
           },
         ]}
       />
-    </>
+    </div>
   );
 };
 

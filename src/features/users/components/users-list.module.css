@@ -1,0 +1,42 @@
+.table-container {
+  width: 100%;
+  overflow-x: hidden;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 640px) {
+  .hide-on-mobile {
+    display: none;
+  }
+
+  .table-container {
+    margin: 0;
+    padding: 0 1rem;
+    max-width: 100%;
+  }
+
+  .table-container > :global(table) {
+    width: 100%;
+    table-layout: fixed;
+  }
+
+  .table-container > :global(table td),
+  .table-container > :global(table th) {
+    padding: 0.75rem 0.5rem;
+    font-size: 0.875rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  /* Adjust column widths for mobile */
+  .table-container > :global(table td:first-child),
+  .table-container > :global(table th:first-child) {
+    width: 60%;
+  }
+
+  .table-container > :global(table td:last-child),
+  .table-container > :global(table th:last-child) {
+    width: 40%;
+  }
+}

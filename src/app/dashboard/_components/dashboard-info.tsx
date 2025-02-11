@@ -10,7 +10,7 @@ export const DashboardInfo = () => {
   if (!user) return null;
 
   return (
-    <>
+    <div className="flex flex-col gap-4 max-w-2xl">
       <h1 className="text-xl">
         Welcome <b>{`${user.name}`}</b>
       </h1>
@@ -33,6 +33,6 @@ export const DashboardInfo = () => {
           <li>Delete all comments</li>
         </ul>
       )}
-    </>
+    </div>
   );
 };

@@ -4,6 +4,7 @@ import { Table } from '@/components/dashboard/ui/table';
 import { formatDate } from '@/utils/format';
 import { DeleteUser } from './delete-user';
 import { useUsersProfile } from '../api/get-users';
+import styles from './users-list.module.css';
 
 export const UsersList = () => {
   const { data: users, isLoading } = useUsersProfile();
@@ -19,7 +20,7 @@ export const UsersList = () => {
   if (!users) return null;
 
   return (
-    <>
+    <div className={styles['table-container']}>
       <Table
         data={users}
         columns={[
@@ -37,6 +38,7 @@ export const UsersList = () => {
           {
             title: 'Name',
             field: 'name',
+            className: styles['hide-on-mobile'],
           },
           {
             title: 'Email',
@@ -45,10 +47,13 @@ export const UsersList = () => {
           {
             title: 'Role',
             field: 'role',
+            className: styles['hide-on-mobile'],
           },
           {
             title: 'Created At',
             field: 'created_at',
+            className: styles['hide-on-mobile'],
+
             Cell({ entry: { created_at } }) {
               return <span>{formatDate(created_at!)}</span>;
             },
@@ -62,6 +67,6 @@ export const UsersList = () => {
           },
         ]}
       />
-    </>
+    </div>
   );
 };

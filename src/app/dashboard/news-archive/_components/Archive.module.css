@@ -1,0 +1,12 @@
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch; /* For smooth scrolling on iOS */
+    margin-bottom: 1rem;
+  }
+
+  @media (max-width: 640px) {
+    .hide-on-mobile {
+      display: none;
+    }
+  }
