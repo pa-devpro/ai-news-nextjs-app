@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ChatBox2 from './ChatBox2';
+import ChatBoxDesktop from './ChatBox';
 import ChatboxMobile from './ChatBoxMobile';
 import { ArticleToDisplay } from '@/features/news-posts/types/ArticlesToDisplay';
 
@@ -23,7 +23,7 @@ const ChatBoxContainer: React.FC<ChatBoxProps> = ({ article }) => {
   return isMobile ? (
     <ChatboxMobile article={article} />
   ) : (
-    <ChatBox2 article={article} />
+    <ChatBoxDesktop article={article} />
   );
 };
 

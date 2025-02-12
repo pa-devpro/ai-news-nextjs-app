@@ -222,3 +222,20 @@
 .markdown-content :global(strong) {
   font-weight: 600;
 }
+
+.dialogIconButton {
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  border-radius: 0.5rem;
+  transition: all 200ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.expandedButton {
+  background-color: #2563eb;
+  transition: background-color 0.3s ease;
+}
+.expandedButton:hover {
+  background-color: #1d4ed8;
+}
