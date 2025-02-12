@@ -32,6 +32,12 @@ jest.mock('@/components/chat-box/ChatBox', () => () => (
 jest.mock('@/features/news-posts/api/get-articles', () => ({
   useArticles: jest.fn(),
 }));
+jest.mock('@langchain/openai', () => ({
+  ChatOpenAI: jest.fn().mockImplementation(() => ({
+    generateArticle: jest.fn().mockResolvedValue('Generated Article'),
+  })),
+}));
+
 describe('PostPage', () => {
   beforeAll(() => {
     process.env.SUPABASE_URL = 'your-supabase-url';
