@@ -12,7 +12,7 @@ import { usePosts } from '@/features/news-posts/context/NewsContext';
 import NewsAiContent from './NewsAiContent';
 import ProtectedRoute from '@/components/ProtectedRoute';
 import { ArticleToDisplay } from '@/features/news-posts/types/ArticlesToDisplay';
-import ChatBox2 from '@/components/chat-box/ChatBox2';
+import ChatBoxContainer from '@/components/chat-box/ChatBoxContainer';
 
 interface ArticleTopicsProps {
   topics: string[];
@@ -147,17 +147,19 @@ const Page = () => {
               {isArticleVisible ? 'Hide Article' : 'Show Article'}
             </button>
           </div>
-          <ArticleContent
-            article={articleSelected}
-            isArticleVisible={isArticleVisible}
-          />
+          <div className={styles.ArticleContentWrapper}>
+            <ArticleContent
+              article={articleSelected}
+              isArticleVisible={isArticleVisible}
+            />
+          </div>
         </div>
       </div>
 
       <div className={styles.ChatboxContainer}>
         <React.Suspense fallback={<Spinner size="lg" />}>
           <ProtectedRoute>
-            <ChatBox2 article={articleSelected} />
+            <ChatBoxContainer article={articleSelected} />
           </ProtectedRoute>
         </React.Suspense>
       </div>

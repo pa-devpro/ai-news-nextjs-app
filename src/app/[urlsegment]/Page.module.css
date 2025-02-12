@@ -1,0 +1,84 @@
+.ArticlePage {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+    position: relative;
+  }
+  
+  .ArticleContainer {
+    width: 100%;
+    max-width: 100%;
+    padding: 1rem;
+    margin: 0 auto;
+  }
+  
+  .Article {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    word-wrap: break-word;
+  }
+  
+  .ArticleContentWrapper {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
+  
+  .ArticleBody {
+    width: 100%;
+    max-width: 100vw;
+    overflow-x: hidden;
+    word-break: break-word;
+  }
+  
+  .ImageWrapper {
+    width: 100%;
+    max-width: 100%;
+    position: relative;
+  }
+  
+  .ImageWrapper img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  /* Mobile-specific adjustments */
+  @media (max-width: 768px) {
+    .ArticleContainer {
+      padding: 0.5rem;
+    }
+  
+    .ArticleBody {
+      padding: 0 0.5rem;
+    }
+  
+    .ArticleTitle {
+      font-size: 1.5rem;
+      line-height: 1.3;
+      padding: 0 0.5rem;
+    }
+  
+    .ArticleSubtitle {
+      padding: 0 0.5rem;
+    }
+  
+    /* Handle markdown content */
+    .ArticleBody :global(pre) {
+      max-width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  
+    .ArticleBody :global(table) {
+      display: block;
+      max-width: 100%;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+  
+    .ArticleBody :global(img) {
+      max-width: 100%;
+      height: auto;
+    }
+  }
