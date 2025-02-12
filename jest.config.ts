@@ -1,24 +1,24 @@
+import type { Config } from 'jest';
 import nextJest from 'next/jest';
 
 const createJestConfig = nextJest({
   dir: './',
 });
 
-const config = {
+const config: Config = {
+  roots: ['<rootDir>/src'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   transformIgnorePatterns: [
-    '/node_modules/(?!(react-markdown|remark-gfm|lucide-react)/)',
+    '/node_modules/(?!(react-markdown|remark-gfm|lucide-react|nanoid)/)',
   ],
-  transform: {
-    '^.+\\.(js|jsx|ts|tsx)$': 'babel-jest',
-  },
-  roots: ['<rootDir>/src'],
   moduleNameMapper: {
     '\\.(css|less|scss|sass)$': 'identity-obj-proxy',
     '^@/(.*)$': '<rootDir>/src/$1',
+    '^nanoid$': '<rootDir>/__mocks__/nanoid',
   },
   setupFilesAfterEnv: ['<rootDir>/jest.setup.ts'],
-  testEnvironment: 'jsdom',
+  testEnvironment: 'jest-environment-jsdom',
+  testPathIgnorePatterns: ['<rootDir>/.next/', '<rootDir>/node_modules/'],
 };
 
 export default createJestConfig(config);

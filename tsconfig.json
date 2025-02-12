@@ -8,6 +8,7 @@
     "target": "esnext",
     "module": "commonjs",
     "lib": ["dom", "esnext"],
+    "types": ["node", "jest", "web-streams-polyfill"],
     "allowJs": true,
     "skipLibCheck": true,
     "strict": true,
