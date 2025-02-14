@@ -18,7 +18,7 @@
   width: 100%;
   margin-bottom: 0;
   height: auto;
-  margin-bottom: 2rem; 
+  margin-bottom: 2rem;
 }
 
 .Article {
@@ -29,7 +29,6 @@
   align-items: center;
   margin: 0 auto;
   height: auto;
-
 }
 
 .ArticleBody {
@@ -194,7 +193,7 @@
   .ArticleContainer {
     padding: 0.5rem;
     width: 100%;
-    margin: 0 0 1rem 0; 
+    margin: 0 0 1rem 0;
     display: block;
   }
 
