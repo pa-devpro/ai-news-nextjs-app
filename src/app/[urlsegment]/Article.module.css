@@ -2,12 +2,12 @@
 
 /* Article styles */
 .ArticlePage {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr) 400px;
-  gap: 2rem;
-  max-width: 1600px;
-  margin: 0 auto;
+  position: relative;
   padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  min-height: auto;
+  height: auto;
 }
 
 .ArticleContainer {
@@ -16,16 +16,20 @@
   padding: 2rem;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   width: 100%;
-  display: flex;
-  justify-content: center;
+  margin-bottom: 0;
+  height: auto;
+  margin-bottom: 2rem; 
 }
 
 .Article {
   width: 100%;
-  max-width: 800px; /* Add a max-width to control content width */
+  max-width: 800px;
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin: 0 auto;
+  height: auto;
+
 }
 
 .ArticleBody {
@@ -180,18 +184,18 @@
 /* Media Styles */
 @media (max-width: 1024px) {
   .ArticlePage {
-    grid-template-columns: 1fr;
     padding: 0.5rem;
     width: 100%;
     margin: 0;
     overflow-x: hidden;
+    height: auto;
   }
 
   .ArticleContainer {
     padding: 0.5rem;
     width: 100%;
-    margin: 0;
-    display: block; /* Change from flex to block */
+    margin: 0 0 1rem 0; 
+    display: block;
   }
 
   .Article {

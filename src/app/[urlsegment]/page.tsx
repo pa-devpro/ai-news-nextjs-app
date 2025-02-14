@@ -156,13 +156,11 @@ const Page = () => {
         </div>
       </div>
 
-      <div className={styles.ChatboxContainer}>
-        <React.Suspense fallback={<Spinner size="lg" />}>
-          <ProtectedRoute>
-            <ChatBoxContainer article={articleSelected} />
-          </ProtectedRoute>
-        </React.Suspense>
-      </div>
+      <React.Suspense fallback={<Spinner size="lg" />}>
+        <ProtectedRoute>
+          <ChatBoxContainer article={articleSelected} />
+        </ProtectedRoute>
+      </React.Suspense>
     </div>
   );
 };
