@@ -1,16 +1,21 @@
 import { getSupabaseWithUserAuth, supabase } from '@/lib/supabaseClient';
-import { getServerSession } from 'next-auth';
 import { NextRequest, NextResponse } from 'next/server';
 
-export async function GET() {
-  const session = await getServerSession();
-  if (!session || !session.user) {
-    return NextResponse.json({ error: 'No session found' }, { status: 404 });
+export async function GET(request: NextRequest) {
+  const { searchParams } = new URL(request.url);
+  const email = searchParams.get('email');
+
+  if (!email) {
+    return NextResponse.json(
+      { error: 'Email parameter is required' },
+      { status: 400 },
+    );
   }
-  const { data, error: getProfileError } = await supabase
+
+  const { data: profileData, error: getProfileError } = await supabase
     .from('profiles')
     .select('*')
-    .eq('email', session.user.email)
+    .eq('email', email)
     .single();
 
   if (getProfileError) {
@@ -20,30 +25,23 @@ export async function GET() {
     );
   }
 
-  if (!data) {
-    return NextResponse.json({ error: 'No profiles found' }, { status: 404 });
+  if (!profileData) {
+    return NextResponse.json({ error: 'No profile found' }, { status: 404 });
   }
-  return NextResponse.json(data);
+  return NextResponse.json(profileData);
 }
 
 export async function PATCH(request: NextRequest) {
-  const session = await getServerSession();
-
-  if (!session || !session.user) {
-    return NextResponse.json({ error: 'No session found' }, { status: 404 });
-  }
-
   const req = await request.json();
 
-  const { name, bio } = req.data;
+  const { name, bio, email } = req.data;
   const token = req.token;
-
   const supabase = getSupabaseWithUserAuth(token);
 
   const { data, error: updateProfileError } = await supabase
     .from('profiles')
-    .update({ name, bio, email: session.user.email })
-    .eq('email', session.user.email)
+    .update({ name, bio, email })
+    .eq('email', email)
     .select('*');
 
   if (updateProfileError) {

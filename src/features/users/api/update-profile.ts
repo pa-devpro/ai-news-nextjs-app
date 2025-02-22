@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { api } from '@/lib/api-client';
 
 import { useUserProfile } from '@/features/auth/utils/auth-utils';
-import { getSession } from 'next-auth/react';
+import { getSession } from '@/features/auth/actions/auth';
 
 export const updateProfileInputSchema = z.object({
   email: z.string().min(1, 'Required').email('Invalid email'),
@@ -18,7 +18,7 @@ export const updateProfile = async (
   data: UpdateProfileInput,
 ): Promise<unknown> => {
   const session = await getSession();
-  const token = session?.accessToken;
+  const token = session?.access_token;
   if (!session || !token) {
     return null;
   }

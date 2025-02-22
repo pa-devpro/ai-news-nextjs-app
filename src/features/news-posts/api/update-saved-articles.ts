@@ -1,4 +1,4 @@
-import { getSession } from 'next-auth/react';
+import { getSession } from '@/features/auth/actions/auth';
 import { ArticleToDisplay } from '../types/ArticlesToDisplay';
 import { BACKEND_API_URL } from './get-articles';
 import { api } from '@/lib/api-client';
@@ -14,7 +14,11 @@ const updateSavedArticle = async (
   article: Omit<ArticleToDisplay, 'created_at'>,
 ): Promise<string> => {
   const session = await getSession();
-  const token = session?.accessToken;
+  const token = session?.access_token;
+
+  if (!token) {
+    throw new Error('User is not authenticated. Unable to update article.');
+  }
 
   // Proceed to update the article
   const dataToUpdateFromArticle = {

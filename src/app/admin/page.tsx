@@ -1,19 +1,124 @@
 'use client';
-import { BASE_URL } from '@/features/auth/actions/auth';
-import AuthenticationForm from '@/features/auth/components/AuthenticationForm';
-import { Suspense } from 'react';
+import { useState } from 'react';
+import {
+  getSession,
+  signin,
+  signinWithOTP,
+  signOut,
+  signup,
+} from '@/features/auth/actions/auth';
 
-const LoginPage = () => {
+export default function AuthPage() {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [error, setError] = useState<string | null>(null);
+
+  const handleSession = async () => {
+    const session = await getSession();
+    console.log({ session });
+  };
+
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const { error } = await signin(email, password);
+    if (error) {
+      setError(error || 'Login failed');
+    } else {
+      setError(null);
+      // Redirect to the homepage or a protected route
+      // window.location.href = '/';
+    }
+  };
+
+  const handleSignInWithOTP = async () => {
+    const { error } = await signinWithOTP(email);
+    if (error) {
+      setError(error || 'Login failed');
+    } else {
+      setError(null);
+      // Redirect to the homepage or a protected route
+      // window.location.href = '/';
+    }
+  };
+
+  const handleSignup = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('password', password);
+    formData.append('name', 'TEST');
+
+    const { errors } = await signup(formData);
+    if (errors) {
+      setError(errors.message || 'Signup failed');
+    } else {
+      setError(null);
+      // You might want to verify the email before redirecting
+      alert('Signup successful, please check your email for verification.');
+    }
+  };
+
+  const handleSignOut = async () => {
+    await signOut();
+  };
+
   return (
-    <div className="flex items-center justify-center py-20 px-2">
-      <div className="w-full max-w-md p-6 bg-white rounded-lg shadow-lg">
-        <h1>Base URL: {BASE_URL} --- check url</h1>
-        <Suspense fallback={<div>Loading...</div>}>
-          <AuthenticationForm />
-        </Suspense>
-      </div>
+    <div style={{ maxWidth: '400px', margin: '0 auto' }}>
+      <h1>Login / Signup</h1>
+      {error && <p style={{ color: 'red' }}>{error}</p>}
+      <form onSubmit={handleLogin}>
+        <label>
+          Email:
+          <input
+            type="email"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            required
+          />
+        </label>
+        <br />
+        <label>
+          Password:
+          <input
+            type="password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            required
+          />
+        </label>
+        <br />
+        <button type="submit">Login</button>
+        <button
+          type="button"
+          onClick={handleSignup}
+          style={{ marginLeft: '1rem' }}
+        >
+          Signup
+        </button>
+        <button
+          type="button"
+          onClick={handleSession}
+          style={{ marginLeft: '2rem' }}
+        >
+          Session
+        </button>
+
+        <button
+          type="button"
+          onClick={handleSignOut}
+          style={{ marginLeft: '2rem' }}
+        >
+          Sign Out
+        </button>
+
+        <button
+          type="button"
+          onClick={handleSignInWithOTP}
+          style={{ margin: '2rem' }}
+        >
+          Sign In with OTP
+        </button>
+      </form>
     </div>
   );
-};
-
-export default LoginPage;
+}

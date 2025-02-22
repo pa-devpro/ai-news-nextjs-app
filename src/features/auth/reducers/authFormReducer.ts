@@ -5,12 +5,25 @@ export const initialFormState: FormState = {
   errors: undefined,
 };
 
+interface UserAppMetadata {
+  provider?: string;
+}
+
+interface UserMetadata {
+  name?: string;
+  avatar_url?: string;
+}
+
 export type RegisteringSuccess = {
   type: 'REGISTER_SUCCESS';
   payload: {
     id: string;
     name?: string | null | undefined;
-    email: string | null | undefined;
+    email: string | undefined;
+    app_metadata: UserAppMetadata;
+    user_metadata: UserMetadata;
+    aud: string;
+    created_at: string;
   };
 };
 

@@ -1,4 +1,4 @@
-import { User } from 'next-auth';
+import { User } from '@supabase/supabase-js';
 import { z } from 'zod';
 
 export const SignupFormSchema = z.object({

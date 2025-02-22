@@ -2,7 +2,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { UseMutationOptions } from '@tanstack/react-query';
 import { BACKEND_API_URL } from './get-articles';
 import { api } from '@/lib/api-client';
-import { getSession } from 'next-auth/react';
+import { getSession } from '@/features/auth/actions/auth';
 
 /**
  * Data Transfer Object (DTO) for deleting a saved article.
@@ -15,7 +15,7 @@ export type DeleteSavedArticleDTO = {
 
 const deleteSavedArticle = async ({ articleId }: DeleteSavedArticleDTO) => {
   const session = await getSession();
-  const token = session?.accessToken;
+  const token = session?.access_token;
 
   if (!token) {
     throw new Error('No authentication token found');

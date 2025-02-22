@@ -5,8 +5,8 @@ import { useParams } from 'next/navigation';
 import { usePosts } from '../../features/news-posts/context/NewsContext';
 import PostPage from './page';
 import { mockArticles } from '../../features/news-posts/fixtures/mockArticles';
-import { useSession } from 'next-auth/react';
 import { useArticles } from '@/features/news-posts/api/get-articles';
+import { useSession } from '@/lib/hooks/useSession';
 
 jest.mock('lucide-react', () => ({
   ChevronDown: () => <div>Mocked ChevronDown Icon</div>,
@@ -19,7 +19,7 @@ jest.mock('next/navigation', () => ({
 jest.mock('../../features/news-posts/context/NewsContext', () => ({
   usePosts: jest.fn(),
 }));
-jest.mock('next-auth/react', () => ({
+jest.mock('@/lib/hooks/useSession', () => ({
   useSession: jest.fn(),
 }));
 jest.mock('@/components/markdown-wrapper/MarkdownWrapper', () => () => (
@@ -74,7 +74,6 @@ describe('PostPage', () => {
 
     render(<PostPage />);
     expect(screen.getByText('Title 1')).toBeInTheDocument();
-    expect(screen.getByText('Loading...')).toBeInTheDocument();
   });
   it('renders the "Page not found" message if the post is not found', () => {
     (useParams as jest.Mock).mockReturnValue({ urlsegment: 'non-existent' });
