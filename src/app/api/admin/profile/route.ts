@@ -1,9 +1,12 @@
-import { getSupabaseWithUserAuth, supabase } from '@/lib/supabaseClient';
+import { getSupabaseWithUserAuth } from '@/lib/supabaseClient';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const email = searchParams.get('email');
+  const req = await request.json();
+  const token = req.token;
+  const supabase = getSupabaseWithUserAuth(token);
 
   if (!email) {
     return NextResponse.json(
