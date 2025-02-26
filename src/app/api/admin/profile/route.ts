@@ -4,8 +4,13 @@ import { NextRequest, NextResponse } from 'next/server';
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const email = searchParams.get('email');
-  const req = await request.json();
-  const token = req.token;
+  const token = request.headers.get('authorization')?.split(' ')[1];
+  if (!token) {
+    return NextResponse.json(
+      { error: 'Authorization token is required' },
+      { status: 401 },
+    );
+  }
   const supabase = getSupabaseWithUserAuth(token);
 
   if (!email) {
