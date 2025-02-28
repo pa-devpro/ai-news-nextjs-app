@@ -7,9 +7,9 @@ import {
   QuestionAndAnswer,
 } from '../types/ArticlesToDisplay';
 import { getSession } from '@/features/auth/actions/auth';
+import { env } from '@/config/env';
 
-export const BACKEND_API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
-
+export const BACKEND_API_URL = env.BACKEND_API_URL;
 /**
  * Fetches articles for a given user.
  *
