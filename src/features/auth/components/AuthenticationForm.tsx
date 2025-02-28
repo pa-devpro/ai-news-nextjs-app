@@ -1,7 +1,6 @@
 'use client';
 
 import { useReducer, useState } from 'react';
-import { signIn as nextAuthSignIn } from 'next-auth/react';
 import Image from 'next/image';
 import {
   formReducer,
@@ -17,7 +16,7 @@ import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 const LoginForm = () => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [forgotPassword, setForgotPassword] = useState(false);
-  const [state, dispatch] = useReducer(formReducer, initialFormState);
+  const [, dispatch] = useReducer(formReducer, initialFormState);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -36,9 +35,9 @@ const LoginForm = () => {
         setSuccessMessage(result.success as string);
       }
     } else if (isRegistering) {
-      handleRegistration(formData, state, dispatch, setSuccessMessage);
+      handleRegistration(formData, dispatch, setSuccessMessage);
     } else {
-      const result = await handleSignIn(email, password, nextAuthSignIn);
+      const result = await handleSignIn(email, password);
       if (result.error) {
         setErrorMessage(result.error);
       } else {

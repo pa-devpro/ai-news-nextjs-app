@@ -1,18 +1,15 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
 import React from 'react';
 import AuthButton from '../features/auth/components/AuthButton';
 import logger from '@/utils/logger';
 import '@/utils/polyfills'; // Import the polyfill
+import { useSession } from '@/lib/hooks/useSession';
 
 const ProtectedRoute = ({ children }: { children: React.ReactNode }) => {
-  const { data: session, status } = useSession();
+  const session = useSession();
+  const status = session ? 'authenticated' : 'unauthenticated';
   logger.info('🔴 ProtectedRoute', { session, status });
-
-  if (status === 'loading') {
-    return <div>Loading...</div>;
-  }
 
   if (status === 'unauthenticated') {
     return (

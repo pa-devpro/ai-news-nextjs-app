@@ -7,7 +7,6 @@ import Footer from '@/components/footer/Footer';
 import Menu from '@/components/menu/Menu';
 import ClientErrorBoundary from '@/components/ClientErrorBoundary';
 import ArticlesProviderWrapper from '@/components/ArticlesProviderWrapper';
-import SessionProviderWrapper from '@/components/SessionProviderWrapper';
 import QueryClientProviderWrapper from '@/components/QueryClientProviderWrapper';
 import { siteInfo } from '@/config/constants';
 import '@/utils/polyfills'; // Import the polyfill
@@ -28,16 +27,14 @@ export default function RootLayout({
       <body className="Body">
         <ClientErrorBoundary>
           <QueryClientProviderWrapper>
-            <SessionProviderWrapper>
-              <ArticlesProviderWrapper>
-                <NextTopLoader color="#d1d5db" />
-                <Navbar />
-                <Menu />
-                <div className="navbarSpacing">{children}</div>
-                <ReactQueryDevtools initialIsOpen={false} />
-                <Footer />
-              </ArticlesProviderWrapper>
-            </SessionProviderWrapper>
+            <ArticlesProviderWrapper>
+              <NextTopLoader color="#d1d5db" />
+              <Navbar />
+              <Menu />
+              <div className="navbarSpacing">{children}</div>
+              <ReactQueryDevtools initialIsOpen={false} />
+              <Footer />
+            </ArticlesProviderWrapper>
           </QueryClientProviderWrapper>
         </ClientErrorBoundary>
       </body>

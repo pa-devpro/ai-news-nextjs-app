@@ -72,7 +72,13 @@ async function fetchApi<T>(
   }
 
   const apiBaseUrl = baseUrl || env.API_URL;
-
+  logger.info('API Request', {
+    apiBaseUrl,
+    baseUrl,
+    envApiUrl: env.API_URL,
+    url,
+    fullUrl: buildUrlWithParams(`${apiBaseUrl}${url}`, params),
+  });
   const fullUrl = buildUrlWithParams(`${apiBaseUrl}${url}`, params);
   const response = await fetch(fullUrl, {
     method,

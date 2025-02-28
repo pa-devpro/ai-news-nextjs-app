@@ -1,6 +1,6 @@
 'use client';
 import AuthButton from '@/features/auth/components/AuthButton';
-import { useSession } from 'next-auth/react';
+import { useSession } from '@/lib/hooks/useSession';
 import { useRouter } from 'next/navigation';
 
 const EmailConfirmed = () => {
@@ -14,7 +14,7 @@ const EmailConfirmed = () => {
         Thank you for confirming your email address. You can now sign in.
       </p>
 
-      {session.status === 'authenticated' ? (
+      {session ? (
         <button
           className="mt-6 px-4 py-2 bg-blue-500 text-white rounded"
           onClick={() => router.push('/')}

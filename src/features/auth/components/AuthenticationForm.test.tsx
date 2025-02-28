@@ -1,10 +1,9 @@
 import { render, screen, fireEvent, waitFor } from '@testing-library/react';
 import AuthenticationForm from './AuthenticationForm';
 import * as authHandlers from '@/features/auth/handlers/authHandlers';
-import { signIn } from 'next-auth/react';
 
-jest.mock('next-auth/react', () => ({
-  signIn: jest.fn(),
+jest.mock('../actions/auth', () => ({
+  signin: jest.fn(),
 }));
 
 jest.mock('@/features/auth/handlers/authHandlers');
@@ -61,11 +60,9 @@ describe('AuthenticationForm', () => {
       expect(mockSignIn).toHaveBeenCalledWith(
         'test@example.com',
         'password123',
-        signIn,
       );
     });
   });
-
   it('handles forgot password submission', async () => {
     const mockForgotPassword = jest.spyOn(authHandlers, 'handleForgotPassword');
     mockForgotPassword.mockResolvedValueOnce({ success: 'Reset email sent' });

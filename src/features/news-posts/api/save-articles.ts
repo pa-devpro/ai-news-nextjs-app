@@ -1,4 +1,4 @@
-import { getSession } from 'next-auth/react';
+import { getSession } from '@/features/auth/actions/auth';
 import { ArticleToDisplay } from '../types/ArticlesToDisplay';
 import { BACKEND_API_URL } from './get-articles';
 import { api } from '@/lib/api-client';
@@ -15,7 +15,11 @@ const saveArticle = async (
   article: Omit<ArticleToDisplay, 'created_at'>,
 ): Promise<{ success: boolean; message: string }> => {
   const session = await getSession();
-  const token = session?.accessToken;
+  const token = session?.access_token;
+
+  if (!token) {
+    throw new Error('User is not authenticated. Unable to save article.');
+  }
 
   const url = `/articles`;
   return await api.post(url, article, {

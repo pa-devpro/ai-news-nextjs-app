@@ -75,7 +75,7 @@ export class PostsRepository {
   }
 }
 
-export const mapNewsToPost = (news: NewsFromApi): ArticleToDisplay => {
+const mapNewsToPost = (news: NewsFromApi): ArticleToDisplay => {
   return {
     created_at: news.publishedAt,
     author: news.author,

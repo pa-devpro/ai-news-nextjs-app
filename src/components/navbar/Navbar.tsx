@@ -3,7 +3,6 @@ import React, { useEffect, useRef, useState } from 'react';
 import styles from './Navbar.module.css';
 import Link from 'next/link';
 import { IconSearch, IconX } from '@tabler/icons-react';
-import { useSession, signOut } from 'next-auth/react';
 import { FaSignOutAlt } from 'react-icons/fa';
 import AuthenticationForm from '../../features/auth/components/AuthenticationForm';
 import { Dialog, DialogContent, DialogTrigger } from '../dashboard/ui/dialog';
@@ -11,12 +10,13 @@ import { siteInfo } from '@/config/constants';
 import { useRouter } from 'next/navigation';
 import { FaBars } from 'react-icons/fa';
 import { Notifications } from '../dashboard/ui/notifications';
+import { useSession } from '@/lib/hooks/useSession';
+import { signOut } from '@/features/auth/actions/auth';
 
 function Navbar() {
-  const { data: session } = useSession();
+  const session = useSession();
   const [authDialogOpen, setAuthDialogOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
   const handleNavigation = () => {
     setMobileMenuOpen(false);
   };

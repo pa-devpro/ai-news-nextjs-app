@@ -28,10 +28,7 @@ async function retryWithBackoff<T>(
   throw new Error('Max retries reached');
 }
 
-export async function signup(
-  state: FormState,
-  formData: FormData,
-): Promise<FormState> {
+export async function signup(formData: FormData): Promise<FormState> {
   try {
     const validatedFields = SignupFormSchema.safeParse({
       email: formData.get('email'),
@@ -89,6 +86,15 @@ export async function signin(
   }
 }
 
+export async function signOut() {
+  try {
+    await supabase.auth.signOut();
+    window.location.href = '/';
+  } catch (error) {
+    console.error('Error signing out:', (error as Error).message);
+  }
+}
+
 export async function forgotPassword(
   email: string,
 ): Promise<{ success?: string; error?: string }> {
@@ -102,6 +108,40 @@ export async function forgotPassword(
     }
 
     return { success: 'Password reset email sent! Please check your email.' };
+  } catch (error) {
+    return { error: (error as Error).message };
+  }
+}
+
+export async function getSession() {
+  const { data, error } = await supabase.auth.getSession();
+  if (error) {
+    console.error('Error getting session:', error.message);
+    return null;
+  } else if (!data.session) {
+    console.error('No session found');
+    return null;
+  }
+
+  return data.session;
+}
+
+export async function signinWithOTP(email: string) {
+  try {
+    const { error } = await supabase.auth.signInWithOtp({
+      email,
+      options: {
+        // set this to false if you do not want the user to be automatically signed up
+        shouldCreateUser: false,
+        emailRedirectTo: 'https://example.com/welcome',
+      },
+    });
+
+    if (error) {
+      return { error: error.message };
+    }
+
+    return { success: 'Sign in link sent! Please check your email.' };
   } catch (error) {
     return { error: (error as Error).message };
   }

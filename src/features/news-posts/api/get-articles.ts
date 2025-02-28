@@ -6,10 +6,10 @@ import {
   ArticleToDisplay,
   QuestionAndAnswer,
 } from '../types/ArticlesToDisplay';
-import { getSession } from 'next-auth/react';
+import { getSession } from '@/features/auth/actions/auth';
+import { env } from '@/config/env';
 
-export const BACKEND_API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
-
+export const BACKEND_API_URL = env.BACKEND_API_URL;
 /**
  * Fetches articles for a given user.
  *
@@ -18,7 +18,7 @@ export const BACKEND_API_URL = process.env.NEXT_PUBLIC_BACKEND_API_URL;
  */
 const getArticles = async () => {
   const session = await getSession();
-  const token = session?.accessToken;
+  const token = session?.access_token;
 
   if (!token) {
     throw new Error('No authentication token found');

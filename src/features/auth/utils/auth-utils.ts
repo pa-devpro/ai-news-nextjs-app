@@ -1,21 +1,28 @@
-import { signOut } from 'next-auth/react';
 import { queryOptions, useQuery } from '@tanstack/react-query';
 import { Profile } from '@/lib/types/supabase-types';
 import logger from '../../../utils/logger';
+import { getSession, signOut } from '../actions/auth';
 
 export const logout = async () => {
   try {
-    await signOut({ callbackUrl: '/' });
+    await signOut();
   } catch (error) {
     logger.error('Error logging out:', error);
   }
 };
 
 const getUserProfile = async () => {
-  const response = await fetch('/api/admin/profile', {
-    method: 'GET',
-    headers: { 'Content-Type': 'application/json' },
-  });
+  const session = await getSession();
+  const response = await fetch(
+    `/api/admin/profile?email=${session?.user?.email}`,
+    {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${session?.access_token}`,
+      },
+    },
+  );
 
   if (!response.ok) {
     const error = await response.json();

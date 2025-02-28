@@ -47,13 +47,12 @@ export async function DELETE(request: Request) {
 
   // Step 1: Delete user from auth.users
   const { error } = await supabaseAdmin.auth.admin.deleteUser(userId, true);
-
   if (error) {
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
   // Step 2: Delete user from public.profiles
-  const { error: errorDeletingProfile } = await supabase
+  const { error: errorDeletingProfile } = await supabaseAdmin
     .from('profiles')
     .delete()
     .eq('id', userId);

@@ -1,7 +1,6 @@
 'use client';
 
 import { useReducer, useState } from 'react';
-import { signIn as nextAuthSignIn } from 'next-auth/react';
 import Image from 'next/image';
 import {
   formReducer,
@@ -16,7 +15,7 @@ import {
 const LoginForm = () => {
   const [isRegistering, setIsRegistering] = useState(false);
   const [forgotPassword, setForgotPassword] = useState(false);
-  const [state, dispatch] = useReducer(formReducer, initialFormState);
+  const [, dispatch] = useReducer(formReducer, initialFormState);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   const handleOnSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -28,9 +27,9 @@ const LoginForm = () => {
     if (forgotPassword) {
       handleForgotPassword(email);
     } else if (isRegistering) {
-      handleRegistration(formData, state, dispatch, setSuccessMessage);
+      handleRegistration(formData, dispatch, setSuccessMessage);
     } else {
-      handleSignIn(email, password, nextAuthSignIn);
+      handleSignIn(email, password);
     }
   };
 

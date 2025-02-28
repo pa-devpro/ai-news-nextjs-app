@@ -1,11 +1,9 @@
 import { signup, signin, forgotPassword } from '@/features/auth/actions/auth';
-import { FormState } from '@/features/auth/types/definitions';
 import logger from '@/utils/logger';
 import {
   RegisteringSuccess,
   RegisteringError,
 } from '@/features/auth/reducers/authFormReducer';
-import { SignInResponse } from 'next-auth/react';
 
 export const handleForgotPassword = async (email: string) => {
   const result = await forgotPassword(email);
@@ -18,12 +16,11 @@ export const handleForgotPassword = async (email: string) => {
 
 export const handleRegistration = async (
   formData: FormData,
-  state: FormState,
   dispatch: React.Dispatch<RegisteringSuccess | RegisteringError>,
   setSuccessMessage: React.Dispatch<React.SetStateAction<string | null>>,
 ) => {
   try {
-    const result = await signup(state, formData);
+    const result = await signup(formData);
     if (result.user) {
       dispatch({
         type: 'REGISTER_SUCCESS',
@@ -43,19 +40,11 @@ export const handleRegistration = async (
   }
 };
 
-export const handleSignIn = async (
-  email: string,
-  password: string,
-  nextAuthSignIn: (
-    provider: string,
-    options: Record<string, string>,
-  ) => Promise<SignInResponse | undefined>,
-) => {
+export const handleSignIn = async (email: string, password: string) => {
   const result = await signin(email, password);
   if (result.error) {
     logger.error('Sign in error:', result.error);
     return { error: result.error };
   }
-  await nextAuthSignIn('credentials', { email, password });
   return { success: 'Signed in successfully' };
 };

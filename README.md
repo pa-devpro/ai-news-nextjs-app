@@ -22,7 +22,7 @@ This project is an AI-powered news application built with Next.js. It fetches an
 - [Technologies Used](#technologies-used)
 - [Authorization/Authentication](#authorizationauthentification)
   - [Overview](#overview)
-  - [When and Why We Use next-auth or Supabase](#when-and-why-we-use-next-auth-or-supabase)
+  - [When and Why We Use supabase-auth or Supabase](#when-and-why-we-use-supabase-auth-or-supabase)
   - [Different Actions](#different-actions)
 - [Caching Methods](#caching-methods)
   - [Summary](#summary)
@@ -170,19 +170,19 @@ yarn test
 
 ## Technologies Used
 
-| Technology   | Description                                     |
-| ------------ | ----------------------------------------------- |
-| Next.js      | React framework for server-side rendering       |
-| React        | JavaScript library for building user interfaces |
-| TypeScript   | Typed superset of JavaScript                    |
-| Jest         | JavaScript testing framework                    |
-| SWC          | Super-fast JavaScript and TypeScript compiler   |
-| Tailwind CSS | Utility-first CSS framework                     |
-| Markdown     | Lightweight markup language                     |
-| Winston      | Logger                                          |
-| Next-Auth    | Authentication and Session Management           |
-| Supabase     | Postgress Database Managemenet with real-time   |
-| Vercel       | Deployment, Hosting, Continues Integration      |
+| Technology    | Description                                     |
+| ------------- | ----------------------------------------------- |
+| Next.js       | React framework for server-side rendering       |
+| React         | JavaScript library for building user interfaces |
+| TypeScript    | Typed superset of JavaScript                    |
+| Jest          | JavaScript testing framework                    |
+| SWC           | Super-fast JavaScript and TypeScript compiler   |
+| Tailwind CSS  | Utility-first CSS framework                     |
+| Markdown      | Lightweight markup language                     |
+| Winston       | Logger                                          |
+| Supabase-auth | Authentication and Session Management           |
+| Supabase      | Postgress Database Managemenet with real-time   |
+| Vercel        | Deployment, Hosting, Continues Integration      |
 
 [Back to Table of Contents](#table-of-contents)
 
@@ -190,11 +190,11 @@ yarn test
 
 #### Overview
 
-The `AuthenticationForm` component handles user authentication, including sign-in, registration, and password reset functionalities. It uses `next-auth` for authentication and Supabase for real-time notifications and other backend interactions.
+The `AuthenticationForm` component handles user authentication, including sign-in, registration, and password reset functionalities. It uses `supabase-auth` for authentication and Supabase for real-time notifications and other backend interactions.
 
-#### When and Why We Use `next-auth` or Supabase
+#### When and Why We Use `supabase-auth` or Supabase
 
-- **`next-auth`**:
+- **`supabase-auth`**:
 
   - Used for handling authentication processes such as sign-in and session management.
   - Provides secure and easy-to-use authentication mechanisms.
@@ -209,7 +209,7 @@ The `AuthenticationForm` component handles user authentication, including sign-i
 
 1. **Sign-In**
 
-   - Uses `next-auth` to handle user sign-in.
+   - Uses `supabase-auth` to handle user sign-in.
    - Function: `handleSignIn` in `authHandlers.ts`.
 
 2. **Registration**
